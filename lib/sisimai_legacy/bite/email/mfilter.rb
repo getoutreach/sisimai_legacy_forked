@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::mFILTER parses a bounce email which created by
   # Digital Arts m-FILTER.
   # Methods in the module are called from only Sisimai::Message.

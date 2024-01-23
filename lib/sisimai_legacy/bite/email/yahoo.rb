@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Yahoo parses a bounce email which created by Yahoo!
   # MAIL. Methods in the module are called from only Sisimai::Message.
   module Yahoo

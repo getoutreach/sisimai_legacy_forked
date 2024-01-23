@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::GSuite parses a bounce email which created by G Suite.
   # Methods in the module are called from only Sisimai::Message.
   module GSuite

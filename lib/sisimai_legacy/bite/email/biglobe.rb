@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Biglobe parses a bounce email which created by BIGLOBE.
   # Methods in the module are called from only Sisimai::Message.
   module Biglobe

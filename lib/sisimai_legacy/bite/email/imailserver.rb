@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::IMailServer parses a bounce email which created by
   # Ipswitch IMail Server.
   # Methods in the module are called from only Sisimai::Message.

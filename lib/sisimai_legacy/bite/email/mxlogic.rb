@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::MXLogic parses a bounce email which created by
   # McAfee SaaS (formerly MX Logic).
   # Methods in the module are called from only Sisimai::Message.

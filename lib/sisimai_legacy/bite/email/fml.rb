@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::FML parses a bounce email which created by fml.
   # Methods in the module are called from only Sisimai::Message.
   module FML
@@ -117,7 +117,7 @@ module Sisimai::Bite::Email
               recipients += 1
             else
               # If you know the general guide of this list, please send mail with
-              # the mail body 
+              # the mail body
               v['diagnosis'] ||= ''
               v['diagnosis'] << e
             end

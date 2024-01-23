@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::EinsUndEins parses a bounce email which created by
   # 1&1. Methods in the module are called from only Sisimai::Message.
   module EinsUndEins

@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::ReceivingSES parses a bounce email which created
   # by Amazon Simple Email Service. Methods in the module are called from
   # only Sisimai::Message.

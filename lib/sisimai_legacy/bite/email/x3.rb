@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::X3 parses a bounce email which created by Unknown
   # MTA #3. Methods in the module are called from only Sisimai::Message.
   module X3

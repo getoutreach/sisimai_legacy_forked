@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Bigfoot parses a bounce email which created by Bigfoot.
   # Methods in the module are called from only Sisimai::Message.
   module Bigfoot

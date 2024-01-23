@@ -1,4 +1,4 @@
-module Sisimai::Bite::JSON
+module SisimaiLegacy::Bite::JSON
   # Sisimai::Bite::JSON::SendGrid parses a bounce object(JSON) which created by
   # SendGrid. Methods in the module are called from only Sisimai::Message.
   module SendGrid

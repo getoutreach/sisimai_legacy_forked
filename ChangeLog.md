@@ -156,7 +156,7 @@ v4.22.2
 - release: "Fri, 13 Oct 2017 11:59:53 +0900 (JST)"
 - version: "4.22.2"
 - changes:
-  - Apply Pull-Request #84 (issue #83) for setting the value of `softorhard` in 
+  - Apply Pull-Request #84 (issue #83) for setting the value of `softorhard` in
     `Sisimai::SMTP::Error.soft_or_hard` method. Thanks to @lunatyq.
   - Fix a wrong value assignment, and code for Performance/StartWith reported
     from Rubocop in Sisimai::Bite::Email::GSuite.
@@ -232,7 +232,7 @@ v4.21.0 - Support G Suite
 - release: "Mon, 10 Apr 2017 12:17:22 +0900 (JST)"
 - version: "4.21.0"
 - changes:
-  - Experimental implementation: new MTA module Sisimai::MSP::US::GSuite for
+  - Experimental implementation: new MTA module SisimaiLegacy::MSP::US::GSuite for
     parsing a bounce mail returned from G Suite.
   - `Sisimai.make()` and `Sisimai::Message.new()` methods check the value of a
     `field` argument more strictly.
@@ -319,7 +319,7 @@ v4.18.0 - Improvements for Microsoft Exchange Servers
   - Import pull-request https://github.com/sisimai/rb-Sisimai/pull/59 (soft
     bounce improvement) from Perl version of Sisimai.
   - Sisimai::MTA::Exchange has been renamed to Sisimai::MTA::Exchange2003.
-  - Implement new MTA module Sisimai::MTA::Exchange2007.
+  - Implement new MTA module SisimaiLegacy::MTA::Exchange2007.
 
 v4.17.2
 --------------------------------------------------------------------------------
@@ -395,10 +395,10 @@ v4.15.0 - Oj or JrJackson Required
     for encoding parsed data to JSON string more faster (about 10%-20% faster
     than before). Implemented at pull-request #44 and discussed in issue #42.
     Thanks to @hiroyuki-sato.
-  - Implement new MTA/MSP module Sisimai::MSP::US::AmazonWorkMail for parsing
+  - Implement new MTA/MSP module SisimaiLegacy::MSP::US::AmazonWorkMail for parsing
     a bounce mail via Amazon WorkMail. The module and test codes are imported
     from https://github.com/sisimai/p5-Sisimai/pull/162.
-  - Implement new MTA/MSP module Sisimai::MSP::US::Office365 for parsing error 
+  - Implement new MTA/MSP module SisimaiLegacy::MSP::US::Office365 for parsing error
     mails via Microsoft Office 365. The module, test codes, and sample emails
     are imported from https://github.com/sisimai/p5-Sisimai/pull/164.
   - New method `Sisimai::Address#to_s` to get an email address as String, it is

@@ -1,4 +1,4 @@
-module Sisimai::Bite::JSON
+module SisimaiLegacy::Bite::JSON
   # Sisimai::Bite::JSON::AmazonSES parses a bounce object(JSON) which created
   # by Amazon Simple Email Service.
   # Methods in the module are called from only Sisimai::Message.

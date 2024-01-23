@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Sendmail parses a bounce email which created by
   # v8 Sendmail. Methods in the module are called from only Sisimai::Message.
   module Sendmail

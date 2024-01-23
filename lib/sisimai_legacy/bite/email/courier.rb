@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Courier parses a bounce email which created by Courier
   # MTA. Methods in the module are called from only Sisimai::Message.
   module Courier

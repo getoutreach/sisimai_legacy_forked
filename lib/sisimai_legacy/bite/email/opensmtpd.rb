@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::OpenSMTPD parses a bounce email which created by
   # OpenSMTPD. Methods in the module are called from only Sisimai::Message.
   module OpenSMTPD

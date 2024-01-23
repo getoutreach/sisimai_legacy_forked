@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::MessageLabs parses a bounce email which created by
   # Symantec.cloud: formerly MessageLabs. Methods in the module are called
   # from only Sisimai::Message.

@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::MailRu parses a bounce email which created by @mail.ru.
   # Methods in the module are called from only Sisimai::Message.
   module MailRu

@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Outlook parses a bounce email which created by
   # Microsoft Outlook.com.
   # Methods in the module are called from only Sisimai::Message.

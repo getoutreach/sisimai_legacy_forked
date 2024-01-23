@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::::Email::ApacheJames parses a bounce email which created by
   # ApacheJames. Methods in the module are called from only Sisimai::Message.
   module ApacheJames

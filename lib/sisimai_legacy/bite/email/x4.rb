@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::X4 parses a bounce email which created by some qmail
   # clone.  Methods in the module are called from only Sisimai::Message.
   module X4

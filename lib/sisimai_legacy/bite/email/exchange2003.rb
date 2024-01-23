@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::Exchange2003 parses a bounce email which created by
   # Microsoft Exchange Server 2003.
   # Methods in the module are called from only Sisimai::Message.

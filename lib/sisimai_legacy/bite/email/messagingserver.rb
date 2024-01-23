@@ -1,4 +1,4 @@
-module Sisimai::Bite::Email
+module SisimaiLegacy::Bite::Email
   # Sisimai::Bite::Email::MessagingServer parses a bounce email which created
   # by Oracle Communications Messaging Server and Sun Java System Messaging
   # Server. Methods in the module are called from only Sisimai::Message.
