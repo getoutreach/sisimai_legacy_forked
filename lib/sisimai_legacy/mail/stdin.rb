@@ -1,6 +1,6 @@
 module SisimaiLegacy
   class Mail
-    # Sisimai::Mail::STDIN is a reader for getting contents of each email from
+    # SisimaiLegacy::Mail::STDIN is a reader for getting contents of each email from
     # STDIN
     class STDIN
       # Imported from p5-Sisimail/lib/Sisimai/Mail/STDIN.pm
@@ -16,9 +16,9 @@ module SisimaiLegacy
       @@roaccessors.each { |e| attr_reader   e }
       @@rwaccessors.each { |e| attr_accessor e }
 
-      # Constructor of Sisimai::Mail::STDIN
+      # Constructor of SisimaiLegacy::Mail::STDIN
       # @param    [IO::STDIN] stdin      Standard-In
-      # @return   [Sisimai::Mail::STDIN] Object
+      # @return   [SisimaiLegacy::Mail::STDIN] Object
       def initialize(stdin = $stdin)
         raise 'is not an IO object' unless stdin.is_a?(IO)
 

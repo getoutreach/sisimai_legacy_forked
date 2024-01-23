@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::EZweb parses a bounce email which created by au EZweb.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::EZweb parses a bounce email which created by au EZweb.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module EZweb
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/EZweb.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       MarkingsOf = {
         message: %r{\A(?:
              The[ ]user[(]s[)][ ]
@@ -39,7 +39,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'au EZweb: http://www.au.kddi.com/mobile/'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-SPASIGN']; end
 
       # Parse bounce messages from au EZweb
@@ -65,7 +65,7 @@ module SisimaiLegacy::Bite::Email
         end
         return nil if match < 2
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -77,7 +77,7 @@ module SisimaiLegacy::Bite::Email
         if mhead['content-type']
           # Get the boundary string and set regular expression for matching with
           # the boundary string.
-          b0 = Sisimai::MIME.boundary(mhead['content-type'], 1)
+          b0 = SisimaiLegacy::MIME.boundary(mhead['content-type'], 1)
           rxboundary = Regexp.new('\A' << Regexp.escape(b0) << '\z') unless b0.empty?
         end
         rxmessages = []
@@ -129,12 +129,12 @@ module SisimaiLegacy::Bite::Email
 
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
 
-              r = Sisimai::Address.s3s4(cv[1])
-              if Sisimai::RFC5322.is_emailaddress(r)
+              r = SisimaiLegacy::Address.s3s4(cv[1])
+              if SisimaiLegacy::RFC5322.is_emailaddress(r)
                 v['recipient'] = r
                 recipients += 1
               end
@@ -157,7 +157,7 @@ module SisimaiLegacy::Bite::Email
               # Last-Attempt-Date: Fri, 14 Feb 2014 12:30:08 -0500
               v['date'] = cv[1]
             else
-              next if Sisimai::String.is_8bit(e)
+              next if SisimaiLegacy::String.is_8bit(e)
               if cv = e.match(/\A[ \t]+[>]{3}[ \t]+([A-Z]{4})/)
                 #    >>> RCPT TO:<******@ezweb.ne.jp>
                 v['command'] = cv[1]
@@ -188,7 +188,7 @@ module SisimaiLegacy::Bite::Email
             end
             e.delete('alterrors')
           end
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           if mhead['x-spasign'].to_s == 'NG'
             # Content-Type: text/plain; ..., X-SPASIGN: NG (spamghetti, au by EZweb)
@@ -225,7 +225,7 @@ module SisimaiLegacy::Bite::Email
           e['agent'] = self.smtpagent
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

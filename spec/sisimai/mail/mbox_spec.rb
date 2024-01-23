@@ -1,18 +1,18 @@
 require 'spec_helper'
 require 'sisimai/mail/mbox'
 
-describe Sisimai::Mail::Mbox do
+describe SisimaiLegacy::Mail::Mbox do
   samplemailbox = './set-of-emails/mailbox/mbox-0'
-  let(:mailobj) { Sisimai::Mail::Mbox.new(samples) }
-  let(:mockobj) { Sisimai::Mail::Mbox.new(invalid) }
+  let(:mailobj) { SisimaiLegacy::Mail::Mbox.new(samples) }
+  let(:mockobj) { SisimaiLegacy::Mail::Mbox.new(invalid) }
 
   describe 'class method' do
     describe '.new' do
       context 'mbox file exists' do
         let(:samples) { samplemailbox }
         subject { mailobj }
-        it 'returns Sisimai::Mail::Mbox object' do
-          is_expected.to be_a Sisimai::Mail::Mbox
+        it 'returns SisimaiLegacy::Mail::Mbox object' do
+          is_expected.to be_a SisimaiLegacy::Mail::Mbox
         end
       end
 
@@ -32,8 +32,8 @@ describe Sisimai::Mail::Mbox do
 
       context 'wrong number of arguments' do
         it 'raises ArgumentError' do
-          expect { Sisimai::Mail::Mbox.new }.to raise_error(ArgumentError)
-          expect { Sisimai::Mail::Mbox.new(nil, nil) }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::Mbox.new }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::Mbox.new(nil, nil) }.to raise_error(ArgumentError)
         end
       end
     end
@@ -92,7 +92,7 @@ describe Sisimai::Mail::Mbox do
     end
 
     describe '#read' do
-      mailbox = Sisimai::Mail::Mbox.new(samplemailbox)
+      mailbox = SisimaiLegacy::Mail::Mbox.new(samplemailbox)
       emindex = 0
       hasread = 0
 

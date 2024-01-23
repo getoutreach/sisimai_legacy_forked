@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Office365 parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::Office365 parses a bounce email which created by
   # Microsoft Office 365.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Office365
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Office365.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         rfc822: ['Content-Type: message/rfc822'],
         error:  ['Diagnostic information for administrators:'],
@@ -55,7 +55,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Microsoft Office 365: http://office.microsoft.com/'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       def headerlist
         # X-MS-Exchange-Message-Is-Ndr:
@@ -105,7 +105,7 @@ module SisimaiLegacy::Bite::Email
         end
         return nil if match < 2
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -156,7 +156,7 @@ module SisimaiLegacy::Bite::Email
               # kijitora@example.com<mailto:kijitora@example.com>
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -226,11 +226,11 @@ module SisimaiLegacy::Bite::Email
 
           e['agent']     = self.smtpagent
           e['status']  ||= ''
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis']) || ''
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis']) || ''
 
           if e['status'].empty? || e['status'].end_with?('.0.0')
             # There is no value of Status header or the value is 5.0.0, 4.0.0
-            pseudostatus = Sisimai::SMTP::Status.find(e['diagnosis'])
+            pseudostatus = SisimaiLegacy::SMTP::Status.find(e['diagnosis'])
             e['status'] = pseudostatus unless pseudostatus.empty?
           end
 
@@ -250,7 +250,7 @@ module SisimaiLegacy::Bite::Email
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

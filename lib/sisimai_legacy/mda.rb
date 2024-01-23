@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::MDA - Error message parser for MDA
+  # SisimaiLegacy::MDA - Error message parser for MDA
   module MDA
     # Imported from p5-Sisimail/lib/Sisimai/MDA.pm
     class << self

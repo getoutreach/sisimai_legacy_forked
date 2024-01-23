@@ -1,20 +1,20 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::InterScanMSS parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::InterScanMSS parses a bounce email which created by
   # Trend Micro InterScan Messaging Security Suite. Methods in the module are
-  # called from only Sisimai::Message.
+  # called from only SisimaiLegacy::Message.
   module InterScanMSS
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/InterScanMSS.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: [''],
         rfc822:  ['Content-type: message/rfc822'],
       }.freeze
 
       def description; return 'Trend Micro InterScan Messaging Security Suite'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from InterScanMSS
@@ -42,7 +42,7 @@ module SisimaiLegacy::Bite::Email
         match += 1 if tryto.any? { |a| mhead['subject'] == a }
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -90,7 +90,7 @@ module SisimaiLegacy::Bite::Email
               # Received >>> 550 5.1.1 <kijitora@example.co.jp>... user unknown
               if v['recipient'] && cv[1] != v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -121,11 +121,11 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

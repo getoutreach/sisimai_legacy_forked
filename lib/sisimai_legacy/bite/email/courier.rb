@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Courier parses a bounce email which created by Courier
-  # MTA. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Courier parses a bounce email which created by Courier
+  # MTA. Methods in the module are called from only SisimaiLegacy::Message.
   module Courier
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Courier.pm
       require 'sisimai/bite/email'
 
       # http://www.courier-mta.org/courierdsn.html
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         # courier/module.dsn/dsn*.txt
         message: ['DELAYS IN DELIVERING YOUR MESSAGE', 'UNDELIVERABLE MAIL'],
@@ -25,7 +25,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Courier MTA'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Courier MTA
@@ -49,7 +49,7 @@ module SisimaiLegacy::Bite::Email
         end
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -111,7 +111,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: rfc822; kijitora@example.co.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -202,7 +202,7 @@ module SisimaiLegacy::Bite::Email
         dscontents.each do |e|
           # Set default values if each value is empty.
           connheader.each_key { |a| e[a] ||= connheader[a] || '' }
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           MessagesOf.each_key do |r|
             # Verify each regular expression of session errors
@@ -216,7 +216,7 @@ module SisimaiLegacy::Bite::Email
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

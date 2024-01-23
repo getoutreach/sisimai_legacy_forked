@@ -1,7 +1,7 @@
 require 'date'
 
 module SisimaiLegacy
-  # Sisimai::Time is a child class of Date for Sisimai::Data.
+  # SisimaiLegacy::Time is a child class of Date for SisimaiLegacy::Data.
   class Time < DateTime
     # Imported from p5-Sisimail/lib/Sisimai/Time.pm
     def to_json(*)

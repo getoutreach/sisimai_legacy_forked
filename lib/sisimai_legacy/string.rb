@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::String provide utilities for dealing string
+  # SisimaiLegacy::String provide utilities for dealing string
   module String
     # Imported from p5-Sisimail/lib/Sisimai/String.pm
     class << self

@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::VirusDetected checks the bounce reason is "virusdetected"
-    # or not. This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::VirusDetected checks the bounce reason is "virusdetected"
+    # or not. This class is called only SisimaiLegacy::Reason class.
     #
     # This is an error that any virus or trojan horse detected in the message by
     # a virus scanner program at a destination mail server. This reason has been
@@ -38,7 +38,7 @@ module SisimaiLegacy
         end
 
         # The bounce reason is security error or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: virus detected
         #                                   false: virus was not detected
         # @since 4.22.0

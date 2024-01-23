@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Rejected checks the bounce reason is "rejected" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::Rejected checks the bounce reason is "rejected" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a connection to destination server was rejected by
     # a sender's email address (envelope from). Sisimai set "rejected" to the
@@ -75,12 +75,12 @@ module SisimaiLegacy
         end
 
         # Rejected by the envelope sender address or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is rejected
         #                                   false: is not rejected by the sender
         # @see http://www.ietf.org/rfc/rfc2822.txt
         def true(argvs)
-          tempreason = Sisimai::SMTP::Status.name(argvs.deliverystatus)
+          tempreason = SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus)
           tempreason = 'undefined' if tempreason.empty?
           diagnostic = argvs.diagnosticcode.downcase
 

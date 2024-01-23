@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::DateTime provide methods for dealing date and time.
+  # SisimaiLegacy::DateTime provide methods for dealing date and time.
   module DateTime
     # Imported from p5-Sisimail/lib/Sisimai/DateTime.pm
     require 'date'

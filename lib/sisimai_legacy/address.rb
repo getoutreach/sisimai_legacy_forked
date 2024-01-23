@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::Address provide methods for dealing email address.
+  # SisimaiLegacy::Address provide methods for dealing email address.
   class Address
     # Imported from p5-Sisimail/lib/Sisimai/Address.pm
     require 'sisimai/rfc5322'
@@ -22,18 +22,18 @@ module SisimaiLegacy
       return sprintf('undisclosed-%s-in-headers@%s', local, @@undisclosed)
     end
 
-    # New constructor of Sisimai::Address
+    # New constructor of SisimaiLegacy::Address
     # @param    [Hash] argvs        Email address, name, and other elements
-    # @return   [Sisimai::Address]  Object or nil when the email address was
+    # @return   [SisimaiLegacy::Address]  Object or nil when the email address was
     #                               not valid.
     # @example  make({address: 'neko@example.org', name: 'Neko', comment: '(nyaan)')}
-    #           # => Sisimai::Address object
+    #           # => SisimaiLegacy::Address object
     def self.make(argvs)
       return nil unless argvs.is_a? Hash
       return nil unless argvs.key?(:address)
       return nil if argvs[:address].empty?
 
-      thing = Sisimai::Address.new(argvs[:address])
+      thing = SisimaiLegacy::Address.new(argvs[:address])
       return nil unless thing
       return nil if thing.void
 
@@ -214,7 +214,7 @@ module SisimaiLegacy
           # String like an email address will be set to the value of "address"
           v[:address] = cv[1] + '@' + cv[2]
 
-        elsif Sisimai::RFC5322.is_mailerdaemon(v[:name])
+        elsif SisimaiLegacy::RFC5322.is_mailerdaemon(v[:name])
           # Allow if the argument is MAILER-DAEMON
           v[:address] = v[:name]
         end
@@ -237,7 +237,7 @@ module SisimaiLegacy
 
         unless e[:address] =~ /\A.+[@].+\z/
           # Allow if the argument is MAILER-DAEMON
-          next unless Sisimai::RFC5322.is_mailerdaemon(e[:address])
+          next unless SisimaiLegacy::RFC5322.is_mailerdaemon(e[:address])
         end
 
         # Remove angle brackets, other brackets, and quotations: []<>{}'`
@@ -273,7 +273,7 @@ module SisimaiLegacy
       return nil unless input
       return input unless input.is_a? Object::String
 
-      addrs = Sisimai::Address.find(input, 1) || []
+      addrs = SisimaiLegacy::Address.find(input, 1) || []
       return input if addrs.empty?
       return addrs[0][:address]
     end
@@ -288,7 +288,7 @@ module SisimaiLegacy
 
       if cv = local.match(/\A[-_\w]+?[+](\w[-._\w]+\w)[=](\w[-.\w]+\w)\z/)
         verp0 = cv[1] + '@' + cv[2]
-        return verp0 if Sisimai::RFC5322.is_emailaddress(verp0)
+        return verp0 if SisimaiLegacy::RFC5322.is_emailaddress(verp0)
       else
         return ''
       end
@@ -300,7 +300,7 @@ module SisimaiLegacy
     # @example  Expand alias
     #   expand_alias('neko+straycat@example.org') #=> 'neko@example.org'
     def self.expand_alias(email)
-      return '' unless Sisimai::RFC5322.is_emailaddress(email)
+      return '' unless SisimaiLegacy::RFC5322.is_emailaddress(email)
 
       local = email.split('@')
       value = ''
@@ -322,14 +322,14 @@ module SisimaiLegacy
     @@roaccessors.each { |e| attr_reader   e }
     @@rwaccessors.each { |e| attr_accessor e }
 
-    # Constructor of Sisimai::Address
+    # Constructor of SisimaiLegacy::Address
     # @param <str>  [String] argv1          Email address
-    # @return       [Sisimai::Address, Nil] Object or nil when the email
+    # @return       [SisimaiLegacy::Address, Nil] Object or nil when the email
     #                                       address was not valid
     def initialize(argv1)
       return nil unless argv1
 
-      addrs = Sisimai::Address.find(argv1)
+      addrs = SisimaiLegacy::Address.find(argv1)
       return nil unless addrs
       return nil if addrs.empty?
       thing = addrs.shift
@@ -339,12 +339,12 @@ module SisimaiLegacy
         # Get the local part and the domain part from the email address
         lpart = cv[1]
         dpart = cv[2]
-        email = Sisimai::Address.expand_verp(thing[:address])
+        email = SisimaiLegacy::Address.expand_verp(thing[:address])
         aname = nil
 
         if email.empty?
           # Is not VERP address, try to expand the address as an alias
-          email = Sisimai::Address.expand_alias(thing[:address])
+          email = SisimaiLegacy::Address.expand_alias(thing[:address])
           aname = true unless email.empty?
         end
 
@@ -363,7 +363,7 @@ module SisimaiLegacy
         @address = lpart + '@' + dpart
       else
         # The argument does not include "@"
-        return nil unless Sisimai::RFC5322.is_mailerdaemon(thing[:address])
+        return nil unless SisimaiLegacy::RFC5322.is_mailerdaemon(thing[:address])
         return nil if thing[:address].include?(' ')
 
         # The argument does not include " "

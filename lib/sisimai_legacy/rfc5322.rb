@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::RFC5322 provide methods for checking email address.
+  # SisimaiLegacy::RFC5322 provide methods for checking email address.
   module RFC5322
     # Imported from p5-Sisimail/lib/Sisimai/RFC5322.pm
     class << self
@@ -41,7 +41,7 @@ module SisimaiLegacy
 
       build_flatten_rfc822header_list = lambda do
         # Convert HEADER: structured hash table to flatten hash table for being
-        # called from Sisimai::Bite::Email::*
+        # called from SisimaiLegacy::Bite::Email::*
         fv = {}
         HeaderTable.each_value do |e|
           e.each { |ee| fv[ee.downcase] = 1 }
@@ -66,7 +66,7 @@ module SisimaiLegacy
       def LONGFIELDS
         return { 'to' => 1, 'from' => 1, 'subject' => 1, 'message-id' => 1 }
       end
-      LongHeaders = Sisimai::RFC5322.LONGFIELDS
+      LongHeaders = SisimaiLegacy::RFC5322.LONGFIELDS
 
       # Check that the argument is an email address or not
       # @param    [String] email  Email address string

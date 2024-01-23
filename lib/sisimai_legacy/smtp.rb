@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::SMTP is a parent class of Sisimai::SMTP::Status and Sisimai::SMTP::Reply.
+  # SisimaiLegacy::SMTP is a parent class of SisimaiLegacy::SMTP::Status and SisimaiLegacy::SMTP::Reply.
   module SMTP
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/SMTP.pm

@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::::Email::Notes parses a bounce email which created by Lotus
-  # Notes Server. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::::Email::Notes parses a bounce email which created by Lotus
+  # Notes Server. Methods in the module are called from only SisimaiLegacy::Message.
   module Notes
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Notes.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['------- Failure Reasons '],
         rfc822:  ['------- Returned Message '],
@@ -20,7 +20,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Lotus Notes'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Lotus Notes
@@ -37,7 +37,7 @@ module SisimaiLegacy::Bite::Email
       def scan(mhead, mbody)
         return nil unless mhead['subject'].start_with?('Undeliverable message')
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -96,7 +96,7 @@ module SisimaiLegacy::Bite::Email
               # kijitora@notes.example.jp
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] ||= e
@@ -135,7 +135,7 @@ module SisimaiLegacy::Bite::Email
           rfc822list.each do |e|
             next unless cv = e.match(/^To:[ ]*(.+)$/m)
 
-            v['recipient'] = Sisimai::Address.s3s4(cv[1])
+            v['recipient'] = SisimaiLegacy::Address.s3s4(cv[1])
             recipients += 1 unless v['recipient'].empty?
             break
           end
@@ -144,21 +144,21 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
-          e['recipient'] = Sisimai::Address.s3s4(e['recipient'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
+          e['recipient'] = SisimaiLegacy::Address.s3s4(e['recipient'])
 
           MessagesOf.each_key do |r|
             # Check each regular expression of Notes error messages
             next unless MessagesOf[r].any? { |a| e['diagnosis'].include?(a) }
             e['reason'] = r.to_s
-            pseudostatus = Sisimai::SMTP::Status.code(r.to_s)
+            pseudostatus = SisimaiLegacy::SMTP::Status.code(r.to_s)
             e['status'] = pseudostatus unless pseudostatus.empty?
             break
           end
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

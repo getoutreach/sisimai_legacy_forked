@@ -3,8 +3,8 @@ require 'sisimai/address'
 require 'sisimai/rfc5322'
 require 'json'
 
-describe Sisimai::Address do
-  let(:addrobj) { Sisimai::Address.new(email) }
+describe SisimaiLegacy::Address do
+  let(:addrobj) { SisimaiLegacy::Address.new(email) }
 
   emailaddrs = [
     { 'v' => '"Neko" <neko@example.jp>', 'a' => 'neko@example.jp', 'n' => 'Neko', 'c' => '' },
@@ -166,8 +166,8 @@ describe Sisimai::Address do
       context 'valid email address' do
         let(:email) { 'maketest@libsisimai.org' }
         subject { addrobj }
-        it 'is Sisimai::Address object' do
-          is_expected.to be_a Sisimai::Address
+        it 'is SisimaiLegacy::Address object' do
+          is_expected.to be_a SisimaiLegacy::Address
         end
         it 'is valid method' do
           expect(addrobj.address).to be_a ::String
@@ -182,16 +182,16 @@ describe Sisimai::Address do
       end
 
       context '<MAILER-DAEMON>' do
-        r = Sisimai::Address.new('Mail Delivery Subsystem <MAILER-DAEMON>')
-        it 'returns Sisimai::Address object' do
-          expect(r).to be_a Sisimai::Address
+        r = SisimaiLegacy::Address.new('Mail Delivery Subsystem <MAILER-DAEMON>')
+        it 'returns SisimaiLegacy::Address object' do
+          expect(r).to be_a SisimaiLegacy::Address
         end
       end
 
       context 'wrong number of arguments' do
         it 'raises ArgumentError' do
-          expect { Sisimai::Address.new }.to raise_error(ArgumentError)
-          expect { Sisimai::Address.new(nil, nil) }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Address.new }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Address.new(nil, nil) }.to raise_error(ArgumentError)
         end
       end
     end
@@ -199,7 +199,7 @@ describe Sisimai::Address do
     describe '.find' do
       context 'valid email address' do
         emailaddrs.each do |e|
-          v = Sisimai::Address.find(e['v'])
+          v = SisimaiLegacy::Address.find(e['v'])
 
           it 'returns valid address in list' do
             expect(v).to be_a Array
@@ -212,7 +212,7 @@ describe Sisimai::Address do
             expect(v[0][:name]).to be == e['n']
           end
 
-          r = Sisimai::Address.find(e['v'], true)
+          r = SisimaiLegacy::Address.find(e['v'], true)
           it 'returns valid address only in list' do
             expect(r).to be_a Array
             expect(r.size).to be == 1
@@ -225,7 +225,7 @@ describe Sisimai::Address do
 
       context 'find many address' do
         manyemails.each do |e|
-          r = Sisimai::Address.find(e)
+          r = SisimaiLegacy::Address.find(e)
           it 'returns list including multiple addresses' do
             expect(r).to be_a Array
             expect(r.size).to be == 2
@@ -234,9 +234,9 @@ describe Sisimai::Address do
           r.each do |f|
             it('is a Hash') { expect(f).to be_a Hash }
 
-            it 'includes a Sisimai::Address object' do
-              a = Sisimai::Address.make(f)
-              expect(a).to be_a Sisimai::Address
+            it 'includes a SisimaiLegacy::Address object' do
+              a = SisimaiLegacy::Address.make(f)
+              expect(a).to be_a SisimaiLegacy::Address
 
               expect(a.address).to be_a Object::String
               expect(a.comment).to be_a Object::String
@@ -253,7 +253,7 @@ describe Sisimai::Address do
       context 'invalid email address' do
         isnotemail.each do |e|
           it 'returns nil' do
-            expect(Sisimai::Address.find(e)).to be nil
+            expect(SisimaiLegacy::Address.find(e)).to be nil
           end
         end
       end
@@ -263,18 +263,18 @@ describe Sisimai::Address do
       context 'valid email address' do
         emailaddrs.each do |e|
           a = []
-          r = Sisimai::Address.make(Sisimai::Address.find(e['v']).shift)
+          r = SisimaiLegacy::Address.make(SisimaiLegacy::Address.find(e['v']).shift)
           if cv = e['a'].match(/\A(.+)[@]([^@]+)\z/)
             a[0] = cv[1]
             a[1] = cv[2]
           end
-          if Sisimai::RFC5322.is_mailerdaemon(e['v'])
+          if SisimaiLegacy::RFC5322.is_mailerdaemon(e['v'])
             a[0] = e['a']
             a[1] = ''
           end
 
-          it 'returns Sisimai::Address object' do
-            expect(r).to be_a Sisimai::Address
+          it 'returns SisimaiLegacy::Address object' do
+            expect(r).to be_a SisimaiLegacy::Address
             expect(r.address).to be == e['a']
             expect(r.user).to be == a[0]
             expect(r.host).to be == a[1]
@@ -296,7 +296,7 @@ describe Sisimai::Address do
       context 'invalid email address' do
         isnotemail.each do |e|
           it 'returns nil' do
-            expect(Sisimai::Address.make({ address: e })).to be nil
+            expect(SisimaiLegacy::Address.make({ address: e })).to be nil
           end
         end
       end
@@ -305,7 +305,7 @@ describe Sisimai::Address do
     describe '.s3s4' do
       context 'valid email address' do
         emailaddrs.each do |e|
-          r = Sisimai::Address.s3s4(e['v'])
+          r = SisimaiLegacy::Address.s3s4(e['v'])
           it 'returns email address only' do
             expect(r).to be_a ::String
             expect(r).not_to be nil
@@ -316,7 +316,7 @@ describe Sisimai::Address do
       context 'invalid email address' do
         isnotemail.each do |e|
           it 'returns ' + e.to_s do
-            expect(Sisimai::Address.s3s4(e)).to be == e
+            expect(SisimaiLegacy::Address.s3s4(e)).to be == e
           end
         end
       end
@@ -324,8 +324,8 @@ describe Sisimai::Address do
 
     describe '.expand_verp' do
       e = 'nyaa+neko=example.jp@example.org'
-      r = Sisimai::Address.new(e)
-      q = Sisimai::Address.expand_verp(e)
+      r = SisimaiLegacy::Address.new(e)
+      q = SisimaiLegacy::Address.expand_verp(e)
       it 'returns expanded email address' do
         expect(q).to be == 'neko@example.jp'
         expect(e).to be == r.verp
@@ -334,8 +334,8 @@ describe Sisimai::Address do
 
     describe '.alias' do
       e = 'neko+nyaa@example.jp'
-      r = Sisimai::Address.new(e)
-      q = Sisimai::Address.expand_alias(e)
+      r = SisimaiLegacy::Address.new(e)
+      q = SisimaiLegacy::Address.expand_alias(e)
       it 'returns expanded email address' do
         expect(q).to be == 'neko@example.jp'
         expect(e).to be == r.alias
@@ -345,19 +345,19 @@ describe Sisimai::Address do
     describe '.undisclosed' do
       context 'valid argument character' do
         it 'returns dummy address' do
-          expect(Sisimai::Address.undisclosed(:r)).to be == 'undisclosed-recipient-in-headers@libsisimai.org.invalid'
-          expect(Sisimai::Address.undisclosed(:s)).to be == 'undisclosed-sender-in-headers@libsisimai.org.invalid'
+          expect(SisimaiLegacy::Address.undisclosed(:r)).to be == 'undisclosed-recipient-in-headers@libsisimai.org.invalid'
+          expect(SisimaiLegacy::Address.undisclosed(:s)).to be == 'undisclosed-sender-in-headers@libsisimai.org.invalid'
         end
         it 'returns nil' do
-          expect(Sisimai::Address.undisclosed(nil)).to be nil
+          expect(SisimaiLegacy::Address.undisclosed(nil)).to be nil
         end
 
-        v = Sisimai::Address.new(Sisimai::Address.undisclosed(:r))
+        v = SisimaiLegacy::Address.new(SisimaiLegacy::Address.undisclosed(:r))
         it 'returns true' do
           expect(v.is_undisclosed).to be true
         end
 
-        v = Sisimai::Address.new(Sisimai::Address.undisclosed(:s))
+        v = SisimaiLegacy::Address.new(SisimaiLegacy::Address.undisclosed(:s))
         it 'returns true' do
           expect(v.is_undisclosed).to be true
         end
@@ -367,11 +367,11 @@ describe Sisimai::Address do
 
   describe 'Instance method' do
     emailaddrs.each do |e|
-      a = Sisimai::Address.s3s4(e['v']).split('@')
-      v = Sisimai::Address.new(e['v'])
+      a = SisimaiLegacy::Address.s3s4(e['v']).split('@')
+      v = SisimaiLegacy::Address.new(e['v'])
 
-      it 'is Sisimai::Address object' do
-        expect(v).to be_a Sisimai::Address
+      it 'is SisimaiLegacy::Address object' do
+        expect(v).to be_a SisimaiLegacy::Address
       end
 
       describe '#user' do
@@ -386,7 +386,7 @@ describe Sisimai::Address do
         subject { v.host }
         it 'returns domain part' do
           is_expected.to be_a String
-          if Sisimai::RFC5322.is_mailerdaemon(e['v'])
+          if SisimaiLegacy::RFC5322.is_mailerdaemon(e['v'])
             is_expected.to be_empty
           else
             is_expected.to be == a[1]
@@ -398,7 +398,7 @@ describe Sisimai::Address do
         subject { v.address }
         it 'returns whole email address' do
           is_expected.to be_a String
-          is_expected.to be == a[0] + '@' + a[1] unless Sisimai::RFC5322.is_mailerdaemon(e['v'])
+          is_expected.to be == a[0] + '@' + a[1] unless SisimaiLegacy::RFC5322.is_mailerdaemon(e['v'])
         end
       end
 

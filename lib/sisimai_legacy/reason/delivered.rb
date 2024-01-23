@@ -1,6 +1,6 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Delivered checks the email you sent is delivered successfully
+    # SisimaiLegacy::Reason::Delivered checks the email you sent is delivered successfully
     # or not by matching diagnostic messages with message patterns. Sisimai will
     # set "delivered" to the value of "reason" when Status: field in the bounce
     # message begins with "2" like following:

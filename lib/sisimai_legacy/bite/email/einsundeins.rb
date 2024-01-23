@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::EinsUndEins parses a bounce email which created by
-  # 1&1. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::EinsUndEins parses a bounce email which created by
+  # 1&1. Methods in the module are called from only SisimaiLegacy::Message.
   module EinsUndEins
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/EinsUndEins.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message was created automatically by mail delivery software'],
         error:   ['For the following reason:'],
@@ -15,7 +15,7 @@ module SisimaiLegacy::Bite::Email
       MessagesOf = { mesgtoobig: ['Mail size limit exceeded'] }.freeze
 
       def description; return '1&1: http://www.1and1.de'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       # X-UI-Out-Filterresults: unknown:0;
       def headerlist;  return []; end
 
@@ -34,7 +34,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['from'].start_with?('"Mail Delivery System"')
         return nil unless mhead['subject'] == 'Mail delivery failed: returning message to sender'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -86,7 +86,7 @@ module SisimaiLegacy::Bite::Email
               # general@example.eu
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -105,7 +105,7 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'].to_s.gsub(/\A#{StartingOf[:error][0]}/, ''))
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'].to_s.gsub(/\A#{StartingOf[:error][0]}/, ''))
 
           MessagesOf.each_key do |r|
             # Verify each regular expression of session errors
@@ -115,7 +115,7 @@ module SisimaiLegacy::Bite::Email
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

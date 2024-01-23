@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::MailRu parses a bounce email which created by @mail.ru.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::MailRu parses a bounce email which created by @mail.ru.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module MailRu
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/MailRu.pm
-      # Based on Sisimai::Bite::Email::Exim
+      # Based on SisimaiLegacy::Bite::Email::Exim
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message was created automatically by mail delivery software.'],
         rfc822:  ['------ This is a copy of the message, including all the headers. ------'],
@@ -49,7 +49,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return '@mail.ru: https://mail.ru'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-Failed-Recipients']; end
 
       # Parse bounce messages from @mail.ru
@@ -76,7 +76,7 @@ module SisimaiLegacy::Bite::Email
           )
         }x
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -140,7 +140,7 @@ module SisimaiLegacy::Bite::Email
               #   kijitora@example.jp
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -173,7 +173,7 @@ module SisimaiLegacy::Bite::Email
               # Insert each recipient address into dscontents
               dscontents[-1]['recipient'] = e
               next if dscontents.size == recipients
-              dscontents << Sisimai::Bite.DELIVERYSTATUS
+              dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
             end
           end
         end
@@ -198,7 +198,7 @@ module SisimaiLegacy::Bite::Email
             end
             e.delete('alterrors')
           end
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis']) || ''
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis']) || ''
           e['diagnosis'].sub!(/\b__.+\z/, '')
 
           unless e['rhost']
@@ -208,7 +208,7 @@ module SisimaiLegacy::Bite::Email
 
             unless e['rhost']
               # Get localhost and remote host name from Received header.
-              e['rhost'] = Sisimai::RFC5322.received(mhead['received'][-1]).pop unless mhead['received'].empty?
+              e['rhost'] = SisimaiLegacy::RFC5322.received(mhead['received'][-1]).pop unless mhead['received'].empty?
             end
           end
 
@@ -244,7 +244,7 @@ module SisimaiLegacy::Bite::Email
           e['agent']     = self.smtpagent
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

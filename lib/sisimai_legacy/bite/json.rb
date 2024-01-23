@@ -1,6 +1,6 @@
 module SisimaiLegacy
   module Bite
-    # Sisimai::Bite::JSON - Base class for Sisimai::Bite::JSON::*
+    # SisimaiLegacy::Bite::JSON - Base class for SisimaiLegacy::Bite::JSON::*
     module JSON
       class << self
         # Imported from p5-Sisimail/lib/Sisimai/Bite/JSON.pm
@@ -14,7 +14,7 @@ module SisimaiLegacy
           return %w[SendGrid AmazonSES]
         end
 
-        # Convert from JSON object to Sisimai::Message
+        # Convert from JSON object to SisimaiLegacy::Message
         # @param         [Hash] mhead   Message header of a bounce email
         # @param         [String] mbody Message body of a bounce email(JSON)
         # @return        [Hash, Nil]    Bounce data list and message/rfc822 part
@@ -22,7 +22,7 @@ module SisimaiLegacy
         #                               arguments are missing
         def scan; return nil; end
 
-        # @abstract      Adapt bounce object for Sisimai::Message format
+        # @abstract      Adapt bounce object for SisimaiLegacy::Message format
         # @param         [Hash] argvs   bounce object returned from each email cloud
         # @return        [Hash, Nil]    Bounce data list and message/rfc822 part
         #                               or nil if it failed to parse or the

@@ -3,9 +3,9 @@ require 'sisimai/data'
 require 'sisimai/mail'
 require 'sisimai/message'
 
-describe Sisimai::Data do
+describe SisimaiLegacy::Data do
   context 'without orders of email address headers' do
-    mail = Sisimai::Mail.new('./set-of-emails/maildir/bsd/email-sendmail-03.eml')
+    mail = SisimaiLegacy::Mail.new('./set-of-emails/maildir/bsd/email-sendmail-03.eml')
     call = lambda do |argv|
       data = { 'x-mailer' => '', 'return-path' => '', 'type' => argv['datasrc'] }
       if cv = argv['message'].match(/^X-Mailer:\s*(.+)$/)
@@ -20,15 +20,15 @@ describe Sisimai::Data do
     end
 
     while r = mail.read do
-      mesg = Sisimai::Message.new(data: r, hook: call)
-      data = Sisimai::Data.make(data: mesg)
-      example 'Sisimai::Data.make returns Array' do
+      mesg = SisimaiLegacy::Message.new(data: r, hook: call)
+      data = SisimaiLegacy::Data.make(data: mesg)
+      example 'SisimaiLegacy::Data.make returns Array' do
         expect(data).to be_a Array
       end
 
       data.each do |e|
         subject { e }
-        it('is Sisimai::Data object') { is_expected.to be_a Sisimai::Data }
+        it('is SisimaiLegacy::Data object') { is_expected.to be_a SisimaiLegacy::Data }
         example('#token returns String') { expect(e.token).to be_a String }
         example('#lhost returns String') { expect(e.lhost).to be_a String }
         example('#rhost returns String') { expect(e.rhost).to be_a String }
@@ -45,16 +45,16 @@ describe Sisimai::Data do
         end
         example('#subject returns String') { expect(e.subject).to be_a String }
 
-        example '#timestamp is Sisimai::Time object' do
-          expect(e.timestamp).to be_a Sisimai::Time
+        example '#timestamp is SisimaiLegacy::Time object' do
+          expect(e.timestamp).to be_a SisimaiLegacy::Time
         end
         example('#timestamp#year is 2014') { expect(e.timestamp.year).to be == 2014 }
         example('#timestamp#month is 6') { expect(e.timestamp.month).to be == 6 }
         example('#timestamp#mday is 21 or 22') { expect(e.timestamp.mday.to_s).to match(/\A2[12]\z/) }
         example('#timestamp#wday is 6 or 7') { expect(e.timestamp.cwday.to_s).to match(/\A[67]\z/) }
 
-        example '#addresser is Sisimai::Address object' do
-          expect(e.addresser).to be_a Sisimai::Address
+        example '#addresser is SisimaiLegacy::Address object' do
+          expect(e.addresser).to be_a SisimaiLegacy::Address
         end
         example('#addresser#host returns String') { expect(e.addresser.host).to be_a String }
         example('#addresser#host is a domain part') { expect(e.addresser.host).to match(/\A.+[.].+\z/) }
@@ -68,8 +68,8 @@ describe Sisimai::Data do
           expect(e.addresser.host).to be == e.senderdomain
         end
 
-        example '#recipient is Sisimai::Address object' do
-          expect(e.recipient).to be_a Sisimai::Address
+        example '#recipient is SisimaiLegacy::Address object' do
+          expect(e.recipient).to be_a SisimaiLegacy::Address
         end
         example('#recipient#host returns String') { expect(e.recipient.host).to be_a String }
         example('#recipient#host is a domain part') { expect(e.recipient.host).to match(/\A.+[.].+\z/) }
@@ -131,22 +131,22 @@ describe Sisimai::Data do
 
   context 'with orders of email address headers' do
     file = './set-of-emails/maildir/bsd/email-sendmail-04.eml'
-    mail = Sisimai::Mail.new(file)
+    mail = SisimaiLegacy::Mail.new(file)
 
     while r = mail.read do
-      mesg = Sisimai::Message.new(data: r)
-      list = { 
+      mesg = SisimaiLegacy::Message.new(data: r)
+      list = {
         'recipient' => ['X-Failed-Recipient', 'To'],
         'addresser' => ['Return-Path', 'From', 'X-Envelope-From'],
       }
-      data = Sisimai::Data.make(data: mesg, order: list)
-      example 'Sisimai::Data.make returns Array' do
+      data = SisimaiLegacy::Data.make(data: mesg, order: list)
+      example 'SisimaiLegacy::Data.make returns Array' do
         expect(data).to be_a Array
       end
 
       data.each do |e|
         subject { e }
-        it('is Sisimai::Data object') { is_expected.to be_a Sisimai::Data }
+        it('is SisimaiLegacy::Data object') { is_expected.to be_a SisimaiLegacy::Data }
         example('#token returns String') { expect(e.token).to be_a String }
         example('#lhost returns String') { expect(e.lhost).to be_a String }
         example '#lhost does not include " "' do
@@ -169,16 +169,16 @@ describe Sisimai::Data do
         end
         example('#subject returns String') { expect(e.subject).to be_a String }
 
-        example '#timestamp is Sisimai::Time object' do
-          expect(e.timestamp).to be_a Sisimai::Time
+        example '#timestamp is SisimaiLegacy::Time object' do
+          expect(e.timestamp).to be_a SisimaiLegacy::Time
         end
         example('#timestamp#year is 2009') { expect(e.timestamp.year).to be == 2009 }
         example('#timestamp#month is 4') { expect(e.timestamp.month).to be == 4 }
         example('#timestamp#mday is 29 or 30') { expect(e.timestamp.mday.to_s).to match(/\A(?:29|30)\z/) }
         example('#timestamp#wday is 3 or 4') { expect(e.timestamp.cwday.to_s).to match(/\A[34]\z/) }
 
-        example '#addresser is Sisimai::Address object' do
-          expect(e.addresser).to be_a Sisimai::Address
+        example '#addresser is SisimaiLegacy::Address object' do
+          expect(e.addresser).to be_a SisimaiLegacy::Address
         end
         example('#addresser#host returns String') { expect(e.addresser.host).to be_a String }
         example('#addresser#host is a domain part') { expect(e.addresser.host).to match(/\A.+[.].+\z/) }
@@ -192,8 +192,8 @@ describe Sisimai::Data do
           expect(e.addresser.host).to be == e.senderdomain
         end
 
-        example '#recipient is Sisimai::Address object' do
-          expect(e.recipient).to be_a Sisimai::Address
+        example '#recipient is SisimaiLegacy::Address object' do
+          expect(e.recipient).to be_a SisimaiLegacy::Address
         end
         example('#recipient#host returns String') { expect(e.recipient.host).to be_a String }
         example('#recipient#host is a domain part') { expect(e.recipient.host).to match(/\A.+[.].+\z/) }
@@ -250,11 +250,11 @@ describe Sisimai::Data do
       './set-of-emails/maildir/not/is-not-bounce-02.eml',
     ]
     file.each do |e|
-      mail = Sisimai::Mail.new(e)
+      mail = SisimaiLegacy::Mail.new(e)
       while r = mail.read do
-        mesg = Sisimai::Message.new( data: r )
-        data = Sisimai::Data.make( data: mesg )
-        it('returns Sisimai::Message') { expect(mesg).to be_a Sisimai::Message }
+        mesg = SisimaiLegacy::Message.new( data: r )
+        data = SisimaiLegacy::Data.make( data: mesg )
+        it('returns SisimaiLegacy::Message') { expect(mesg).to be_a SisimaiLegacy::Message }
         it('returns nil') { expect(data).to be nil }
       end
     end

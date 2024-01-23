@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::::Email::ApacheJames parses a bounce email which created by
-  # ApacheJames. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::::Email::ApacheJames parses a bounce email which created by
+  # ApacheJames. Methods in the module are called from only SisimaiLegacy::Message.
   module ApacheJames
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/ApacheJames.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         # apache-james-2.3.2/src/java/org/apache/james/transport/mailets/
         #   AbstractNotify.java|124:  out.println("Error message below:");
@@ -17,7 +17,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Java Apache Mail Enterprise Server'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Apache James
@@ -38,7 +38,7 @@ module SisimaiLegacy::Bite::Email
         match += 1 if mhead['received'].any? { |a| a.include?('JAMES SMTP Server') }
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -94,7 +94,7 @@ module SisimaiLegacy::Bite::Email
               #   RCPT TO: kijitora@example.org
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -144,11 +144,11 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'] || diagnostic)
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'] || diagnostic)
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

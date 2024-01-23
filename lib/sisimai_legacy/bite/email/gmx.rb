@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::GMX parses a bounce email which created by GMX.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::GMX parses a bounce email which created by GMX.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module GMX
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/GMX.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message was created automatically by mail delivery software'],
         rfc822:  ['--- The header of the original message is following'],
@@ -14,7 +14,7 @@ module SisimaiLegacy::Bite::Email
       MessagesOf = { expired: ['delivery retry timeout exceeded'] }.freeze
 
       def description; return 'GMX: http://www.gmx.net'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       # Envelope-To: <kijitora@mail.example.com>
       # X-GMX-Antispam: 0 (Mail was not recognized as spam); Detail=V3;
@@ -38,7 +38,7 @@ module SisimaiLegacy::Bite::Email
         # :subject => %r/\AMail delivery failed: returning message to sender\z/,
         return nil unless mhead['x-gmx-antispam']
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -97,7 +97,7 @@ module SisimaiLegacy::Bite::Email
               # delivery retry timeout exceeded
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -132,7 +132,7 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
 
           MessagesOf.each_key do |r|
             # Verify each regular expression of session errors
@@ -142,7 +142,7 @@ module SisimaiLegacy::Bite::Email
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

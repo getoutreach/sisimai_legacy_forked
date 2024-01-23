@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-BSD%202--Clause-orange.svg)](https://github.com/sisimai/rb-Sisimai/blob/master/LICENSE)
 [![Coverage Status](https://img.shields.io/coveralls/sisimai/rb-Sisimai.svg)](https://coveralls.io/r/sisimai/rb-Sisimai)
-[![Build Status](https://travis-ci.org/sisimai/rb-Sisimai.svg?branch=master)](https://travis-ci.org/sisimai/rb-Sisimai) 
+[![Build Status](https://travis-ci.org/sisimai/rb-Sisimai.svg?branch=master)](https://travis-ci.org/sisimai/rb-Sisimai)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/38340177e6284a65be69c0c7c3dc2b58)](https://www.codacy.com/app/azumakuniyuki/rb-Sisimai)
 [![Ruby](https://img.shields.io/badge/ruby-v2.1.0--v2.4.0-red.svg)](https://www.ruby-lang.org/)
 [![Gem Version](https://badge.fury.io/rb/sisimai.svg)](https://badge.fury.io/rb/sisimai)
@@ -127,9 +127,9 @@ v = Sisimai.make('/path/to/mbox', delivered: true)
 
 if v.is_a? Array
   v.each do |e|
-    puts e.class                # Sisimai::Data
-    puts e.recipient.class      # Sisimai::Address
-    puts e.timestamp.class      # Sisimai::Time
+    puts e.class                # SisimaiLegacy::Data
+    puts e.recipient.class      # SisimaiLegacy::Address
+    puts e.timestamp.class      # SisimaiLegacy::Time
 
     puts e.addresser.address    # shironeko@example.org # From
     puts e.recipient.address    # kijitora@example.jp   # To
@@ -184,7 +184,7 @@ Callback feature
 -------------------------------------------------------------------------------
 Sisimai 4.19.0から`Sisimai.make()`と`Sisimai.dump()`にLamda(Procオブジェクト)
 を引数`hook`に指定できるコールバック機能が実装されました。
-`hook`に指定したコードによって処理された結果は`Sisimai::Data.catch`
+`hook`に指定したコードによって処理された結果は`SisimaiLegacy::Data.catch`
 メソッドで得ることができます。
 
 ```ruby
@@ -256,7 +256,7 @@ Other spec of Sisimai
 -------------------------------------------------------------------------------
 - [**解析モジュールの一覧**](https://libsisimai.org/ja/engine/)
 - [**バウンス理由の一覧**](https://libsisimai.org/ja/reason/)
-- [**Sisimai::Dataのデータ構造**](https://libsisimai.org/ja/data/)
+- [**SisimaiLegacy::Dataのデータ構造**](https://libsisimai.org/ja/data/)
 
 Contributing
 ===============================================================================

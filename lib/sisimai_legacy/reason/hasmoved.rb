@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::HasMoved checks the bounce reason is "hasmoved" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::HasMoved checks the bounce reason is "hasmoved" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a user's mailbox has moved (and is not forwarded
     # automatically). Sisimai will set "hasmoved" to the reason of email bounce
@@ -25,7 +25,7 @@ module SisimaiLegacy
         end
 
         # Whether the address has moved or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: The address has moved
         #                                   false: Has not moved
         # @see http://www.ietf.org/rfc/rfc2822.txt

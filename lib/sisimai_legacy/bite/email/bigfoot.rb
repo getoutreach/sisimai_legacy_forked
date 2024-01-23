@@ -1,17 +1,17 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Bigfoot parses a bounce email which created by Bigfoot.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Bigfoot parses a bounce email which created by Bigfoot.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Bigfoot
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Bigfoot.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { rfc822: ['Content-Type: message/partial'] }.freeze
       MarkingsOf = { message: %r/\A[ \t]+[-]+[ \t]*Transcript of session follows/ }.freeze
 
       def description; return 'Bigfoot: http://www.bigfoot.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Bigfoot
@@ -32,7 +32,7 @@ module SisimaiLegacy::Bite::Email
         match += 1 if mhead['received'].any? { |a| a.include?('.bigfoot.com') }
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -95,10 +95,10 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; <destinaion@example.net>
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
-                v['recipient'] = Sisimai::Address.s3s4(cv[1])
+                v['recipient'] = SisimaiLegacy::Address.s3s4(cv[1])
                 recipients += 1
 
               elsif cv = e.match(/\AAction:[ ]*(.+)\z/)
@@ -172,14 +172,14 @@ module SisimaiLegacy::Bite::Email
           connheader.each_key { |a| e[a] ||= connheader[a] || '' }
 
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e['command']   = commandtxt
           if e['command'].empty?
             e['command'] = 'EHLO' unless esmtpreply.empty?
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

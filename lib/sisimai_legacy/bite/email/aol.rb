@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Aol parses a bounce email which created by Aol Mail.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Aol parses a bounce email which created by Aol Mail.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Aol
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Aol.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Content-Type: message/delivery-status'],
         rfc822:  ['Content-Type: message/rfc822'],
@@ -17,7 +17,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Aol Mail: http://www.aol.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       # X-AOL-IP: 192.0.2.135
       # X-AOL-VSS-INFO: 5600.1067/98281
@@ -47,7 +47,7 @@ module SisimaiLegacy::Bite::Email
         # :subject => %r/\AUndeliverable: /,
         return nil unless mhead['x-aol-ip']
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -108,7 +108,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; userunknown@example.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -169,7 +169,7 @@ module SisimaiLegacy::Bite::Email
           connheader.each_key { |a| e[a] ||= connheader[a] || '' }
 
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
 
           MessagesOf.each_key do |r|
             # Verify each regular expression of session errors
@@ -180,12 +180,12 @@ module SisimaiLegacy::Bite::Email
 
           if e['status'].empty? || e['status'].end_with?('.0.0')
             # There is no value of Status header or the value is 5.0.0, 4.0.0
-            pseudostatus = Sisimai::SMTP::Status.find(e['diagnosis'])
+            pseudostatus = SisimaiLegacy::SMTP::Status.find(e['diagnosis'])
             e['status'] = pseudostatus unless pseudostatus.empty?
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
     end

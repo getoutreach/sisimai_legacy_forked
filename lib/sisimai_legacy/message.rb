@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::Message convert bounce email text to data structure. It resolve
+  # SisimaiLegacy::Message convert bounce email text to data structure. It resolve
   # email text into an UNIX From line, the header part of the mail, delivery
   # status, and RFC822 header part. When the email given as a argument of "new"
   # method is not a bounce email, the method returns nil.
@@ -14,13 +14,13 @@ module SisimaiLegacy
     @@rwaccessors = [
       :from,    # [String] UNIX From line
       :header,  # [Hash]   Header part of an email
-      :ds,      # [Array]  Parsed data by Sisimai::Bite::*::* module
+      :ds,      # [Array]  Parsed data by SisimaiLegacy::Bite::*::* module
       :rfc822,  # [Hash]   Header part of the original message
       :catch,   # [?]      The results returned by hook method
     ]
     @@rwaccessors.each { |e| attr_accessor e }
 
-    # Constructor of Sisimai::Message
+    # Constructor of SisimaiLegacy::Message
     # @param         [String] data      Email text data
     # @param         [Hash] argvs       Module to be loaded
     # @options argvs [String] :data     Entire email message
@@ -28,7 +28,7 @@ module SisimaiLegacy
     # @options argvs [Array]  :field    Email header names to be captured
     # @options argvs [Array]  :order    The order of MTA modules
     # @options argvs [Code]   :hook     Reference to callback method
-    # @return        [Sisimai::Message] Structured email data or nil if each
+    # @return        [SisimaiLegacy::Message] Structured email data or nil if each
     #                                   value of the arguments are missing
     def initialize(data: '', **argvs)
       return nil if data.empty?
@@ -39,15 +39,15 @@ module SisimaiLegacy
       child = nil
 
       if input == 'email'
-        # Sisimai::Message::Email
+        # SisimaiLegacy::Message::Email
         return nil if email.empty?
         email = email.scrub('?').gsub("\r\n", "\n")
-        child = 'Sisimai::Message::Email'
+        child = 'SisimaiLegacy::Message::Email'
 
       elsif input == 'json'
-        # Sisimai::Message::JSON
+        # SisimaiLegacy::Message::JSON
         return nil unless email.is_a? Hash
-        child = 'Sisimai::Message::JSON'
+        child = 'SisimaiLegacy::Message::JSON'
       else
         # Unsupported value in "input"
         warn ' ***warning: Unsupported value in "input": ' << input.to_s

@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::UserUnknown checks the bounce reason is "userunknown" or
-    # not. This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::UserUnknown checks the bounce reason is "userunknown" or
+    # not. This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a local part (Left hand side of @ sign) of a recipient's
     # email address does not exist. In many case, a user has changed internet service
@@ -148,7 +148,7 @@ module SisimaiLegacy
         end
 
         # Whether the address is "userunknown" or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is unknown user
         #                                   false: is not unknown user.
         # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -156,7 +156,7 @@ module SisimaiLegacy
           return true if argvs.reason == 'userunknown'
 
           diagnostic = argvs.diagnosticcode.downcase;
-          tempreason = Sisimai::SMTP::Status.name(argvs.deliverystatus)
+          tempreason = SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus)
           return false if tempreason == 'suspend'
 
           if tempreason == 'userunknown'
@@ -169,7 +169,7 @@ module SisimaiLegacy
 
             while e = prematches.shift do
               # Check the value of "Diagnostic-Code" with other error patterns.
-              p = 'Sisimai::Reason::' << e
+              p = 'SisimaiLegacy::Reason::' << e
               r = nil
               begin
                 require p.downcase.gsub('::', '/')
@@ -180,7 +180,7 @@ module SisimaiLegacy
               end
 
               next unless r.match(diagnostic)
-              # Match with reason defined in Sisimai::Reason::* except UserUnknown.
+              # Match with reason defined in SisimaiLegacy::Reason::* except UserUnknown.
               matchother = true
               break
             end

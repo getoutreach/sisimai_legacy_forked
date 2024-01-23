@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Filtered checks the bounce reason is "filtered" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::Filtered checks the bounce reason is "filtered" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that an email has been rejected by a header content after
     # SMTP DATA command.
@@ -41,7 +41,7 @@ module SisimaiLegacy
         end
 
         # Rejected by domain or address filter ?
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is filtered
         #                                   false: is not filtered
         # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -51,8 +51,8 @@ module SisimaiLegacy
           require 'sisimai/reason/userunknown'
           commandtxt = argvs.smtpcommand || ''
           diagnostic = argvs.diagnosticcode.downcase || ''
-          tempreason = Sisimai::SMTP::Status.name(argvs.deliverystatus)
-          alterclass = Sisimai::Reason::UserUnknown
+          tempreason = SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus)
+          alterclass = SisimaiLegacy::Reason::UserUnknown
 
           return false if tempreason == 'suspend'
           if tempreason == 'filtered'

@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::SyntaxError checks the bounce reason is "syntaxerror" or
-    # not. This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::SyntaxError checks the bounce reason is "syntaxerror" or
+    # not. This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a destination mail server could not recognize SMTP
     # command which is sent from a sender's MTA. Sisimai will set "syntaxerror"
@@ -19,7 +19,7 @@ module SisimaiLegacy
         def match(*); return nil; end
 
         # Connection rejected due to syntax error or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: Connection rejected due to
         #                                         syntax error
         #                                   false: is not syntax error

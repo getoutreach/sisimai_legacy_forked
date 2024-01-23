@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::MailMarshalSMTP parses a bounce email which created
+  # SisimaiLegacy::Bite::Email::MailMarshalSMTP parses a bounce email which created
   # by Trustwave Secure Email Gateway: formerly MailMarshal SMTP. Methods in
-  # the module are called from only Sisimai::Message.
+  # the module are called from only SisimaiLegacy::Message.
   module MailMarshalSMTP
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/MailMarshalSMTP.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Your message:'],
         error:   ['Could not be delivered because of'],
@@ -15,7 +15,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Trustwave Secure Email Gateway'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-Mailer']; end
 
       # Parse bounce messages from MailMarshalSMTP
@@ -32,7 +32,7 @@ module SisimaiLegacy::Bite::Email
       def scan(mhead, mbody)
         return nil unless mhead['subject'].start_with?('Undeliverable Mail: "')
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -42,7 +42,7 @@ module SisimaiLegacy::Bite::Email
         regularexp = nil
         v = nil
 
-        boundary00 = Sisimai::MIME.boundary(mhead['content-type']) || ''
+        boundary00 = SisimaiLegacy::MIME.boundary(mhead['content-type']) || ''
         regularexp = if boundary00.size > 0
                        # Convert to regular expression
                        Regexp.new('\A' << Regexp.escape('--' << boundary00 << '--') << '\z')
@@ -97,7 +97,7 @@ module SisimaiLegacy::Bite::Email
               #    dummyuser@blabla.xxxxxxxxxxxx.com
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -146,11 +146,11 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

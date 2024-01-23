@@ -1,20 +1,20 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::SurfControl parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::SurfControl parses a bounce email which created by
   # WebSense SurfControl.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module SurfControl
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/SurfControl.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Your message could not be sent.'],
         rfc822:  ['Content-Type: message/rfc822'],
       }.freeze
 
       def description; return 'WebSense SurfControl'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       # X-SEF-ZeroHour-RefID: fgs=000000000
       # X-SEF-Processed: 0_0_0_000__2010_04_29_23_34_45
       # X-Mailer: SurfControl E-mail Filter
@@ -37,7 +37,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['x-mailer']
         return nil unless mhead['x-mailer'] == 'SurfControl E-mail Filter'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -95,7 +95,7 @@ module SisimaiLegacy::Bite::Email
               # Addressed To: kijitora@example.com
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -136,11 +136,11 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

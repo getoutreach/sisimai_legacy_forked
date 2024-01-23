@@ -1,6 +1,6 @@
 module SisimaiLegacy
-  # Sisimai::Mail is a handler of UNIX mbox or Maildir for reading each mail. It is
-  # wrapper class of Sisimai::Mail::Mbox and Sisimai::Mail::Maildir classes.
+  # SisimaiLegacy::Mail is a handler of UNIX mbox or Maildir for reading each mail. It is
+  # wrapper class of SisimaiLegacy::Mail::Mbox and SisimaiLegacy::Mail::Maildir classes.
   class Mail
     # Imported from p5-Sisimail/lib/Sisimai/Mail.pm
     @@roaccessors = [
@@ -8,14 +8,14 @@ module SisimaiLegacy
       :type,  # [String] Data type: mailbox, maildir, or stdin
     ]
     @@rwaccessors = [
-      :mail,  # [Sisimai::Mail::[Mbox,Maildir,Memory,STDIN]] Object
+      :mail,  # [SisimaiLegacy::Mail::[Mbox,Maildir,Memory,STDIN]] Object
     ]
     @@roaccessors.each { |e| attr_reader   e }
     @@rwaccessors.each { |e| attr_accessor e }
 
-    # Constructor of Sisimai::Mail
+    # Constructor of SisimaiLegacy::Mail
     # @param    [String] argv1        Path to mbox or Maildir/
-    # @return   [Sisimai::Mail, Nil]  Object or nil if the argument was wrong
+    # @return   [SisimaiLegacy::Mail, Nil]  Object or nil if the argument was wrong
     def initialize(argv1)
       classname = nil
       parameter = { 'path' => argv1, 'type' => nil, 'mail' => nil }
@@ -23,7 +23,7 @@ module SisimaiLegacy
       if argv1.is_a?(::String)
         # Path to mail or '<STDIN>' ?
         if argv1 == '<STDIN>'
-          # Sisimai::Mail.new('<STDIN>')
+          # SisimaiLegacy::Mail.new('<STDIN>')
           classname = self.class.to_s << '::STDIN'
           parameter['type'] = 'stdin'
           parameter['path'] = $stdin

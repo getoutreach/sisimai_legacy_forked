@@ -1,13 +1,13 @@
 require 'spec_helper'
 require 'sisimai/mail/memory'
 
-describe Sisimai::Mail::Memory do
+describe SisimaiLegacy::Mail::Memory do
   samplemailbox = [
     './set-of-emails/mailbox/mbox-0',
     './set-of-emails/maildir/bsd/email-sendmail-01.eml'
   ]
-  let(:mailobj) { Sisimai::Mail::Memory.new(samples) }
-  let(:mockobj) { Sisimai::Mail::Memory.new(invalid) }
+  let(:mailobj) { SisimaiLegacy::Mail::Memory.new(samples) }
+  let(:mockobj) { SisimaiLegacy::Mail::Memory.new(invalid) }
   emailcontents = nil
 
   describe 'class method' do
@@ -18,8 +18,8 @@ describe Sisimai::Mail::Memory do
         messagehandle.close
         let(:samples) { emailcontents }
         subject { mailobj }
-        it 'returns Sisimai::Mail::Memory object' do
-          is_expected.to be_a Sisimai::Mail::Memory
+        it 'returns SisimaiLegacy::Mail::Memory object' do
+          is_expected.to be_a SisimaiLegacy::Mail::Memory
         end
       end
 
@@ -39,8 +39,8 @@ describe Sisimai::Mail::Memory do
 
       context 'wrong number of arguments' do
         it 'raises ArgumentError' do
-          expect { Sisimai::Mail::Memory.new }.to raise_error(ArgumentError)
-          expect { Sisimai::Mail::Memory.new(nil, nil) }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::Memory.new }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::Memory.new(nil, nil) }.to raise_error(ArgumentError)
         end
       end
     end
@@ -78,7 +78,7 @@ describe Sisimai::Mail::Memory do
       end
 
       describe '#read' do
-        mailbox = Sisimai::Mail::Memory.new(emailcontents)
+        mailbox = SisimaiLegacy::Mail::Memory.new(emailcontents)
         emindex = 0
         hasread = 0
 

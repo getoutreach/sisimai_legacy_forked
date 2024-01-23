@@ -1,8 +1,8 @@
 module SisimaiLegacy
-  # Sisimai::Rhost detects the bounce reason from the content of Sisimai::Data
+  # SisimaiLegacy::Rhost detects the bounce reason from the content of SisimaiLegacy::Data
   # object as an argument of get() method when the value of rhost of the object
-  # is listed in the results of Sisimai::Rhost->list method.
-  # This class is called only Sisimai::Data class.
+  # is listed in the results of SisimaiLegacy::Rhost->list method.
+  # This class is called only SisimaiLegacy::Data class.
   module Rhost
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Rhost.pm
@@ -44,7 +44,7 @@ module SisimaiLegacy
       end
 
       # Detect the bounce reason from certain remote hosts
-      # @param    [Sisimai::Data] argvs   Parsed email object
+      # @param    [SisimaiLegacy::Data] argvs   Parsed email object
       # @return   [String]                The value of bounce reason
       def get(argvs)
         remotehost = argvs.rhost.downcase
@@ -54,7 +54,7 @@ module SisimaiLegacy
         RhostClass.each_key do |e|
           # Try to match with each key of RhostClass
           next unless remotehost.end_with?(e)
-          modulename = 'Sisimai::Rhost::' << RhostClass[e]
+          modulename = 'SisimaiLegacy::Rhost::' << RhostClass[e]
           rhostclass = modulename.gsub('::', '/').downcase
           break
         end

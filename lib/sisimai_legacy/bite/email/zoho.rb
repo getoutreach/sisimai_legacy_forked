@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Zoho parses a bounce email which created by Zoho Mail.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Zoho parses a bounce email which created by Zoho Mail.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Zoho
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Zoho.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message was created automatically by mail delivery'],
         rfc822:  ['from mail.zoho.com by mx.zohomail.com'],
@@ -14,7 +14,7 @@ module SisimaiLegacy::Bite::Email
       MessagesOf = { expired: ['Host not reachable'] }.freeze
 
       def description; return 'Zoho Mail: https://www.zoho.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       # X-ZohoMail: Si CHF_MF_NL SS_10 UW48 UB48 FMWL UW48 UB48 SGR3_1_09124_42
       # X-Zoho-Virus-Status: 2
@@ -42,7 +42,7 @@ module SisimaiLegacy::Bite::Email
         # :'x-mailer' => %r/\AZoho Mail\z/,
         return nil unless mhead['x-zohomail']
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -98,7 +98,7 @@ module SisimaiLegacy::Bite::Email
               # kijitora@example.co.jp Invalid Address, ERROR_CODE :550, ERROR_CODE :5.1.=
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -116,7 +116,7 @@ module SisimaiLegacy::Bite::Email
               # [Status: Error, Address: <kijitora@6kaku.example.co.jp>, ResponseCode 421, , Host not reachable.]
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -133,7 +133,7 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
 
           MessagesOf.each_key do |r|
             # Verify each regular expression of session errors
@@ -143,7 +143,7 @@ module SisimaiLegacy::Bite::Email
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

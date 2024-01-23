@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::RFC3834 - RFC3834 auto reply message detector
+  # SisimaiLegacy::RFC3834 - RFC3834 auto reply message detector
   module RFC3834
     # Imported from p5-Sisimail/lib/Sisimai/RFC3834.pm
     class << self
@@ -79,7 +79,7 @@ module SisimaiLegacy
         return nil if match < 1
 
         require 'sisimai/bite/email'
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.scrub('?').split("\n")
         rfc822part = '' # (String) message/rfc822-headers part
         recipients = 0  # (Integer) The number of 'Final-Recipient' header
@@ -100,7 +100,7 @@ module SisimaiLegacy
 
         if v['recipient']
           # Clean-up the recipient address
-          v['recipient'] = Sisimai::Address.s3s4(v['recipient'])
+          v['recipient'] = SisimaiLegacy::Address.s3s4(v['recipient'])
           recipients += 1
         end
         return nil unless recipients > 0
@@ -108,7 +108,7 @@ module SisimaiLegacy
         if mhead['content-type']
           # Get the boundary string and set regular expression for matching with
           # the boundary string.
-          b0 = Sisimai::MIME.boundary(mhead['content-type'], 0)
+          b0 = SisimaiLegacy::MIME.boundary(mhead['content-type'], 0)
           MarkingsOf[:boundary] = %r/\A\Q#{b0}\E\z/ unless b0.empty?
         end
 
@@ -133,7 +133,7 @@ module SisimaiLegacy
           break if haveloaded >= maxmsgline
         end
         v['diagnosis'] ||= mhead['subject']
-        v['diagnosis'] = Sisimai::String.sweep(v['diagnosis'])
+        v['diagnosis'] = SisimaiLegacy::String.sweep(v['diagnosis'])
         v['reason']    = 'vacation'
         v['agent']     = self.smtpagent
         v['date']      = mhead['date']

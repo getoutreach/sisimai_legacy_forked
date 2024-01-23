@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::NetworkError checks the bounce reason is "networkerror"
-    # or not. This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::NetworkError checks the bounce reason is "networkerror"
+    # or not. This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that SMTP connection failed due to DNS look up failure
     # or other network problems. This reason has added in Sisimai 4.1.12 and does
@@ -45,7 +45,7 @@ module SisimaiLegacy
         end
 
         # The bounce reason is network error or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is network error
         #                                   false: is not network error
         # @see http://www.ietf.org/rfc/rfc2822.txt

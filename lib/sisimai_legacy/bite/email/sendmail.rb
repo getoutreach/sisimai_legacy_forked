@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Sendmail parses a bounce email which created by
-  # v8 Sendmail. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Sendmail parses a bounce email which created by
+  # v8 Sendmail. Methods in the module are called from only SisimaiLegacy::Message.
   module Sendmail
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Sendmail.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         # Error text regular expressions which defined in sendmail/savemail.c
         #   savemail.c:1040|if (printheader && !putline("   ----- Transcript of session follows -----\n",
@@ -19,7 +19,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'V8Sendmail: /usr/sbin/sendmail'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Sendmail
@@ -41,7 +41,7 @@ module SisimaiLegacy::Bite::Email
           return nil unless mhead['from'].start_with?('Mail Delivery Subsystem')
         end
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -107,7 +107,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; userunknown@example.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -241,7 +241,7 @@ module SisimaiLegacy::Bite::Email
             e['diagnosis'] = anotherset['diagnosis'] unless e['diagnosis']
             e['diagnosis'] = anotherset['diagnosis'] if e['diagnosis'] =~ /\A\d+\z/
           end
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           if anotherset['status']
             # Check alternative status code
@@ -261,7 +261,7 @@ module SisimaiLegacy::Bite::Email
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

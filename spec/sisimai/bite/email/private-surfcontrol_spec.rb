@@ -8,5 +8,5 @@ isexpected = [
   { 'n' => '01004', 'r' => /systemerror/ },
   { 'n' => '01005', 'r' => /systemerror/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

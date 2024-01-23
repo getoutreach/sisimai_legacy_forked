@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::Bite - Base class for Sisimai::Bite::*
+  # SisimaiLegacy::Bite - Base class for SisimaiLegacy::Bite::*
   module Bite
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite.pm
@@ -28,7 +28,7 @@ module SisimaiLegacy
         }
       end
 
-      def smtpagent(v = ''); return v.to_s.sub(/\ASisimai::Bite::/, ''); end
+      def smtpagent(v = ''); return v.to_s.sub(/\ASisimaiLegacy::Bite::/, ''); end
       def description; return ''; end
 
     end

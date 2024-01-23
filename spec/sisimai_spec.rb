@@ -13,8 +13,8 @@ describe Sisimai do
     :maildir => './set-of-emails/maildir/not',
   }
 
-  describe 'Sisimai::VERSION' do
-    subject { Sisimai::VERSION }
+  describe 'SisimaiLegacy::VERSION' do
+    subject { SisimaiLegacy::VERSION }
     it('returns version') { is_expected.not_to be nil }
     it('returns String' ) { is_expected.to be_a(String) }
     it('matches X.Y.Z'  ) { is_expected.to match(/\A\d[.]\d+[.]\d+/) }
@@ -23,7 +23,7 @@ describe Sisimai do
   describe '.version' do
     subject { Sisimai.version }
     it('is String') { is_expected.to be_a(String) }
-    it('is ' + Sisimai::VERSION) { is_expected.to eq Sisimai::VERSION }
+    it('is ' + SisimaiLegacy::VERSION) { is_expected.to eq SisimaiLegacy::VERSION }
   end
 
   describe '.sysname' do
@@ -42,7 +42,7 @@ describe Sisimai do
     context 'valid email file' do
       [:mailbox, :maildir, :jsonobj, :memory].each do |e|
 
-        if e.to_s == 'jsonobj' 
+        if e.to_s == 'jsonobj'
           jf = File.open(sampleemail[e], 'r')
           js = jf.read
           jf.close
@@ -71,19 +71,19 @@ describe Sisimai do
         it('have data') { expect(mail.size).to be > 0 }
 
         mail.each do |ee|
-          it 'contains Sisimai::Data' do
-            expect(ee).to be_a Sisimai::Data
+          it 'contains SisimaiLegacy::Data' do
+            expect(ee).to be_a SisimaiLegacy::Data
           end
 
-          describe 'each accessor of Sisimai::Data' do
-            example '#timestamp is Sisimai::Time' do
-              expect(ee.timestamp).to be_a Sisimai::Time
+          describe 'each accessor of SisimaiLegacy::Data' do
+            example '#timestamp is SisimaiLegacy::Time' do
+              expect(ee.timestamp).to be_a SisimaiLegacy::Time
             end
-            example '#addresser is Sisimai::Address' do
-              expect(ee.addresser).to be_a Sisimai::Address
+            example '#addresser is SisimaiLegacy::Address' do
+              expect(ee.addresser).to be_a SisimaiLegacy::Address
             end
-            example '#recipient is Sisimai::Address' do
-              expect(ee.recipient).to be_a Sisimai::Address
+            example '#recipient is SisimaiLegacy::Address' do
+              expect(ee.recipient).to be_a SisimaiLegacy::Address
             end
 
             example '#addresser#address returns String' do
@@ -103,7 +103,7 @@ describe Sisimai do
             end
           end
 
-          describe 'each instance method of Sisimai::Data' do
+          describe 'each instance method of SisimaiLegacy::Data' do
             describe '#damn' do
               damn = ee.damn
               example '#damn returns Hash' do
@@ -120,7 +120,7 @@ describe Sisimai do
                 end
 
                 damn.each_key do |eee|
-                  next if ee.send(eee).class.to_s =~ /\ASisimai::/
+                  next if ee.send(eee).class.to_s =~ /\ASisimaiLegacy::/
                   next if eee == 'subject'
                   if eee == 'catch'
                     example "['#{eee}'] is ''" do
@@ -196,7 +196,7 @@ describe Sisimai do
         end
 
         havecaught.each do |ee|
-          it('is Sisimai::Data') { expect(ee).to be_a Sisimai::Data }
+          it('is SisimaiLegacy::Data') { expect(ee).to be_a SisimaiLegacy::Data }
           it('is Hash') { expect(ee.catch).to be_a Hash }
 
           if e.to_s == 'jsonobj'
@@ -241,7 +241,7 @@ describe Sisimai do
         isntmethod = Sisimai.make(sampleemail[e], hook: {})
         if isntmethod.is_a? Array
           isntmethod.each do |ee|
-            it('is Sisimai::Data') { expect(ee).to be_a Sisimai::Data }
+            it('is SisimaiLegacy::Data') { expect(ee).to be_a SisimaiLegacy::Data }
             it('is Nil') { expect(ee.catch).to be_nil }
           end
         end
@@ -274,7 +274,7 @@ describe Sisimai do
 
   describe '.dump' do
     tobetested = %w|
-      addresser recipient senderdomain destination reason timestamp 
+      addresser recipient senderdomain destination reason timestamp
       token smtpagent
     |
 
@@ -335,7 +335,7 @@ describe Sisimai do
     end
     it 'including a module information' do
       Sisimai.engine.each do |e, f|
-        expect(e).to match(/\ASisimai::/)
+        expect(e).to match(/\ASisimaiLegacy::/)
         expect(f).to be_a String
         expect(f.size).to be > 0
       end

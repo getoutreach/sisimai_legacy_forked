@@ -1,15 +1,15 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Verizon parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::Verizon parses a bounce email which created by
   # Verizon Wireless.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Verizon
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Verizon.pm
       require 'sisimai/bite/email'
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
 
       def description; return 'Verizon Wireless: http://www.verizonwireless.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Verizon
@@ -35,7 +35,7 @@ module SisimaiLegacy::Bite::Email
         end
         return nil if match < 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -60,7 +60,7 @@ module SisimaiLegacy::Bite::Email
             # The attempted recipient address does not exist.
             userunknown: ['550 - Requested action not taken: no such user here'],
           }
-          boundary00 = Sisimai::MIME.boundary(mhead['content-type']) || ''
+          boundary00 = SisimaiLegacy::MIME.boundary(mhead['content-type']) || ''
           markingsof[:rfc822] = Regexp.new('\A' << Regexp.escape('--' << boundary00 << '--') << '\z') unless boundary00.empty?
 
           while e = hasdivided.shift do
@@ -102,7 +102,7 @@ module SisimaiLegacy::Bite::Email
               if cv = e.match(/\A[ \t]+RCPT TO: (.*)\z/)
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
 
@@ -129,7 +129,7 @@ module SisimaiLegacy::Bite::Email
           startingof = { message: ['Message could not be delivered to mobile'] }
           markingsof = { rfc822:  %r/\A__BOUNDARY_STRING_HERE__\z/ }
           messagesof = { userunknown: ['No valid recipients for this MM'] }
-          boundary00 = Sisimai::MIME.boundary(mhead['content-type'])
+          boundary00 = SisimaiLegacy::MIME.boundary(mhead['content-type'])
           markingsof[:rfc822] = Regexp.new('\A' << Regexp.escape('--' << boundary00 << '--') << '\z') unless boundary00.empty?
 
           while e = hasdivided.shift do
@@ -171,16 +171,16 @@ module SisimaiLegacy::Bite::Email
               if cv = e.match(/\ATo:[ \t]+(.*)\z/)
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
-                v['recipient'] = Sisimai::Address.s3s4(cv[1])
+                v['recipient'] = SisimaiLegacy::Address.s3s4(cv[1])
                 recipients += 1
                 next
 
               elsif cv = e.match(/\AFrom:[ \t](.+)\z/)
                 # From: kijitora <kijitora@example.jp>
-                senderaddr = Sisimai::Address.s3s4(cv[1]) if senderaddr.empty?
+                senderaddr = SisimaiLegacy::Address.s3s4(cv[1]) if senderaddr.empty?
 
               elsif cv = e.match(/\ASubject:[ \t](.+)\z/)
                 #   Subject:
@@ -206,7 +206,7 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           messagesof.each_key do |r|
             # Verify each regular expression of session errors
@@ -216,7 +216,7 @@ module SisimaiLegacy::Bite::Email
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

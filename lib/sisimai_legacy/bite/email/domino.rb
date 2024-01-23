@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Domino parses a bounce email which created by IBM
-  # Domino Server. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Domino parses a bounce email which created by IBM
+  # Domino Server. Methods in the module are called from only SisimaiLegacy::Message.
   module Domino
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Domino.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Your message'],
         rfc822:  ['Content-Type: message/delivery-status'],
@@ -22,7 +22,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'IBM Domino Server'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from IBM Domino Server
@@ -39,7 +39,7 @@ module SisimaiLegacy::Bite::Email
       def scan(mhead, mbody)
         return nil unless mhead['subject'].start_with?('DELIVERY FAILURE:')
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -97,7 +97,7 @@ module SisimaiLegacy::Bite::Email
               # was not delivered to:
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] ||= e
@@ -106,7 +106,7 @@ module SisimaiLegacy::Bite::Email
             elsif cv = e.match(/\A[ ][ ]([^ ]+[@][^ ]+)\z/)
               # Continued from the line "was not delivered to:"
               #   kijitora@example.net
-              v['recipient'] = Sisimai::Address.s3s4(cv[1])
+              v['recipient'] = SisimaiLegacy::Address.s3s4(cv[1])
 
             elsif e.start_with?('because:')
               # because:
@@ -127,14 +127,14 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
-          e['recipient'] = Sisimai::Address.s3s4(e['recipient'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
+          e['recipient'] = SisimaiLegacy::Address.s3s4(e['recipient'])
 
           MessagesOf.each_key do |r|
             # Check each regular expression of Domino error messages
             next unless MessagesOf[r].any? { |a| e['diagnosis'].include?(a) }
             e['reason'] = r.to_s
-            pseudostatus = Sisimai::SMTP::Status.code(r.to_s, false)
+            pseudostatus = SisimaiLegacy::SMTP::Status.code(r.to_s, false)
             e['status'] = pseudostatus unless pseudostatus.empty?
             break
           end
@@ -147,7 +147,7 @@ module SisimaiLegacy::Bite::Email
           rfc822list << ('Subject: ' << subjecttxt)
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

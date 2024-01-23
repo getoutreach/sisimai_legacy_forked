@@ -1,6 +1,6 @@
 module SisimaiLegacy
   module Order
-    # Sisimai::Order::JSON - Make optimized order list for calling MTA modules
+    # SisimaiLegacy::Order::JSON - Make optimized order list for calling MTA modules
     # for JSON formatted bounce objects
     module JSON
       # Imported from p5-Sisimail/lib/Sisimai/Order/JSON.pm
@@ -8,14 +8,14 @@ module SisimaiLegacy
         require 'sisimai/bite/json'
 
         PatternTable = {
-          'keyname' => { 'notificationType' => ['Sisimai::Bite::JSON::AmazonSES'] },
+          'keyname' => { 'notificationType' => ['SisimaiLegacy::Bite::JSON::AmazonSES'] },
         }.freeze
 
         make_default_order = lambda do
           # Make default order of MTA(JSON) modules to be loaded
           rv = []
           begin
-            rv += Sisimai::Bite::JSON.index.map { |e| 'Sisimai::Bite::JSON::' << e }
+            rv += SisimaiLegacy::Bite::JSON.index.map { |e| 'SisimaiLegacy::Bite::JSON::' << e }
           rescue
             # Failed to load MTA(JSON) module
             next

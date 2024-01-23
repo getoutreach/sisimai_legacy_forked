@@ -1,17 +1,17 @@
 require 'spec_helper'
 require 'sisimai/mail/stdin'
 
-describe Sisimai::Mail::STDIN do
-  let(:mailobj) { Sisimai::Mail::STDIN.new(samples) }
-  let(:mockobj) { Sisimai::Mail::STDIN.new(invalid) }
+describe SisimaiLegacy::Mail::STDIN do
+  let(:mailobj) { SisimaiLegacy::Mail::STDIN.new(samples) }
+  let(:mockobj) { SisimaiLegacy::Mail::STDIN.new(invalid) }
 
   describe 'class method' do
     describe '.new' do
       context '$stdin' do
         let(:samples) { $stdin }
         subject { mailobj }
-        it 'returns Sisimai::Mail::STDIN object' do
-          is_expected.to be_a Sisimai::Mail::STDIN
+        it 'returns SisimaiLegacy::Mail::STDIN object' do
+          is_expected.to be_a SisimaiLegacy::Mail::STDIN
         end
       end
 
@@ -24,7 +24,7 @@ describe Sisimai::Mail::STDIN do
 
       context 'wrong number of arguments' do
         it 'raises ArgumentError' do
-          expect { Sisimai::Mail::STDIN.new(nil, nil) }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::STDIN.new(nil, nil) }.to raise_error(ArgumentError)
         end
       end
     end

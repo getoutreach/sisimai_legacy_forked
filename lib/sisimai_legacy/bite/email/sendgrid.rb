@@ -1,19 +1,19 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::SendGrid parses a bounce email which created by
-  # SendGrid. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::SendGrid parses a bounce email which created by
+  # SendGrid. Methods in the module are called from only SisimaiLegacy::Message.
   module SendGrid
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/SendGrid.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This is an automatically generated message from SendGrid.'],
         rfc822:  ['Content-Type: message/rfc822'],
       }.freeze
 
       def description; return 'SendGrid: http://sendgrid.com/'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       # Return-Path: <apps@sendgrid.net>
       # X-Mailer: MIME-tools 5.502 (Entity 5.502)
@@ -36,7 +36,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['return-path'] == '<apps@sendgrid.net>'
         return nil unless mhead['subject'] == 'Undelivered Mail Returned to Sender'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -96,7 +96,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; userunknown@example.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -155,9 +155,9 @@ module SisimaiLegacy::Bite::Email
                 if cv = e.match(/\AArrival-Date: (\d{4})[-](\d{2})[-](\d{2}) (\d{2})[-](\d{2})[-](\d{2})\z/)
                   # Arrival-Date: 2011-08-12 01-05-05
                   arrivaldate << 'Thu, ' << cv[3] + ' '
-                  arrivaldate << Sisimai::DateTime.monthname(0)[cv[2].to_i - 1]
+                  arrivaldate << SisimaiLegacy::DateTime.monthname(0)[cv[2].to_i - 1]
                   arrivaldate << ' ' << cv[1] + ' ' << [cv[4], cv[5], cv[6]].join(':')
-                  arrivaldate << ' ' << Sisimai::DateTime.abbr2tz('CDT')
+                  arrivaldate << ' ' << SisimaiLegacy::DateTime.abbr2tz('CDT')
                 end
                 connheader['date'] = arrivaldate
                 connvalues += 1
@@ -168,7 +168,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless recipients > 0
 
         dscontents.each do |e|
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           # Get the value of SMTP status code as a pseudo D.S.N.
           if cv = e['diagnosis'].match(/\b([45])\d\d[ \t]*/)
@@ -179,7 +179,7 @@ module SisimaiLegacy::Bite::Email
           if e['status'] == '5.0.0' || e['status'] == '4.0.0'
             # Get the value of D.S.N. from the error message or the value of
             # Diagnostic-Code header.
-            pseudostatus = Sisimai::SMTP::Status.find(e['diagnosis'])
+            pseudostatus = SisimaiLegacy::SMTP::Status.find(e['diagnosis'])
             e['status'] = pseudostatus unless pseudostatus.empty?
           end
 
@@ -189,7 +189,7 @@ module SisimaiLegacy::Bite::Email
             if !e['status'] || e['status'].end_with?('.0.0')
               # Set pseudo Status code value if the value of Status is not
               # defined or 4.0.0 or 5.0.0.
-              pseudostatus = Sisimai::SMTP::Status.code('expired')
+              pseudostatus = SisimaiLegacy::SMTP::Status.code('expired')
               e['status']  = pseudostatus unless pseudostatus.empty?
             end
           end
@@ -198,7 +198,7 @@ module SisimaiLegacy::Bite::Email
           e['command'] = commandtxt
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

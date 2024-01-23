@@ -1,6 +1,6 @@
 module SisimaiLegacy
   class Mail
-    # Sisimai::Mail::Maildir is a reader for getting contents of each email in the
+    # SisimaiLegacy::Mail::Maildir is a reader for getting contents of each email in the
     # Maildir/ directory.
     class Maildir
       # Imported from p5-Sisimail/lib/Sisimai/Mail/Maildir.pm
@@ -18,9 +18,9 @@ module SisimaiLegacy
       @@roaccessors.each { |e| attr_reader   e }
       @@rwaccessors.each { |e| attr_accessor e }
 
-      # Constructor of Sisimai::Mail::Maildir
+      # Constructor of SisimaiLegacy::Mail::Maildir
       # @param    [String] argvs                Path to Maildir/
-      # @return   [Sisimai::Mail::Maildir,Nil]  Object or nil if the argument is
+      # @return   [SisimaiLegacy::Mail::Maildir,Nil]  Object or nil if the argument is
       #                                         not a directory or does not exist
       def initialize(argv1)
         raise Errno::ENOENT  unless File.exist?(argv1)

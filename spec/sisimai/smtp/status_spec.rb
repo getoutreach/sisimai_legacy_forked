@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'sisimai/smtp/status'
 
-describe Sisimai::SMTP::Status do
-  cn = Sisimai::SMTP::Status
-  reasonlist = [ 
+describe SisimaiLegacy::SMTP::Status do
+  cn = SisimaiLegacy::SMTP::Status
+  reasonlist = [
     'blocked', 'contenterror', 'exceedlimit', 'expired', 'filtered', 'hasmoved',
     'hostunknown', 'mailboxfull', 'mailererror', 'mesgtoobig', 'networkerror',
     'norelaying', 'notaccept', 'onhold', 'rejected', 'securityerror', 'spamdetected',

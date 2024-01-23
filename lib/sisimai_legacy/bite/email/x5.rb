@@ -1,19 +1,19 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::X5 parses a bounce email which created by Unknown
-  # MTA #5. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::X5 parses a bounce email which created by Unknown
+  # MTA #5. Methods in the module are called from only SisimaiLegacy::Message.
   module X5
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/X5.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Content-Type: message/delivery-status'],
         rfc822:  ['Content-Type: message/rfc822'],
       }.freeze
 
       def description; return 'Unknown MTA #5'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Unknown MTA #5
@@ -35,20 +35,20 @@ module SisimaiLegacy::Bite::Email
           #       Mail Delivery Subsystem
           mhead['from'].split(' ').each do |f|
             # Check each element of From: header
-            next unless Sisimai::MIME.is_mimeencoded(f)
-            match += 1 if Sisimai::MIME.mimedecode([f]).include?('Mail Delivery Subsystem')
+            next unless SisimaiLegacy::MIME.is_mimeencoded(f)
+            match += 1 if SisimaiLegacy::MIME.mimedecode([f]).include?('Mail Delivery Subsystem')
             break
           end
         end
 
-        if Sisimai::MIME.is_mimeencoded(mhead['subject'])
+        if SisimaiLegacy::MIME.is_mimeencoded(mhead['subject'])
           # Subject: =?iso-2022-jp?B?UmV0dXJuZWQgbWFpbDogVXNlciB1bmtub3du?=
-          plain = Sisimai::MIME.mimedecode([mhead['subject']])
+          plain = SisimaiLegacy::MIME.mimedecode([mhead['subject']])
           match += 1 if plain.include?('Mail Delivery Subsystem')
         end
         return nil if match < 2
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -87,7 +87,7 @@ module SisimaiLegacy::Bite::Email
               # Final-Recipient: RFC822; kijitora@example.jp
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -148,11 +148,11 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']       = self.smtpagent
-          e['diagnosis'] ||= Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] ||= SisimaiLegacy::String.sweep(e['diagnosis'])
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

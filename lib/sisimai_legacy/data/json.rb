@@ -1,17 +1,17 @@
 module SisimaiLegacy
   class Data
-    # Sisimai::Data::JSON dumps parsed data object as a JSON format. This class
-    # and method should be called from the parent object "Sisimai::Data".
+    # SisimaiLegacy::Data::JSON dumps parsed data object as a JSON format. This class
+    # and method should be called from the parent object "SisimaiLegacy::Data".
     module JSON
       # Imported from p5-Sisimail/lib/Sisimai/Data/JSON.pm
       class << self
         # Data dumper(JSON)
-        # @param    [Sisimai::Data] argvs Object
+        # @param    [SisimaiLegacy::Data] argvs Object
         # @return   [String, Nil]         Dumped data or nil if the argument
         #                                 is missing
         def dump(argvs)
           return nil unless argvs
-          return nil unless argvs.is_a? Sisimai::Data
+          return nil unless argvs.is_a? SisimaiLegacy::Data
 
           if RUBY_PLATFORM.start_with?('java')
             # java-based ruby environment like JRuby.

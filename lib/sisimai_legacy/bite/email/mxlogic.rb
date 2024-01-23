@@ -1,14 +1,14 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::MXLogic parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::MXLogic parses a bounce email which created by
   # McAfee SaaS (formerly MX Logic).
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module MXLogic
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/MXLogic.pm
-      # Based on Sisimai::Bite::Email::Exim
+      # Based on SisimaiLegacy::Bite::Email::Exim
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message was created automatically by mail delivery software.'],
         rfc822:  ['Included is a copy of the message header:'],
@@ -73,7 +73,7 @@ module SisimaiLegacy::Bite::Email
       ].freeze
 
       def description; return 'McAfee SaaS'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       # X-MX-Bounce: mta/src/queue/bounce
       # X-MXL-NoteHash: ffffffffffffffff-0000000000000000000000000000000000000000
       # X-MXL-Hash: 4c9d4d411993da17-bbd4212b6c887f6c23bab7db4bd87ef5edc00758
@@ -105,7 +105,7 @@ module SisimaiLegacy::Bite::Email
         }x
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -161,7 +161,7 @@ module SisimaiLegacy::Bite::Email
               #  <kijitora@example.co.jp>: 550 5.1.1 ...
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -186,7 +186,7 @@ module SisimaiLegacy::Bite::Email
         dscontents.each do |e|
           e['agent'] = self.smtpagent
           e['lhost'] = localhost0
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'].gsub(/[-]{2}.*\z/, ''))
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'].gsub(/[-]{2}.*\z/, ''))
 
           unless e['rhost']
             # Get the remote host name
@@ -195,7 +195,7 @@ module SisimaiLegacy::Bite::Email
 
             unless e['rhost']
               # Get localhost and remote host name from Received header.
-              e['rhost'] = Sisimai::RFC5322.received(mhead['received'][-1]).pop unless mhead['received'].empty?
+              e['rhost'] = SisimaiLegacy::RFC5322.received(mhead['received'][-1]).pop unless mhead['received'].empty?
             end
           end
 
@@ -235,7 +235,7 @@ module SisimaiLegacy::Bite::Email
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

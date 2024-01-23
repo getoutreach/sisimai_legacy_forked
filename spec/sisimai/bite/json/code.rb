@@ -28,12 +28,12 @@ module SisimaiLegacy
             if outofemail.include? enginename
               # ARF, RFC3464, RFC3834
               require sprintf("sisimai/%s", enginename.downcase)
-              modulename = Module.const_get(sprintf("Sisimai::%s", enginename))
+              modulename = Module.const_get(sprintf("SisimaiLegacy::%s", enginename))
               samplepath = sprintf("set-of-emails/private/%s", enginename.downcase) if privateset
             else
               # Other MTA modules
               require sprintf("sisimai/bite/json/%s", enginename.downcase)
-              modulename = Module.const_get(sprintf("Sisimai::Bite::JSON::%s", enginename))
+              modulename = Module.const_get(sprintf("SisimaiLegacy::Bite::JSON::%s", enginename))
               samplepath = sprintf("set-of-emails/private/json-%s", enginename.downcase) if privateset
             end
 
@@ -124,17 +124,17 @@ module SisimaiLegacy
                     lb = nil  # Label
                     re = nil  # Regular expression
 
-                    mesgobject = Sisimai::Message.new(data: r, input: 'json', delivered: true)
+                    mesgobject = SisimaiLegacy::Message.new(data: r, input: 'json', delivered: true)
                     next unless mesgobject
                     next if mesgobject.void
 
-                    describe Sisimai::Message do
-                      it('#class returns Sisimai::Message') { expect(mesgobject).to be_a Sisimai::Message }
+                    describe SisimaiLegacy::Message do
+                      it('#class returns SisimaiLegacy::Message') { expect(mesgobject).to be_a SisimaiLegacy::Message }
                       it('#ds returns Array')    { expect(mesgobject.ds).to be_a Object::Array }
                       it('#header returns Hash') { expect(mesgobject.header).to be_a Object::Hash }
                       it('#rfc822 returns Hash') { expect(mesgobject.rfc822).to be_a Object::Hash }
 
-                      describe 'Sisimai::Message#ds' do
+                      describe 'SisimaiLegacy::Message#ds' do
                         mesgobject.ds.each do |ds|
                           foundindex += 1
 
@@ -190,25 +190,25 @@ module SisimaiLegacy
                             it(sprintf("%s [%s] matches %s", lb, pp, re.to_s)) { expect(ds[pp]).to match re }
                           end
                         end
-                      end # End of Sisimai::Message#ds
-                    end # End of Sisimai::Message
+                      end # End of SisimaiLegacy::Message#ds
+                    end # End of SisimaiLegacy::Message
 
-                    dataobject = Sisimai::Data.make(data: mesgobject, delivered: true)
-                    describe Sisimai::Data do
+                    dataobject = SisimaiLegacy::Data.make(data: mesgobject, delivered: true)
+                    describe SisimaiLegacy::Data do
                       next unless dataobject
                       next if dataobject.empty?
 
                       it('returns Array') { expect(dataobject).to be_a Object::Array }
                       it('have elements') { expect(dataobject.size).to be > 0 }
-                      it('[0]#class returns Sisimai::Data') { expect(dataobject[0]).to be_a Sisimai::Data }
+                      it('[0]#class returns SisimaiLegacy::Data') { expect(dataobject[0]).to be_a SisimaiLegacy::Data }
 
                       dataobject.each do |pr|
-                        # checking each Sisimai::Data object
+                        # checking each SisimaiLegacy::Data object
                         lb = sprintf("%02d-%02d", e['n'].to_i, foundindex)
 
-                        it(sprintf("%s #timestamp is a Sisimai::Time", lb)) { expect(pr.timestamp).to be_a Sisimai::Time }
-                        it(sprintf("%s #addresser is a Sisimai::Address", lb)) { expect(pr.addresser).to be_a Sisimai::Address }
-                        it(sprintf("%s #recipient is a Sisimai::Address", lb)) { expect(pr.recipient).to be_a Sisimai::Address }
+                        it(sprintf("%s #timestamp is a SisimaiLegacy::Time", lb)) { expect(pr.timestamp).to be_a SisimaiLegacy::Time }
+                        it(sprintf("%s #addresser is a SisimaiLegacy::Address", lb)) { expect(pr.addresser).to be_a SisimaiLegacy::Address }
+                        it(sprintf("%s #recipient is a SisimaiLegacy::Address", lb)) { expect(pr.recipient).to be_a SisimaiLegacy::Address }
 
                         it(sprintf("%s #replycode is not nil", lb))      { expect(pr.replycode).not_to be nil }
                         it(sprintf("%s #subject is not nil", lb))        { expect(pr.subject).not_to be nil }
@@ -324,7 +324,7 @@ module SisimaiLegacy
                       end
                     end
 
-                  end # End of Sisimai::Mail
+                  end # End of SisimaiLegacy::Mail
 
                 end
 

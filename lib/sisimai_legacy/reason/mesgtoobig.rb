@@ -37,7 +37,7 @@ module SisimaiLegacy
         end
 
         # The message size is too big for the remote host
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is too big message size
         #                                   false: is not big
         # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -45,7 +45,7 @@ module SisimaiLegacy
           return true if argvs.reason == 'mesgtoobig'
 
           statuscode = argvs.deliverystatus || ''
-          tempreason = Sisimai::SMTP::Status.name(statuscode)
+          tempreason = SisimaiLegacy::SMTP::Status.name(statuscode)
 
           # Delivery status code points "mesgtoobig".
           # Status: 5.3.4

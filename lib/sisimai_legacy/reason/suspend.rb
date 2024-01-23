@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Suspend checks the bounce reason is C<suspend> or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::Suspend checks the bounce reason is C<suspend> or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a recipient account is being suspended due to
     # unpaid or other reasons.
@@ -38,7 +38,7 @@ module SisimaiLegacy
         end
 
         # The envelope recipient's mailbox is suspended or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is mailbox suspended
         #                                   false: is not suspended
         # @see http://www.ietf.org/rfc/rfc2822.txt

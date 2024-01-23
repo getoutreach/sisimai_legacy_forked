@@ -1,9 +1,9 @@
 module SisimaiLegacy
   module Rhost
-    # Sisimai::Rhost detects the bounce reason from the content of Sisimai::Data
+    # SisimaiLegacy::Rhost detects the bounce reason from the content of SisimaiLegacy::Data
     # object as an argument of get() method when the value of "rhost" of the object
     # is "lsean.ezweb.ne.jp" or "msmx.au.com".
-    # This class is called only Sisimai::Data class.
+    # This class is called only SisimaiLegacy::Data class.
     module KDDI
       class << self
         # Imported from p5-Sisimail/lib/Sisimai/Rhost/KDDI.pm
@@ -13,7 +13,7 @@ module SisimaiLegacy
         }.freeze
 
         # Detect bounce reason from au (KDDI)
-        # @param    [Sisimai::Data] argvs   Parsed email object
+        # @param    [SisimaiLegacy::Data] argvs   Parsed email object
         # @return   [String]                The bounce reason for au.com or ezweb.ne.jp
         def get(argvs)
           statusmesg = argvs.diagnosticcode

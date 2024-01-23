@@ -1,6 +1,6 @@
 module SisimaiLegacy
   module Bite
-    # Sisimai::Bite::Email- Base class for Sisimai::Bite::Email::*
+    # SisimaiLegacy::Bite::Email- Base class for SisimaiLegacy::Bite::Email::*
     module Email
       class << self
         # Imported from p5-Sisimail/lib/Sisimai/Bite/Email.pm

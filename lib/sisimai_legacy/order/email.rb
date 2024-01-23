@@ -1,9 +1,9 @@
 module SisimaiLegacy
   module Order
-    # Sisimai::Order::Email makes optimized order list which include MTA modules
+    # SisimaiLegacy::Order::Email makes optimized order list which include MTA modules
     # to be loaded on first from MTA specific headers in the bounce mail headers
     # such as X-Failed-Recipients.
-    # This module are called from only Sisimai::Message::Email.
+    # This module are called from only SisimaiLegacy::Message::Email.
     module Email
       # Imported from p5-Sisimail/lib/Sisimai/Order/Email.pm
       class << self
@@ -12,73 +12,73 @@ module SisimaiLegacy
         EngineOrder1 = [
           # These modules have many subject patterns or have MIME encoded subjects
           # which is hard to code as regular expression
-          'Sisimai::Bite::Email::Exim',
-          'Sisimai::Bite::Email::Exchange2003',
+          'SisimaiLegacy::Bite::Email::Exim',
+          'SisimaiLegacy::Bite::Email::Exchange2003',
         ].freeze
         EngineOrder2 = [
           # These modules have no MTA specific header and did not listed in the
           # following subject header based regular expressions.
-          'Sisimai::Bite::Email::Exchange2007',
-          'Sisimai::Bite::Email::Facebook',
-          'Sisimai::Bite::Email::KDDI',
+          'SisimaiLegacy::Bite::Email::Exchange2007',
+          'SisimaiLegacy::Bite::Email::Facebook',
+          'SisimaiLegacy::Bite::Email::KDDI',
         ].freeze
         EngineOrder3 = [
           # These modules have no MTA specific header but listed in the following
           # subject header based regular expressions.
-          'Sisimai::Bite::Email::Qmail',
-          'Sisimai::Bite::Email::Notes',
-          'Sisimai::Bite::Email::MessagingServer',
-          'Sisimai::Bite::Email::Domino',
-          'Sisimai::Bite::Email::EinsUndEins',
-          'Sisimai::Bite::Email::OpenSMTPD',
-          'Sisimai::Bite::Email::MXLogic',
-          'Sisimai::Bite::Email::Postfix',
-          'Sisimai::Bite::Email::Sendmail',
-          'Sisimai::Bite::Email::Courier',
-          'Sisimai::Bite::Email::IMailServer',
-          'Sisimai::Bite::Email::SendGrid',
-          'Sisimai::Bite::Email::Bigfoot',
-          'Sisimai::Bite::Email::X4',
+          'SisimaiLegacy::Bite::Email::Qmail',
+          'SisimaiLegacy::Bite::Email::Notes',
+          'SisimaiLegacy::Bite::Email::MessagingServer',
+          'SisimaiLegacy::Bite::Email::Domino',
+          'SisimaiLegacy::Bite::Email::EinsUndEins',
+          'SisimaiLegacy::Bite::Email::OpenSMTPD',
+          'SisimaiLegacy::Bite::Email::MXLogic',
+          'SisimaiLegacy::Bite::Email::Postfix',
+          'SisimaiLegacy::Bite::Email::Sendmail',
+          'SisimaiLegacy::Bite::Email::Courier',
+          'SisimaiLegacy::Bite::Email::IMailServer',
+          'SisimaiLegacy::Bite::Email::SendGrid',
+          'SisimaiLegacy::Bite::Email::Bigfoot',
+          'SisimaiLegacy::Bite::Email::X4',
         ].freeze
         EngineOrder4 = [
           # These modules have no MTA specific headers and there are few samples or
           # too old MTA
-          'Sisimai::Bite::Email::Verizon',
-          'Sisimai::Bite::Email::InterScanMSS',
-          'Sisimai::Bite::Email::MailFoundry',
-          'Sisimai::Bite::Email::ApacheJames',
-          'Sisimai::Bite::Email::Biglobe',
-          'Sisimai::Bite::Email::EZweb',
-          'Sisimai::Bite::Email::X5',
-          'Sisimai::Bite::Email::X3',
-          'Sisimai::Bite::Email::X2',
-          'Sisimai::Bite::Email::X1',
-          'Sisimai::Bite::Email::V5sendmail',
+          'SisimaiLegacy::Bite::Email::Verizon',
+          'SisimaiLegacy::Bite::Email::InterScanMSS',
+          'SisimaiLegacy::Bite::Email::MailFoundry',
+          'SisimaiLegacy::Bite::Email::ApacheJames',
+          'SisimaiLegacy::Bite::Email::Biglobe',
+          'SisimaiLegacy::Bite::Email::EZweb',
+          'SisimaiLegacy::Bite::Email::X5',
+          'SisimaiLegacy::Bite::Email::X3',
+          'SisimaiLegacy::Bite::Email::X2',
+          'SisimaiLegacy::Bite::Email::X1',
+          'SisimaiLegacy::Bite::Email::V5sendmail',
         ].freeze
         EngineOrder5 = [
           # These modules have one or more MTA specific headers but other headers
           # also required for detecting MTA name
-          'Sisimai::Bite::Email::Google',
-          'Sisimai::Bite::Email::Outlook',
-          'Sisimai::Bite::Email::MailRu',
-          'Sisimai::Bite::Email::MessageLabs',
-          'Sisimai::Bite::Email::MailMarshalSMTP',
-          'Sisimai::Bite::Email::MFILTER',
+          'SisimaiLegacy::Bite::Email::Google',
+          'SisimaiLegacy::Bite::Email::Outlook',
+          'SisimaiLegacy::Bite::Email::MailRu',
+          'SisimaiLegacy::Bite::Email::MessageLabs',
+          'SisimaiLegacy::Bite::Email::MailMarshalSMTP',
+          'SisimaiLegacy::Bite::Email::MFILTER',
         ].freeze
         EngineOrder9 = [
           # These modules have one or more MTA specific headers
-          'Sisimai::Bite::Email::Aol',
-          'Sisimai::Bite::Email::Yahoo',
-          'Sisimai::Bite::Email::AmazonSES',
-          'Sisimai::Bite::Email::GMX',
-          'Sisimai::Bite::Email::Yandex',
-          'Sisimai::Bite::Email::ReceivingSES',
-          'Sisimai::Bite::Email::Office365',
-          'Sisimai::Bite::Email::AmazonWorkMail',
-          'Sisimai::Bite::Email::Zoho',
-          'Sisimai::Bite::Email::McAfee',
-          'Sisimai::Bite::Email::Activehunter',
-          'Sisimai::Bite::Email::SurfControl',
+          'SisimaiLegacy::Bite::Email::Aol',
+          'SisimaiLegacy::Bite::Email::Yahoo',
+          'SisimaiLegacy::Bite::Email::AmazonSES',
+          'SisimaiLegacy::Bite::Email::GMX',
+          'SisimaiLegacy::Bite::Email::Yandex',
+          'SisimaiLegacy::Bite::Email::ReceivingSES',
+          'SisimaiLegacy::Bite::Email::Office365',
+          'SisimaiLegacy::Bite::Email::AmazonWorkMail',
+          'SisimaiLegacy::Bite::Email::Zoho',
+          'SisimaiLegacy::Bite::Email::McAfee',
+          'SisimaiLegacy::Bite::Email::Activehunter',
+          'SisimaiLegacy::Bite::Email::SurfControl',
         ].freeze
 
         # This variable don't hold MTA name which have one or more MTA specific
@@ -86,66 +86,66 @@ module SisimaiLegacy
         PatternTable = {
           'subject' => {
             'delivery' => [
-              'Sisimai::Bite::Email::Exim',
-              'Sisimai::Bite::Email::Courier',
-              'Sisimai::Bite::Email::Google',
-              'Sisimai::Bite::Email::Outlook',
-              'Sisimai::Bite::Email::Domino',
-              'Sisimai::Bite::Email::OpenSMTPD',
-              'Sisimai::Bite::Email::EinsUndEins',
-              'Sisimai::Bite::Email::InterScanMSS',
-              'Sisimai::Bite::Email::MailFoundry',
-              'Sisimai::Bite::Email::X4',
-              'Sisimai::Bite::Email::X3',
-              'Sisimai::Bite::Email::X2',
+              'SisimaiLegacy::Bite::Email::Exim',
+              'SisimaiLegacy::Bite::Email::Courier',
+              'SisimaiLegacy::Bite::Email::Google',
+              'SisimaiLegacy::Bite::Email::Outlook',
+              'SisimaiLegacy::Bite::Email::Domino',
+              'SisimaiLegacy::Bite::Email::OpenSMTPD',
+              'SisimaiLegacy::Bite::Email::EinsUndEins',
+              'SisimaiLegacy::Bite::Email::InterScanMSS',
+              'SisimaiLegacy::Bite::Email::MailFoundry',
+              'SisimaiLegacy::Bite::Email::X4',
+              'SisimaiLegacy::Bite::Email::X3',
+              'SisimaiLegacy::Bite::Email::X2',
             ],
             'noti' => [
-              'Sisimai::Bite::Email::Qmail',
-              'Sisimai::Bite::Email::Sendmail',
-              'Sisimai::Bite::Email::Google',
-              'Sisimai::Bite::Email::Outlook',
-              'Sisimai::Bite::Email::Courier',
-              'Sisimai::Bite::Email::MessagingServer',
-              'Sisimai::Bite::Email::OpenSMTPD',
-              'Sisimai::Bite::Email::X4',
-              'Sisimai::Bite::Email::X3',
-              'Sisimai::Bite::Email::MFILTER',
+              'SisimaiLegacy::Bite::Email::Qmail',
+              'SisimaiLegacy::Bite::Email::Sendmail',
+              'SisimaiLegacy::Bite::Email::Google',
+              'SisimaiLegacy::Bite::Email::Outlook',
+              'SisimaiLegacy::Bite::Email::Courier',
+              'SisimaiLegacy::Bite::Email::MessagingServer',
+              'SisimaiLegacy::Bite::Email::OpenSMTPD',
+              'SisimaiLegacy::Bite::Email::X4',
+              'SisimaiLegacy::Bite::Email::X3',
+              'SisimaiLegacy::Bite::Email::MFILTER',
             ],
             'return' => [
-              'Sisimai::Bite::Email::Postfix',
-              'Sisimai::Bite::Email::Sendmail',
-              'Sisimai::Bite::Email::SendGrid',
-              'Sisimai::Bite::Email::Bigfoot',
-              'Sisimai::Bite::Email::X1',
-              'Sisimai::Bite::Email::EinsUndEins',
-              'Sisimai::Bite::Email::Biglobe',
-              'Sisimai::Bite::Email::V5sendmail',
+              'SisimaiLegacy::Bite::Email::Postfix',
+              'SisimaiLegacy::Bite::Email::Sendmail',
+              'SisimaiLegacy::Bite::Email::SendGrid',
+              'SisimaiLegacy::Bite::Email::Bigfoot',
+              'SisimaiLegacy::Bite::Email::X1',
+              'SisimaiLegacy::Bite::Email::EinsUndEins',
+              'SisimaiLegacy::Bite::Email::Biglobe',
+              'SisimaiLegacy::Bite::Email::V5sendmail',
             ],
             'undeliver' => [
-              'Sisimai::Bite::Email::Postfix',
-              'Sisimai::Bite::Email::Exchange2007',
-              'Sisimai::Bite::Email::Exchange2003',
-              'Sisimai::Bite::Email::Notes',
-              'Sisimai::Bite::Email::Office365',
-              'Sisimai::Bite::Email::Verizon',
-              'Sisimai::Bite::Email::SendGrid',
-              'Sisimai::Bite::Email::IMailServer',
-              'Sisimai::Bite::Email::MailMarshalSMTP',
+              'SisimaiLegacy::Bite::Email::Postfix',
+              'SisimaiLegacy::Bite::Email::Exchange2007',
+              'SisimaiLegacy::Bite::Email::Exchange2003',
+              'SisimaiLegacy::Bite::Email::Notes',
+              'SisimaiLegacy::Bite::Email::Office365',
+              'SisimaiLegacy::Bite::Email::Verizon',
+              'SisimaiLegacy::Bite::Email::SendGrid',
+              'SisimaiLegacy::Bite::Email::IMailServer',
+              'SisimaiLegacy::Bite::Email::MailMarshalSMTP',
             ],
             'failure' => [
-              'Sisimai::Bite::Email::Qmail',
-              'Sisimai::Bite::Email::Domino',
-              'Sisimai::Bite::Email::Google',
-              'Sisimai::Bite::Email::Outlook',
-              'Sisimai::Bite::Email::MailRu',
-              'Sisimai::Bite::Email::X4',
-              'Sisimai::Bite::Email::X2',
-              'Sisimai::Bite::Email::MFILTER',
+              'SisimaiLegacy::Bite::Email::Qmail',
+              'SisimaiLegacy::Bite::Email::Domino',
+              'SisimaiLegacy::Bite::Email::Google',
+              'SisimaiLegacy::Bite::Email::Outlook',
+              'SisimaiLegacy::Bite::Email::MailRu',
+              'SisimaiLegacy::Bite::Email::X4',
+              'SisimaiLegacy::Bite::Email::X2',
+              'SisimaiLegacy::Bite::Email::MFILTER',
             ],
             'warning' => [
-              'Sisimai::Bite::Email::Postfix',
-              'Sisimai::Bite::Email::Sendmail',
-              'Sisimai::Bite::Email::Exim',
+              'SisimaiLegacy::Bite::Email::Postfix',
+              'SisimaiLegacy::Bite::Email::Sendmail',
+              'SisimaiLegacy::Bite::Email::Exim',
             ],
           },
         }.freeze
@@ -153,7 +153,7 @@ module SisimaiLegacy
         # @abstract Make default order of MTA modules to be loaded
         # @return   [Array] Default order list of MTA modules
         def default
-          return Sisimai::Bite::Email.index.map { |e| 'Sisimai::Bite::Email::' << e }
+          return SisimaiLegacy::Bite::Email.index.map { |e| 'SisimaiLegacy::Bite::Email::' << e }
         end
 
         # @abstract Get regular expression patterns for specified field
@@ -178,7 +178,7 @@ module SisimaiLegacy
         # @abstract Make email header list in each MTA module
         # @return   [Hash] Header list to be parsed
         def headers
-          order = Sisimai::Bite::Email.heads.map { |e| 'Sisimai::Bite::Email::' << e }
+          order = SisimaiLegacy::Bite::Email.heads.map { |e| 'SisimaiLegacy::Bite::Email::' << e }
           table = {}
           skips = { 'return-path' => 1, 'x-mailer' => 1 }
 

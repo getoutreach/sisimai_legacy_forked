@@ -5,7 +5,7 @@ require 'sisimai_legacy/version'
 
 Gem::Specification.new do |spec|
   spec.name    = 'sisimai_legacy'
-  spec.version = Sisimai::VERSION
+  spec.version = SisimaiLegacy::VERSION
   spec.authors = ['azumakuniyuki']
   spec.email   = ['azumakuniyuki+rubygems.org@gmail.com']
 

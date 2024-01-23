@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::mFILTER parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::mFILTER parses a bounce email which created by
   # Digital Arts m-FILTER.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module MFILTER
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/mFILTER.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         error:   ['-------server message'],
         command: ['-------SMTP command'],
@@ -35,7 +35,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['x-mailer'].to_s == 'm-FILTER'
         return nil unless mhead['subject'] == 'failure notice'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -93,7 +93,7 @@ module SisimaiLegacy::Bite::Email
               # kijitora@example.jp
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -128,21 +128,21 @@ module SisimaiLegacy::Bite::Email
           unless mhead['received'].empty?
             # Get localhost and remote host name from Received header.
             rheads = mhead['received']
-            rhosts = Sisimai::RFC5322.received(rheads[-1])
+            rhosts = SisimaiLegacy::RFC5322.received(rheads[-1])
 
-            e['lhost'] ||= Sisimai::RFC5322.received(rheads[0]).shift
+            e['lhost'] ||= SisimaiLegacy::RFC5322.received(rheads[0]).shift
             while ee = rhosts.shift do
               # Avoid "... by m-FILTER"
               next unless ee.include?('.')
               e['rhost'] = ee
             end
           end
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e['agent']     = self.smtpagent
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

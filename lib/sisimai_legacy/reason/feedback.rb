@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Feedback is for only returning text and description.
-    # This class is called only from Sisimai.reason method and Sisimai::ARF class.
+    # SisimaiLegacy::Reason::Feedback is for only returning text and description.
+    # This class is called only from Sisimai.reason method and SisimaiLegacy::ARF class.
     module Feedback
       # Imported from p5-Sisimail/lib/Sisimai/Reason/Feedback.pm
       class << self

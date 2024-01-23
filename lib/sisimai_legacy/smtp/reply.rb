@@ -56,7 +56,7 @@
 #
 module SisimaiLegacy
   module SMTP
-    # Sisimai::SMTP::Reply is utilities for getting SMTP Reply Code value from
+    # SisimaiLegacy::SMTP::Reply is utilities for getting SMTP Reply Code value from
     # error message text.
     module Reply
       # Imported from p5-Sisimail/lib/Sisimai/SMTP/Reply.pm

@@ -1,8 +1,8 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::SpamDetected checks the bounce reason is "spamdetected"
+    # SisimaiLegacy::Reason::SpamDetected checks the bounce reason is "spamdetected"
     # due to Spam content in the message or not. This class is called only
-    # Sisimai::Reason class.
+    # SisimaiLegacy::Reason class.
     #
     # This is the error that the message you sent was rejected by "spam filter"
     # which is running on the remote host.
@@ -155,14 +155,14 @@ module SisimaiLegacy
         end
 
         # Rejected due to spam content in the message
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: rejected due to spam
         #                                   false: is not rejected due to spam
         # @see http://www.ietf.org/rfc/rfc2822.txt
         def true(argvs)
           return nil  if argvs.deliverystatus.empty?
           return true if argvs.reason == 'spamdetected'
-          return true if Sisimai::SMTP::Status.name(argvs.deliverystatus) == 'spamdetected'
+          return true if SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus) == 'spamdetected'
           return true if match(argvs.diagnosticcode.downcase)
           return false
         end

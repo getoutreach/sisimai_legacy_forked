@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::OnHold checks the bounce reason is "onhold" or not. This
-    # class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::OnHold checks the bounce reason is "onhold" or not. This
+    # class is called only SisimaiLegacy::Reason class.
     #
     # Sisimai will set C<onhold> to the reason of email bounce if there is no
     # (or less) detailed information about email bounce for judging the reason.
@@ -20,14 +20,14 @@ module SisimaiLegacy
         end
 
         # On hold, Could not decide the bounce reason...
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: Status code is "onhold"
         #                                   false: is not "onhold"
         # @see http://www.ietf.org/rfc/rfc2822.txt
         def true(argvs)
           return nil  if argvs.deliverystatus.empty?
           return true if argvs.reason == 'onhold'
-          return true if Sisimai::SMTP::Status.name(argvs.deliverystatus) == 'onhold'
+          return true if SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus) == 'onhold'
           return false
         end
       end

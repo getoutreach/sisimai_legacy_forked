@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::Data generate parsed data from Sisimai::Message object.
+  # SisimaiLegacy::Data generate parsed data from SisimaiLegacy::Message object.
   class Data
     # Imported from p5-Sisimail/lib/Sisimai/Data.pm
     require 'sisimai/address'
@@ -19,9 +19,9 @@ module SisimaiLegacy
       :reason,          # [String] Bounce reason
       :action,          # [String] The value of Action: header
       :subject,         # [String] UTF-8 Subject text
-      :timestamp,       # [Sisimai::Time] Date: header in the original message
-      :addresser,       # [Sisimai::Address] From address
-      :recipient,       # [Sisimai::Address] Recipient address which bounced
+      :timestamp,       # [SisimaiLegacy::Time] Date: header in the original message
+      :addresser,       # [SisimaiLegacy::Address] From address
+      :recipient,       # [SisimaiLegacy::Address] Recipient address which bounced
       :messageid,       # [String] Message-Id: header
       :replycode,       # [String] SMTP Reply Code
       :smtpagent,       # [String] Module(Engine) name
@@ -37,22 +37,22 @@ module SisimaiLegacy
     ]
     @@rwaccessors.each { |e| attr_accessor e }
 
-    EndOfEmail = Sisimai::String.EOM
-    RetryIndex = Sisimai::Reason.retry
-    RFC822Head = Sisimai::RFC5322.HEADERFIELDS(:all)
+    EndOfEmail = SisimaiLegacy::String.EOM
+    RetryIndex = SisimaiLegacy::Reason.retry
+    RFC822Head = SisimaiLegacy::RFC5322.HEADERFIELDS(:all)
     AddrHeader = { addresser: RFC822Head[:addresser], recipient: RFC822Head[:recipient] }.freeze
     ActionHead = { failure: 'failed', expired: 'delayed' }.freeze
 
-    # Constructor of Sisimai::Data
+    # Constructor of SisimaiLegacy::Data
     # @param    [Hash] argvs    Data
-    # @return   [Sisimai::Data] Structured email data
+    # @return   [SisimaiLegacy::Data] Structured email data
     def initialize(argvs)
       # Create email address object
-      as = Sisimai::Address.make(argvs['addresser'])
-      ar = Sisimai::Address.make(address: argvs['recipient'])
+      as = SisimaiLegacy::Address.make(argvs['addresser'])
+      ar = SisimaiLegacy::Address.make(address: argvs['recipient'])
 
-      return nil unless as.is_a? Sisimai::Address
-      return nil unless ar.is_a? Sisimai::Address
+      return nil unless as.is_a? SisimaiLegacy::Address
+      return nil unless ar.is_a? SisimaiLegacy::Address
       return nil if as.void
       return nil if ar.void
 
@@ -61,8 +61,8 @@ module SisimaiLegacy
       @senderdomain = as.host
       @destination  = ar.host
       @alias = argvs['alias'] || ''
-      @token = Sisimai::String.token(as.address, ar.address, argvs['timestamp'])
-      @timestamp = Sisimai::Time.parse(::Time.at(argvs['timestamp']).to_s)
+      @token = SisimaiLegacy::String.token(as.address, ar.address, argvs['timestamp'])
+      @timestamp = SisimaiLegacy::Time.parse(::Time.at(argvs['timestamp']).to_s)
       @timezoneoffset = argvs['timezoneoffset'] || '+0000'
       @lhost          = argvs['lhost']          || ''
       @rhost          = argvs['rhost']          || ''
@@ -79,19 +79,19 @@ module SisimaiLegacy
       @feedbacktype   = argvs['feedbacktype']   || ''
       @action         = argvs['action']         || ''
       @replycode      = argvs['replycode']      || ''
-      @replycode      = Sisimai::SMTP::Reply.find(argvs['diagnosticcode']) if @replycode.empty?
+      @replycode      = SisimaiLegacy::SMTP::Reply.find(argvs['diagnosticcode']) if @replycode.empty?
       @softbounce     = argvs['softbounce']     || ''
     end
 
-    # Another constructor of Sisimai::Data
-    # @param          [Sisimai::Message] data Data Object
+    # Another constructor of SisimaiLegacy::Data
+    # @param          [SisimaiLegacy::Message] data Data Object
     # @param          [Hash] argvs            Parser options
     # @options argvs  [Boolean] delivered     true: Including "delivered" reason
-    # @return         [Array, Nil]            List of Sisimai::Data or Nil if the
-    #                                         argument is not Sisimai::Message object
+    # @return         [Array, Nil]            List of SisimaiLegacy::Data or Nil if the
+    #                                         argument is not SisimaiLegacy::Message object
     def self.make(data: nil, **argvs)
       return nil unless data
-      return nil unless data.is_a? Sisimai::Message
+      return nil unless data.is_a? SisimaiLegacy::Message
 
       messageobj = data
       rfc822data = messageobj.rfc822
@@ -158,7 +158,7 @@ module SisimaiLegacy
           next unless rfc822data.key?(h)
           next if rfc822data[h].empty?
 
-          j = Sisimai::Address.find(rfc822data[h]) || []
+          j = SisimaiLegacy::Address.find(rfc822data[h]) || []
           next if j.empty?
           p['addresser'] = j[0]
           break
@@ -167,7 +167,7 @@ module SisimaiLegacy
         unless p['addresser']
           # Fallback: Get the sender address from the header of the bounced
           # email if the address is not set at loop above.
-          j = Sisimai::Address.find(messageobj.header['to']) || []
+          j = SisimaiLegacy::Address.find(messageobj.header['to']) || []
           p['addresser'] = j[0] unless j.empty?
         end
         next unless p['addresser']
@@ -192,7 +192,7 @@ module SisimaiLegacy
 
         while v = datevalues.shift do
           # Parse each date value in the array
-          datestring = Sisimai::DateTime.parse(v)
+          datestring = SisimaiLegacy::DateTime.parse(v)
           break if datestring
         end
 
@@ -200,14 +200,14 @@ module SisimaiLegacy
           # Get the value of timezone offset from datestring
           # Wed, 26 Feb 2014 06:05:48 -0500
           datestring = cv[1]
-          zoneoffset = Sisimai::DateTime.tz2second(cv[2])
+          zoneoffset = SisimaiLegacy::DateTime.tz2second(cv[2])
           p['timezoneoffset'] = cv[2]
         end
 
         begin
           # Convert from the date string to an object then calculate time
           # zone offset.
-          t = Sisimai::Time.strptime(datestring, '%a, %d %b %Y %T')
+          t = SisimaiLegacy::Time.strptime(datestring, '%a, %d %b %Y %T')
           p['timestamp'] = (t.to_time.to_i - zoneoffset) || nil
         rescue
           warn ' ***warning: Failed to strptime ' << datestring.to_s
@@ -219,8 +219,8 @@ module SisimaiLegacy
         unless recvheader.empty?
           # Get localhost and remote host name from Received header.
           %w[lhost rhost].each { |a| e[a] ||= '' }
-          e['lhost'] = Sisimai::RFC5322.received(recvheader[0]).shift if e['lhost'].empty?
-          e['rhost'] = Sisimai::RFC5322.received(recvheader[-1]).pop  if e['rhost'].empty?
+          e['lhost'] = SisimaiLegacy::RFC5322.received(recvheader[0]).shift if e['lhost'].empty?
+          e['rhost'] = SisimaiLegacy::RFC5322.received(recvheader[-1]).pop  if e['rhost'].empty?
         end
 
         # Remove square brackets and curly brackets from the host variable
@@ -261,8 +261,8 @@ module SisimaiLegacy
 
         unless p['diagnosticcode'].empty?
           # Count the number of D.S.N. and SMTP Reply Code
-          vs = Sisimai::SMTP::Status.find(p['diagnosticcode'])
-          vr = Sisimai::SMTP::Reply.find(p['diagnosticcode'])
+          vs = SisimaiLegacy::SMTP::Status.find(p['diagnosticcode'])
+          vr = SisimaiLegacy::SMTP::Reply.find(p['diagnosticcode'])
           vm = 0
           re = nil
 
@@ -288,7 +288,7 @@ module SisimaiLegacy
             # 550-5.7.1 this message has been blocked. Please visit
             # 550 5.7.1 https://support.google.com/mail/answer/188131 for more information.
             p['diagnosticcode'].gsub!(re, ' ')
-            p['diagnosticdoee'] = Sisimai::String.sweep(p['diagnosticcode'])
+            p['diagnosticdoee'] = SisimaiLegacy::String.sweep(p['diagnosticcode'])
           end
         end
         p['diagnostictype'] ||= 'X-UNIX' if p['reason'] == 'mailererror'
@@ -321,14 +321,14 @@ module SisimaiLegacy
           end
         end
 
-        o = Sisimai::Data.new(p)
+        o = SisimaiLegacy::Data.new(p)
         next unless o.recipient
 
         if o.reason.empty? || RetryIndex.index(o.reason)
           # Decide the reason of email bounce
           r = ''
-          r = Sisimai::Rhost.get(o) if Sisimai::Rhost.match(o.rhost) # Remote host dependent error
-          r = Sisimai::Reason.get(o) if r.empty?
+          r = SisimaiLegacy::Rhost.get(o) if SisimaiLegacy::Rhost.match(o.rhost) # Remote host dependent error
+          r = SisimaiLegacy::Reason.get(o) if r.empty?
           r = 'undefined' if r.empty?
           o.reason = r
         end
@@ -345,7 +345,7 @@ module SisimaiLegacy
           if o.softbounce.to_s.empty?
             # The value is not set yet
             textasargv = (p['deliverystatus'] + ' ' + p['diagnosticcode']).lstrip
-            softorhard = Sisimai::SMTP::Error.soft_or_hard(o.reason, textasargv)
+            softorhard = SisimaiLegacy::SMTP::Error.soft_or_hard(o.reason, textasargv)
 
             o.softbounce = if softorhard.size > 0
                              # Returned value is "soft" or "hard"
@@ -359,9 +359,9 @@ module SisimaiLegacy
           if o.deliverystatus.empty?
             # Set pseudo status code
             textasargv = (o.replycode + ' ' + p['diagnosticcode']).lstrip
-            getchecked = Sisimai::SMTP::Error.is_permanent(textasargv)
+            getchecked = SisimaiLegacy::SMTP::Error.is_permanent(textasargv)
             tmpfailure = getchecked.nil? ? false : (getchecked ? false : true)
-            pseudocode = Sisimai::SMTP::Status.code(o.reason, tmpfailure)
+            pseudocode = SisimaiLegacy::SMTP::Status.code(o.reason, tmpfailure)
 
             unless pseudocode.empty?
               # Set the value of "deliverystatus" and "softbounce"
@@ -369,7 +369,7 @@ module SisimaiLegacy
 
               if o.softbounce < 0
                 # set the value of "softbounce" again when the value is -1
-                softorhard = Sisimai::SMTP::Error.soft_or_hard(o.reason, pseudocode)
+                softorhard = SisimaiLegacy::SMTP::Error.soft_or_hard(o.reason, pseudocode)
 
                 o.softbounce = if softorhard.size > 0
                                  # Returned value is "soft" or "hard"
@@ -415,7 +415,7 @@ module SisimaiLegacy
     #                           argument is neither "json" nor "yaml"
     def dump(type = 'json')
       return nil unless %w[json yaml].index(type)
-      referclass = 'Sisimai::Data::' << type.upcase
+      referclass = 'SisimaiLegacy::Data::' << type.upcase
 
       begin
         require referclass.downcase.gsub('::', '/')
@@ -428,7 +428,7 @@ module SisimaiLegacy
     end
 
     # JSON handler
-    # @return   [String]            JSON string converted from Sisimai::Data
+    # @return   [String]            JSON string converted from SisimaiLegacy::Data
     def to_json(*)
       return self.dump('json')
     end

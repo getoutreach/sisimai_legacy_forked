@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'sisimai/order'
 
-describe Sisimai::Order do
-  cn = Sisimai::Order
+describe SisimaiLegacy::Order do
+  cn = SisimaiLegacy::Order
   describe '.default' do
     it('returns Array') { expect(cn.default).to be_a Array }
   end

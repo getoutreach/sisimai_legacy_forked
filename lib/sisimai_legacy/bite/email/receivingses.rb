@@ -1,14 +1,14 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::ReceivingSES parses a bounce email which created
+  # SisimaiLegacy::Bite::Email::ReceivingSES parses a bounce email which created
   # by Amazon Simple Email Service. Methods in the module are called from
-  # only Sisimai::Message.
+  # only SisimaiLegacy::Message.
   module ReceivingSES
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/ReceivingSES.pm
       require 'sisimai/bite/email'
 
       # http://aws.amazon.com/ses/
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message could not be delivered.'],
         rfc822:  ['content-type: text/rfc822-headers'],
@@ -22,7 +22,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Amazon SES(Receiving): http://aws.amazon.com/ses/'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       # X-SES-Outgoing: 2015.10.01-54.240.27.7
       # Feedback-ID: 1.us-west-2.HX6/J9OVlHTadQhEu1+wdF9DBj6n6Pa9sW5Y/0pSOi8=:AmazonSES
@@ -44,7 +44,7 @@ module SisimaiLegacy::Bite::Email
         # :received => %r/.+[.]smtp-out[.].+[.]amazonses[.]com\b/,
         return nil unless mhead['x-ses-outgoing']
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -104,7 +104,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; kijitora@example.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -171,7 +171,7 @@ module SisimaiLegacy::Bite::Email
         dscontents.each do |e|
           # Set default values if each value is empty.
           connheader.each_key { |a| e[a] ||= connheader[a] || '' }
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'].gsub(/\\n/, ' '))
 
           if e['status'].to_s.start_with?('5.0.0', '5.1.0', '4.0.0', '4.1.0')
             # Get other D.S.N. value from the error message
@@ -181,7 +181,7 @@ module SisimaiLegacy::Bite::Email
               # 5.1.0 - Unknown address error 550-'5.7.1 ...
               errormessage = cv[1]
             end
-            pseudostatus = Sisimai::SMTP::Status.find(errormessage)
+            pseudostatus = SisimaiLegacy::SMTP::Status.find(errormessage)
             e['status'] = pseudostatus unless pseudostatus.empty?
           end
 
@@ -192,11 +192,11 @@ module SisimaiLegacy::Bite::Email
             break
           end
 
-          e['reason'] ||= Sisimai::SMTP::Status.name(e['status'])
+          e['reason'] ||= SisimaiLegacy::SMTP::Status.name(e['status'])
           e['agent']    = self.smtpagent
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

@@ -1,20 +1,20 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Activehunter parses a bounce email which created
+  # SisimaiLegacy::Bite::Email::Activehunter parses a bounce email which created
   # by TransWARE Active!hunter.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Activehunter
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Activehunter.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['  ----- The following addresses had permanent fatal errors -----'],
         rfc822:  ['Content-type: message/rfc822'],
       }.freeze
 
       def description; return 'TransWARE Active!hunter'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-AHMAILID']; end
 
       # Parse bounce messages from TransWARE Active!hunter
@@ -33,7 +33,7 @@ module SisimaiLegacy::Bite::Email
         # :subject => %r/FAILURE NOTICE :/,
         return nil unless mhead['x-ahmailid']
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -83,7 +83,7 @@ module SisimaiLegacy::Bite::Email
               # >>> kijitora@example.org <kijitora@example.org>
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = cv[1]
@@ -101,12 +101,12 @@ module SisimaiLegacy::Bite::Email
         return nil unless recipients > 0
 
         dscontents.each do |e|
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e['agent']     = self.smtpagent
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

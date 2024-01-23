@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Facebook parses a bounce email which created by Facebook.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Facebook parses a bounce email which created by Facebook.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Facebook
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Facebook.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['This message was created automatically by Facebook.'],
         rfc822:  ['Content-Disposition: inline'],
@@ -72,7 +72,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Facebook: https://www.facebook.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Facebook
@@ -90,7 +90,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['from'] == 'Facebook <mailer-daemon@mx.facebook.com>'
         return nil unless mhead['subject'] == 'Sorry, your message could not be delivered'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -148,7 +148,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; userunknown@example.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -210,7 +210,7 @@ module SisimaiLegacy::Bite::Email
         dscontents.each do |e|
           e['lhost']   ||= connheader['lhost']
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           if cv = e['diagnosis'].match(/\b([A-Z]{3})[-]([A-Z])(\d)\b/)
             # Diagnostic-Code: smtp; 550 5.1.1 RCP-P2
@@ -249,7 +249,7 @@ module SisimaiLegacy::Bite::Email
           e['reason'] = 'systemerror'
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

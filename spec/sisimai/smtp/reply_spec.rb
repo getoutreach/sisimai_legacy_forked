@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'sisimai/smtp/reply'
 
-describe Sisimai::SMTP::Reply do
-  cn = Sisimai::SMTP::Reply
+describe SisimaiLegacy::SMTP::Reply do
+  cn = SisimaiLegacy::SMTP::Reply
   smtperrors = [
     %q|smtp; 250 2.1.5 OK|,
     %q|smtp; 550 5.1.1 <kijitora@example.co.jp>... User Unknown|,

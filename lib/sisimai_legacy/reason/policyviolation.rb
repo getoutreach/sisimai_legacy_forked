@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::PolicyViolation checks the bounce reason is "policyviolation"
-    # or not. This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::PolicyViolation checks the bounce reason is "policyviolation"
+    # or not. This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a policy violation was detected on a destination mail
     # host. When a header content or a format of the original message violates
@@ -50,7 +50,7 @@ module SisimaiLegacy
         end
 
         # The bounce reason is security error or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is policy violation
         #                                   false: is not policy violation
         # @since 4.22.0

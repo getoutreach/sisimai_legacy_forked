@@ -1,6 +1,6 @@
 module SisimaiLegacy
   module SMTP
-    # Sisimai::SMTP::Error is utilities for checking SMTP Errors from error
+    # SisimaiLegacy::SMTP::Error is utilities for checking SMTP Errors from error
     # message text.
     module Error
       # Imported from p5-Sisimail/lib/Sisimai/SMTP/Error.pm
@@ -25,8 +25,8 @@ module SisimaiLegacy
         # @since v4.17.3
         def is_permanent(argv1 = '')
           getchecked = nil
-          statuscode = Sisimai::SMTP::Status.find(argv1)
-          statuscode = Sisimai::SMTP::Reply.find(argv1) if statuscode.empty?
+          statuscode = SisimaiLegacy::SMTP::Status.find(argv1)
+          statuscode = SisimaiLegacy::SMTP::Reply.find(argv1) if statuscode.empty?
           classvalue = statuscode[0, 1].to_i
 
           if classvalue > 0
@@ -83,8 +83,8 @@ module SisimaiLegacy
             # NotAccept: 5xx => hard bounce, 4xx => soft bounce
             if argv2.size > 0
               # Get D.S.N. or SMTP reply code from The 2nd argument string
-              statuscode = Sisimai::SMTP::Status.find(argv2)
-              statuscode = Sisimai::SMTP::Reply.find(argv2) if statuscode.empty?
+              statuscode = SisimaiLegacy::SMTP::Status.find(argv2)
+              statuscode = SisimaiLegacy::SMTP::Reply.find(argv2) if statuscode.empty?
               classvalue = statuscode[0, 1].to_i
 
               softorhard = if classvalue == 4

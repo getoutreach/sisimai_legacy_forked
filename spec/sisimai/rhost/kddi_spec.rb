@@ -4,7 +4,7 @@ require 'sisimai/data'
 require 'sisimai/message'
 require 'sisimai/rhost/kddi'
 
-describe Sisimai::Rhost::KDDI do
+describe SisimaiLegacy::Rhost::KDDI do
   rs = {
     '01' => { 'status' => %r/\A5[.]2[.]0\z/, 'reason' => %r/filtered/ },
     '02' => { 'status' => %r/\A5[.]1[.]1\z/, 'reason' => %r/userunknown/ },
@@ -14,13 +14,13 @@ describe Sisimai::Rhost::KDDI do
       emailfn = sprintf('./set-of-emails/maildir/bsd/rhost-kddi-%02d.eml', n)
       next unless File.exist?(emailfn)
 
-      mailbox = Sisimai::Mail.new(emailfn)
+      mailbox = SisimaiLegacy::Mail.new(emailfn)
       mtahost = %r/(?:msmx[.]au[.]com|lsean[.]ezweb[.]ne[.]jp)/
       next unless mailbox
 
       while r = mailbox.read do
-        mesg = Sisimai::Message.new(data: r)
-        it('is Sisimai::Message object') { expect(mesg).to be_a Sisimai::Message }
+        mesg = SisimaiLegacy::Message.new(data: r)
+        it('is SisimaiLegacy::Message object') { expect(mesg).to be_a SisimaiLegacy::Message }
         it('has array in "ds" accessor' ) { expect(mesg.ds).to be_a Array }
         it('has hash in "header" accessor' ) { expect(mesg.header).to be_a Hash }
         it('has hash in "rfc822" accessor' ) { expect(mesg.rfc822).to be_a Hash }
@@ -41,7 +41,7 @@ describe Sisimai::Rhost::KDDI do
           example('agent matches Email::*') { expect(e['agent']).to match(/\AEmail::Sendmail/) }
         end
 
-        data = Sisimai::Data.make(data: mesg)
+        data = SisimaiLegacy::Data.make(data: mesg)
         data.each do |e|
           example('reason is String') { expect(e.reason.size).to be > 0 }
           example('reason matches') { expect(e.reason).to match(rs[n]['reason']) }

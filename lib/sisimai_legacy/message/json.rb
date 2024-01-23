@@ -1,6 +1,6 @@
 module SisimaiLegacy
   class Message
-    # Sisimai::Message::JSON convert from a bounce object (decoded JSON) which is
+    # SisimaiLegacy::Message::JSON convert from a bounce object (decoded JSON) which is
     # retrieved from some Cloud Email Deliveries API to data structure.
     class JSON
       # Imported from p5-Sisimail/lib/Sisimai/Message/JSON.pm
@@ -9,8 +9,8 @@ module SisimaiLegacy
       @@ToBeLoaded = []
       @@TryOnFirst = []
 
-      DefaultSet = Sisimai::Order::JSON.default
-      ObjectKeys = Sisimai::Order::JSON.by('keyname')
+      DefaultSet = SisimaiLegacy::Order::JSON.default
+      ObjectKeys = SisimaiLegacy::Order::JSON.by('keyname')
 
       # Make data structure from decoded JSON object
       # @param         [Hash] argvs   Bounce object
@@ -32,12 +32,12 @@ module SisimaiLegacy
           'load'  => argvs['load'] || [],
           'order' => argvs['order'] || []
         }
-        @@ToBeLoaded = Sisimai::Message::JSON.load(methodargv)
-        @@TryOnFirst = Sisimai::Message::JSON.makeorder(argvs['data'])
+        @@ToBeLoaded = SisimaiLegacy::Message::JSON.load(methodargv)
+        @@TryOnFirst = SisimaiLegacy::Message::JSON.makeorder(argvs['data'])
 
         # Rewrite message body for detecting the bounce reason
         methodargv = { 'hook' => hookmethod, 'json' => argvs['data'] }
-        bouncedata = Sisimai::Message::JSON.parse(methodargv)
+        bouncedata = SisimaiLegacy::Message::JSON.parse(methodargv)
 
         return nil unless bouncedata
         return nil if bouncedata.empty?
@@ -140,7 +140,7 @@ module SisimaiLegacy
           while true
             # 1. User-Defined Module
             # 2. MTA(JSON) Module Candidates to be tried on first
-            # 3. Sisimai::Bite::JSON::*
+            # 3. SisimaiLegacy::Bite::JSON::*
             #
             @@ToBeLoaded.each do |r|
               # Call user defined MTA(JSON) modules

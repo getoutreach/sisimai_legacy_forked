@@ -1,12 +1,12 @@
 module SisimaiLegacy
-  # Sisimai::RFC3464 - bounce mail parser class for Fallback.
+  # SisimaiLegacy::RFC3464 - bounce mail parser class for Fallback.
   module RFC3464
     # Imported from p5-Sisimail/lib/Sisimai/RFC3464.pm
     class << self
       require 'sisimai/bite/email'
 
       # http://tools.ietf.org/html/rfc3464
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       MarkingsOf = {
         message: %r{\A(?>
            content-type:[ ]*(?:
@@ -45,10 +45,10 @@ module SisimaiLegacy
       def scan(mhead, mbody)
         require 'sisimai/mda'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.scrub('?').split("\n")
         havepassed = ['']
-        scannedset = Sisimai::MDA.scan(mhead, mbody)
+        scannedset = SisimaiLegacy::MDA.scan(mhead, mbody)
         rfc822list = []   # (Array) Each line in message/rfc822 part string
         blanklines = 0    # (Integer) The number of blank lines
         readcursor = 0    # (Integer) Points the current cursor position
@@ -118,11 +118,11 @@ module SisimaiLegacy
               #
               #       generic-address = *text
               x = v['recipienet'] || ''
-              y = Sisimai::Address.s3s4(cv[1])
+              y = SisimaiLegacy::Address.s3s4(cv[1])
 
               if !x.empty? && x != y
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
               v['recipient'] = y
@@ -383,12 +383,12 @@ module SisimaiLegacy
             if cv = e.match(re_addr)
               # May be an email address
               x = b['recipient'] || ''
-              y = Sisimai::Address.s3s4(cv[1])
-              next unless Sisimai::RFC5322.is_emailaddress(y)
+              y = SisimaiLegacy::Address.s3s4(cv[1])
+              next unless SisimaiLegacy::RFC5322.is_emailaddress(y)
 
               if !x.empty? && x != y
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 b = dscontents[-1]
               end
               b['recipient'] = y
@@ -398,7 +398,7 @@ module SisimaiLegacy
 
             elsif cv = e.match(/[(](?:expanded|generated)[ ]from:?[ ]([^@]+[@][^@]+)[)]/)
               # (expanded from: neko@example.jp)
-              b['alias'] = Sisimai::Address.s3s4(cv[1])
+              b['alias'] = SisimaiLegacy::Address.s3s4(cv[1])
             end
             b['diagnosis'] ||= ''
             b['diagnosis']  << ' ' << e
@@ -413,13 +413,13 @@ module SisimaiLegacy
           rfc822list.each do |e|
             # Check To: header in the original message
             next unless cv = e.match(/\ATo:\s*(.+)\z/)
-            r = Sisimai::Address.find(cv[1], true) || []
+            r = SisimaiLegacy::Address.find(cv[1], true) || []
             next if r.empty?
-            dscontents << Sisimai::Bite::Email.DELIVERYSTATUS if dscontents.size == recipients
+            dscontents << SisimaiLegacy::Bite::Email.DELIVERYSTATUS if dscontents.size == recipients
 
             b = dscontents[-1]
             b['recipient'] = r[0][:address]
-            b['agent'] = Sisimai::RFC3464.smtpagent + '::Fallback'
+            b['agent'] = SisimaiLegacy::RFC3464.smtpagent + '::Fallback'
             recipients += 1
           end
         end
@@ -438,10 +438,10 @@ module SisimaiLegacy
             end
             e.delete('alterrors')
           end
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis']) || ''
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis']) || ''
 
           if scannedset
-            # Make bounce data by the values returned from Sisimai::MDA->scan()
+            # Make bounce data by the values returned from SisimaiLegacy::MDA->scan()
             e['agent']     = scannedset['mda'] || self.smtpagent
             e['reason']    = scannedset['reason'] || 'undefined'
             e['diagnosis'] = scannedset['message'] unless scannedset['message'].empty?
@@ -451,7 +451,7 @@ module SisimaiLegacy
             e['agent'] = self.smtpagent
           end
 
-          e['status'] ||= Sisimai::SMTP::Status.find(e['diagnosis'])
+          e['status'] ||= SisimaiLegacy::SMTP::Status.find(e['diagnosis'])
           if cv = e['diagnosis'].match(MarkingsOf[:command])
             e['command'] = cv[1]
           end
@@ -459,7 +459,7 @@ module SisimaiLegacy
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

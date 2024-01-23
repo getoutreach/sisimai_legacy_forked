@@ -534,7 +534,7 @@
 # ------------------------------------------------------------------------------
 module SisimaiLegacy
   module SMTP
-    # Sisimai::RFC3463 is utilities for getting D.S.N. value from error reason text,
+    # SisimaiLegacy::RFC3463 is utilities for getting D.S.N. value from error reason text,
     # getting the reason from D.S.N. value, and getting D.S.N. from the text including
     # D.S.N.
     module Status

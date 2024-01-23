@@ -1,5 +1,5 @@
 module SisimaiLegacy
-  # Sisimai::MIME is MIME Utilities for Sisimai.
+  # SisimaiLegacy::MIME is MIME Utilities for Sisimai.
   module MIME
     # Imported from p5-Sisimail/lib/Sisimai/MIME.pm
     class << self
@@ -113,7 +113,7 @@ module SisimaiLegacy
         return argv1.unpack('M').first if heads['content-type'].empty?
 
         # Quoted-printable encoded part is the part of the text
-        boundary00 = Sisimai::MIME.boundary(heads['content-type'], 0)
+        boundary00 = SisimaiLegacy::MIME.boundary(heads['content-type'], 0)
 
         # Decoded using unpack('M') entire body string when the boundary string
         # or "Content-Transfer-Encoding: quoted-printable" are not included in
@@ -121,7 +121,7 @@ module SisimaiLegacy
         return argv1.unpack('M').first if boundary00.empty?
         return argv1.unpack('M').first unless argv1.downcase =~ ReE[:'quoted-print']
 
-        boundary01 = Sisimai::MIME.boundary(heads['content-type'], 1)
+        boundary01 = SisimaiLegacy::MIME.boundary(heads['content-type'], 1)
         bodystring = ''
         notdecoded = ''
 
@@ -141,7 +141,7 @@ module SisimaiLegacy
             if e == boundary00
               # The next boundary string has appeared
               # --=_gy7C4Gpes0RP4V5Bs9cK4o2Us2ZT57b-3OLnRN+4klS8dTmQ
-              hasdecoded = Sisimai::String.to_utf8(notdecoded.unpack('M').first, encodename)
+              hasdecoded = SisimaiLegacy::String.to_utf8(notdecoded.unpack('M').first, encodename)
               bodystring << hasdecoded << e + "\n"
 
               notdecoded = ''
@@ -291,7 +291,7 @@ module SisimaiLegacy
 
         if mimeformat.start_with?('multipart/')
           # Content-Type: multipart/*
-          mpboundary = Regexp.new(Regexp.escape(Sisimai::MIME.boundary(upperchunk, 0)) << "\n")
+          mpboundary = Regexp.new(Regexp.escape(SisimaiLegacy::MIME.boundary(upperchunk, 0)) << "\n")
           innerparts = lowerchunk.split(mpboundary)
 
           innerparts.shift if innerparts[0].empty?
@@ -305,7 +305,7 @@ module SisimaiLegacy
               next unless nextformat =~ leavesonly
               next if nextformat == 'text/html'
 
-              hasflatten << Sisimai::MIME.breaksup(e, mimeformat)
+              hasflatten << SisimaiLegacy::MIME.breaksup(e, mimeformat)
             else
               # The content of this part is almost '--': a part of boundary
               # string which is used for splitting multipart/* blocks.
@@ -321,17 +321,17 @@ module SisimaiLegacy
 
             if ctencoding == 'quoted-printable'
               # Content-Transfer-Encoding: quoted-printable
-              getdecoded = Sisimai::MIME.qprintd(lowerchunk)
+              getdecoded = SisimaiLegacy::MIME.qprintd(lowerchunk)
 
             elsif ctencoding == 'base64'
               # Content-Transfer-Encoding: base64
-              getdecoded = Sisimai::MIME.base64d(lowerchunk)
+              getdecoded = SisimaiLegacy::MIME.base64d(lowerchunk)
 
             elsif ctencoding == '7bit'
               # Content-Transfer-Encoding: 7bit
               if cv = upperchunk.downcase.match(ReE[:'some-iso2022'])
                 # Content-Type: text/plain; charset=ISO-2022-JP
-                getdecoded = Sisimai::String.to_utf8(lowerchunk, cv[1])
+                getdecoded = SisimaiLegacy::String.to_utf8(lowerchunk, cv[1])
               else
                 # No "charset" parameter in Content-Type field
                 getdecoded = lowerchunk
@@ -361,7 +361,7 @@ module SisimaiLegacy
               unless getdecoded.encoding.to_s == 'UTF-8'
                 if cv = upperchunk.downcase.match(ReE[:'another-8bit'])
                   # ISO-8859-1, GB2312, and so on
-                  getdecoded = Sisimai::String.to_utf8(getdecoded, cv[1])
+                  getdecoded = SisimaiLegacy::String.to_utf8(getdecoded, cv[1])
                 end
               end
               # A part which has no "charset" parameter causes an ArgumentError:
@@ -395,7 +395,7 @@ module SisimaiLegacy
         return nil unless argv0
         return nil unless argv1
 
-        ehboundary = Sisimai::MIME.boundary(argv0, 0)
+        ehboundary = SisimaiLegacy::MIME.boundary(argv0, 0)
         mimeformat = ''
         bodystring = ''
 
@@ -426,7 +426,7 @@ module SisimaiLegacy
           # Find internal multipart blocks and decode
           if e =~ /\A(?:Content-[A-Za-z-]+:.+?\r\n)?Content-Type:[ ]*[^\s]+/
             # Content-Type: multipart/*
-            bodystring << Sisimai::MIME.breaksup(e, mimeformat)
+            bodystring << SisimaiLegacy::MIME.breaksup(e, mimeformat)
           else
             # Is not multipart/* block
             e.sub!(%r|^Content-Transfer-Encoding:.+?\n|mi, '')

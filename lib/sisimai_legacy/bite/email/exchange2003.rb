@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Exchange2003 parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::Exchange2003 parses a bounce email which created by
   # Microsoft Exchange Server 2003.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Exchange2003
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Exchange2003.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Your message'],
         error:   ['did not reach the following recipient(s):'],
@@ -42,7 +42,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Microsoft Exchange Server 2003'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-MS-Embedded-Report', 'X-MimeOLE']; end
 
       # Parse bounce messages from Microsoft Exchange Server 2003
@@ -91,7 +91,7 @@ module SisimaiLegacy::Bite::Email
         end
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -157,7 +157,7 @@ module SisimaiLegacy::Bite::Email
                 #   kijitora@example.com on 4/29/99 9:19:59 AM
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -224,7 +224,7 @@ module SisimaiLegacy::Bite::Email
               # Find captured code from the error code table
               next unless ErrorCodes[r].index(capturedcode)
               e['reason'] = r.to_s
-              pseudostatus = Sisimai::SMTP::Status.code(r.to_s)
+              pseudostatus = SisimaiLegacy::SMTP::Status.code(r.to_s)
               e['status'] = pseudostatus unless pseudostatus.empty?
               break
             end
@@ -236,7 +236,7 @@ module SisimaiLegacy::Bite::Email
             if e['alterrors']
               # Copy alternative error message
               e['diagnosis'] = e['alterrors'] + ' ' + e['diagnosis']
-              e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+              e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
               e.delete('alterrors')
             end
           end
@@ -252,7 +252,7 @@ module SisimaiLegacy::Bite::Email
           rfc822list << ('Subject: ' << connheader['subject'])
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

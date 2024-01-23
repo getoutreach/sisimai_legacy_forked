@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::KDDI parses a bounce email which created by au by KDDI.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::KDDI parses a bounce email which created by au by KDDI.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module KDDI
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/KDDI.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { rfc822: ['Content-Type: message/rfc822'] }.freeze
       MarkingsOf = {
         message: %r/\AYour[ ]mail[ ](?:
@@ -22,7 +22,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'au by KDDI: http://www.au.kddi.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from au by KDDI
@@ -45,7 +45,7 @@ module SisimaiLegacy::Bite::Email
         match += 1 if mhead['received'].any? { |a| a.include?('.au.com (') }
         return nil unless match > 0
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -90,12 +90,12 @@ module SisimaiLegacy::Bite::Email
               #     As their mailbox is full.
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
 
-              r = Sisimai::Address.s3s4(cv[1])
-              if Sisimai::RFC5322.is_emailaddress(r)
+              r = SisimaiLegacy::Address.s3s4(cv[1])
+              if SisimaiLegacy::RFC5322.is_emailaddress(r)
                 v['recipient'] = r
                 recipients += 1
               end
@@ -114,7 +114,7 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           if mhead['x-spasign'].to_s == 'NG'
             # Content-Type: text/plain; ..., X-SPASIGN: NG (spamghetti, au by KDDI)
@@ -138,7 +138,7 @@ module SisimaiLegacy::Bite::Email
 
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

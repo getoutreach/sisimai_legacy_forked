@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Blocked checks the bounce reason is "blocked" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::Blocked checks the bounce reason is "blocked" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that SMTP connection was rejected due to a client IP address
     # or a hostname, or the parameter of "HELO/EHLO" command. This reason has added
@@ -156,13 +156,13 @@ module SisimaiLegacy
         end
 
         # Blocked due to client IP address or hostname
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is blocked
         #                                   false: is not blocked by the client
         # @see      http://www.ietf.org/rfc/rfc2822.txt
         def true(argvs)
           return true if argvs.reason == 'blocked'
-          return true if Sisimai::SMTP::Status.name(argvs.deliverystatus) == 'blocked'
+          return true if SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus) == 'blocked'
           return true if match(argvs.diagnosticcode.downcase)
           return false
         end

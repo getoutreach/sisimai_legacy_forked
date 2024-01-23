@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'sisimai/smtp'
 
-describe Sisimai::SMTP do
-  cn = Sisimai::SMTP
+describe SisimaiLegacy::SMTP do
+  cn = SisimaiLegacy::SMTP
   rv = cn.command
 
   describe '.command' do

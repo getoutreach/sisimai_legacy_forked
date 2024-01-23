@@ -1,6 +1,6 @@
 module SisimaiLegacy
   class Mail
-    # Sisimai::Mail::Mbox is a mailbox file (UNIX mbox) reader.
+    # SisimaiLegacy::Mail::Mbox is a mailbox file (UNIX mbox) reader.
     class Mbox
       # Imported from p5-Sisimail/lib/Sisimai/Mail/Mbox.pm
       @@roaccessors = [
@@ -16,9 +16,9 @@ module SisimaiLegacy
       @@roaccessors.each { |e| attr_reader   e }
       @@rwaccessors.each { |e| attr_accessor e }
 
-      # Constructor of Sisimai::Mail::Mbox
+      # Constructor of SisimaiLegacy::Mail::Mbox
       # @param    [String] argv1            Path to mbox
-      # @return   [Sisimai::Mail::Mbox,Nil] Object or nil if the argument is not
+      # @return   [SisimaiLegacy::Mail::Mbox,Nil] Object or nil if the argument is not
       #                                     specified or does not exist
       def initialize(argv1)
         raise Errno::ENOENT   unless File.exist?(argv1)

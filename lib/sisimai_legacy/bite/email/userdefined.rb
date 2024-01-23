@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::UserDefined is an example module as a template to
+  # SisimaiLegacy::Bite::Email::UserDefined is an example module as a template to
   # implement your custom MTA module.
   module UserDefined
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/UserDefined.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       MarkingsOf = {
         # MarkingsOf is a delimiter set of these sections:
         #   message: The first line of a bounce message to be parsed.
@@ -20,7 +20,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Module description'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-Some-UserDefined-Header']; end
 
       # @abstract Template for User-Defined MTA module
@@ -48,7 +48,7 @@ module SisimaiLegacy::Bite::Email
 
         # 2. Parse message body(mbody) of the bounce message. See some modules
         #    in lib/sisimai/bite/email directory to implement codes.
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -105,7 +105,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless recipients > 0
 
         # 4. Return the following variable.
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

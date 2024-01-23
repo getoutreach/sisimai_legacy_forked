@@ -29,12 +29,12 @@ reasonchildren = {
 }
 
 ss = Sisimai.make('./set-of-emails/maildir/bsd/email-sendmail-01.eml', input: 'email').shift
-describe 'Sisimai::Data object' do
-  it('returns Sisimai::Data') { expect(ss).to be_a Sisimai::Data }
+describe 'SisimaiLegacy::Data object' do
+  it('returns SisimaiLegacy::Data') { expect(ss).to be_a SisimaiLegacy::Data }
 end
 
 reasonchildren.each_key do |e|
-  rn = 'Sisimai::Reason::' + e
+  rn = 'SisimaiLegacy::Reason::' + e
   require rn.downcase.gsub('::', '/')
   cn = Module.const_get(rn)
 
@@ -64,7 +64,7 @@ reasonchildren.each_key do |e|
 end
 
 %w|Delivered Feedback Undefined Vacation|.each do |e|
-  rn = 'Sisimai::Reason::' + e
+  rn = 'SisimaiLegacy::Reason::' + e
   require rn.downcase.gsub('::', '/')
   cn = Module.const_get(rn)
 

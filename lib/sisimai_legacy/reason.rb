@@ -1,6 +1,6 @@
 module SisimaiLegacy
-  # Sisimai::Reason detects the bounce reason from the content of Sisimai::Data
-  # object as an argument of get() method. This class is called only Sisimai::Data
+  # SisimaiLegacy::Reason detects the bounce reason from the content of SisimaiLegacy::Data
+  # object as an argument of get() method. This class is called only SisimaiLegacy::Data
   # class.
   module Reason
     # Imported from p5-Sisimail/lib/Sisimai/Reason.pm
@@ -10,7 +10,7 @@ module SisimaiLegacy
       def retry
         return %w[undefined onhold systemerror securityerror networkerror hostunknown userunknown]
       end
-      GetRetried = Sisimai::Reason.retry
+      GetRetried = SisimaiLegacy::Reason.retry
       ClassOrder = [
         %w[
           MailboxFull MesgTooBig ExceedLimit Suspend HasMoved NoRelaying UserUnknown
@@ -41,13 +41,13 @@ module SisimaiLegacy
       end
 
       # Detect the bounce reason
-      # @param    [Sisimai::Data] argvs   Parsed email object
+      # @param    [SisimaiLegacy::Data] argvs   Parsed email object
       # @return   [String, Nil]           Bounce reason or Nil if the argument
       #                                   is missing or invalid object
       # @see anotherone
       def get(argvs)
         return nil unless argvs
-        return nil unless argvs.is_a? Sisimai::Data
+        return nil unless argvs.is_a? SisimaiLegacy::Data
 
         unless GetRetried.index(argvs.reason)
           # Return reason text already decided except reason match with the
@@ -63,8 +63,8 @@ module SisimaiLegacy
           # Diagnostic-Code: SMTP; ... or empty value
           ClassOrder[0].each do |e|
             # Check the value of Diagnostic-Code: and the value of Status:, it is a
-            # deliverystats, with true() method in each Sisimai::Reason::* class.
-            p = 'Sisimai::Reason::' << e
+            # deliverystats, with true() method in each SisimaiLegacy::Reason::* class.
+            p = 'SisimaiLegacy::Reason::' << e
             r = nil
             begin
               require p.downcase.gsub('::', '/')
@@ -88,9 +88,9 @@ module SisimaiLegacy
             reasontext   = nil
             reasontext ||= 'expired' if argvs.action == 'delayed'
             unless reasontext
-              # Try to match with message patterns in Sisimai::Reason::Vacation
+              # Try to match with message patterns in SisimaiLegacy::Reason::Vacation
               require 'sisimai/reason/vacation'
-              reasontext = 'vacation' if Sisimai::Reason::Vacation.match(argvs.diagnosticcode.downcase)
+              reasontext = 'vacation' if SisimaiLegacy::Reason::Vacation.match(argvs.diagnosticcode.downcase)
             end
             reasontext ||= 'onhold' unless argvs.diagnosticcode.empty?
           end
@@ -100,19 +100,19 @@ module SisimaiLegacy
       end
 
       # Detect the other bounce reason, fall back method for get()
-      # @param    [Sisimai::Data] argvs   Parsed email object
+      # @param    [SisimaiLegacy::Data] argvs   Parsed email object
       # @return   [String, Nil]           Bounce reason or nli if the argument
       #                                   is missing or invalid object
       # @see get
       def anotherone(argvs)
-        return nil unless argvs.is_a? Sisimai::Data
+        return nil unless argvs.is_a? SisimaiLegacy::Data
         return argvs.reason unless argvs.reason.empty?
 
         statuscode = argvs.deliverystatus || ''
         diagnostic = argvs.diagnosticcode.downcase || ''
         commandtxt = argvs.smtpcommand    || ''
         trytomatch = nil
-        reasontext = Sisimai::SMTP::Status.name(statuscode)
+        reasontext = SisimaiLegacy::SMTP::Status.name(statuscode)
 
         catch :TRY_TO_MATCH do
           while true
@@ -123,8 +123,8 @@ module SisimaiLegacy
 
             # Could not decide the reason by the value of Status:
             ClassOrder[1].each do |e|
-              # Trying to match with other patterns in Sisimai::Reason::* classes
-              p = 'Sisimai::Reason::' << e
+              # Trying to match with other patterns in SisimaiLegacy::Reason::* classes
+              p = 'SisimaiLegacy::Reason::' << e
               r = nil
               begin
                 require p.downcase.gsub('::', '/')
@@ -156,7 +156,7 @@ module SisimaiLegacy
               else
                 # 50X Syntax Error?
                 require 'sisimai/reason/syntaxerror'
-                reasontext = 'syntaxerror' if Sisimai::Reason::SyntaxError.true(argvs)
+                reasontext = 'syntaxerror' if SisimaiLegacy::Reason::SyntaxError.true(argvs)
               end
             end
 
@@ -188,14 +188,14 @@ module SisimaiLegacy
         typestring = ''
         diagnostic = argv1.downcase
 
-        statuscode = Sisimai::SMTP::Status.find(argv1)
+        statuscode = SisimaiLegacy::SMTP::Status.find(argv1)
         if cv = argv1.match(/\A(SMTP|X-.+);/i) then typestring = cv[1].upcase end
 
         # Diagnostic-Code: SMTP; ... or empty value
         ClassOrder[2].each do |e|
           # Check the value of Diagnostic-Code: and the value of Status:, it is a
-          # deliverystats, with true() method in each Sisimai::Reason::* class.
-          p = 'Sisimai::Reason::' << e
+          # deliverystats, with true() method in each SisimaiLegacy::Reason::* class.
+          p = 'SisimaiLegacy::Reason::' << e
           r = nil
           begin
             require p.downcase.gsub('::', '/')
@@ -217,7 +217,7 @@ module SisimaiLegacy
             reasontext = 'mailererror'
           else
             # Detect the bounce reason from "Status:" code
-            reasontext = Sisimai::SMTP::Status.name(statuscode) || 'undefined'
+            reasontext = SisimaiLegacy::SMTP::Status.name(statuscode) || 'undefined'
             reasontext = 'undefined' if reasontext.empty?
           end
         end

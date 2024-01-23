@@ -1,15 +1,15 @@
 module SisimaiLegacy::Bite::JSON
-  # Sisimai::Bite::JSON::SendGrid parses a bounce object(JSON) which created by
-  # SendGrid. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::JSON::SendGrid parses a bounce object(JSON) which created by
+  # SendGrid. Methods in the module are called from only SisimaiLegacy::Message.
   module SendGrid
     # Imported from p5-Sisimail/lib/Sisimai/Bite/JSON/SendGrid.pm
     class << self
       require 'sisimai/bite/json'
 
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def description; return 'SendGrid(JSON): http://sendgrid.com/'; end
 
-      # @abstract Adapt SendGrid bounce object for Sisimai::Message format
+      # @abstract Adapt SendGrid bounce object for SisimaiLegacy::Message format
       # @param        [Hash] argvs  bounce object(JSON) retrieved from SendGrid API
       # @return       [Hash, Nil]   Bounce data list and message/rfc822 part or
       #                             nil if it failed to parse or the
@@ -19,7 +19,7 @@ module SisimaiLegacy::Bite::JSON
         return nil unless argvs.is_a? Hash
         return nil if argvs.empty?
         return nil unless argvs.key?('email')
-        return nil unless Sisimai::RFC5322.is_emailaddress(argvs['email'])
+        return nil unless SisimaiLegacy::RFC5322.is_emailaddress(argvs['email'])
 
         dscontents = nil
         rfc822head = {}
@@ -41,17 +41,17 @@ module SisimaiLegacy::Bite::JSON
           #   'status' => '5.2.2'
           # },
           return nil unless %w[bounce deferred delivered spamreport].include?(argvs['event'])
-          dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+          dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
           diagnostic = argvs['reason']   || ''
           diagnostic = argvs['response'] || '' if diagnostic.empty?
-          timestamp0 = Sisimai::Time.parse(::Time.at(argvs['timestamp']).to_s)
+          timestamp0 = SisimaiLegacy::Time.parse(::Time.at(argvs['timestamp']).to_s)
           v = dscontents[-1]
 
           v['date']      = timestamp0.strftime("%a, %d %b %Y %T %z")
           v['agent']     = self.smtpagent
           v['lhost']     = argvs['ip'] || ''
           v['status']    = argvs['status'] || nil
-          v['diagnosis'] = Sisimai::String.sweep(diagnostic)
+          v['diagnosis'] = SisimaiLegacy::String.sweep(diagnostic)
           v['recipient'] = argvs['email']
 
           if argvs['event'] == 'delivered'
@@ -70,12 +70,12 @@ module SisimaiLegacy::Bite::JSON
             v['reason'] = 'feedback'
             v['feedbacktype'] = 'abuse'
           end
-          v['status']    ||= Sisimai::SMTP::Status.find(v['diagnosis']) || ''
-          v['replycode'] ||= Sisimai::SMTP::Reply.find(v['diagnosis'])  || ''
+          v['status']    ||= SisimaiLegacy::SMTP::Status.find(v['diagnosis']) || ''
+          v['replycode'] ||= SisimaiLegacy::SMTP::Reply.find(v['diagnosis'])  || ''
 
           # Generate pseudo message/rfc822 part
           rfc822head = {
-            'from'       => Sisimai::Address.undisclosed('s'),
+            'from'       => SisimaiLegacy::Address.undisclosed('s'),
             'message-id' => v['sg_message_id'],
           }
         else
@@ -85,14 +85,14 @@ module SisimaiLegacy::Bite::JSON
           #       "reason": "Unable to resolve MX host sendgrid.ne",
           #       "email": "esting@sendgrid.ne"
           #   },
-          dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+          dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
           v = dscontents[-1]
 
           v['recipient'] = argvs['email']
           v['date'] = argvs['created'] || ''
 
           statuscode = argvs['status']  || ''
-          diagnostic = Sisimai::String.sweep(argvs['reason']) || ''
+          diagnostic = SisimaiLegacy::String.sweep(argvs['reason']) || ''
 
           if statuscode =~ /\A[245]\d\d\z/
             # "status": "550"
@@ -103,14 +103,14 @@ module SisimaiLegacy::Bite::JSON
             v['status'] = statuscode
           end
 
-          v['status']    ||= Sisimai::SMTP::Status.find(diagnostic)
-          v['replycode'] ||= Sisimai::SMTP::Reply.find(diagnostic)
+          v['status']    ||= SisimaiLegacy::SMTP::Status.find(diagnostic)
+          v['replycode'] ||= SisimaiLegacy::SMTP::Reply.find(diagnostic)
           v['diagnosis']   = argvs['reason'] || ''
           v['agent']       = self.smtpagent
 
           # Generate pseudo message/rfc822 part
           rfc822head = {
-            'from' => Sisimai::Address.undisclosed('s'),
+            'from' => SisimaiLegacy::Address.undisclosed('s'),
             'date' => v['date'],
           }
         end

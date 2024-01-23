@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::NotAccept checks the bounce reason is "notaccept" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::NotAccept checks the bounce reason is "notaccept" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a destination mail server does ( or can ) not accept
     # any email. In many case, the server is high load or under the maintenance.
@@ -34,7 +34,7 @@ module SisimaiLegacy
         end
 
         # Remote host does not accept any message
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: Not accept
         #                                   false: Accept
         # @see http://www.ietf.org/rfc/rfc2822.txt

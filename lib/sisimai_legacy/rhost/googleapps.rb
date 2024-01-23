@@ -1,8 +1,8 @@
 module SisimaiLegacy
   module Rhost
-    # Sisimai::Rhost detects the bounce reason from the content of Sisimai::Data
+    # SisimaiLegacy::Rhost detects the bounce reason from the content of SisimaiLegacy::Data
     # object as an argument of get() method when the value of "rhost" of the object
-    # is "aspmx.l.google.com". This class is called only Sisimai::Data class.
+    # is "aspmx.l.google.com". This class is called only SisimaiLegacy::Data class.
     module GoogleApps
       class << self
         # Imported from p5-Sisimail/lib/Sisimai/Rhost/GoogleApps.pm
@@ -107,7 +107,7 @@ module SisimaiLegacy
         }.freeze
 
         # Detect bounce reason from Google Apps
-        # @param    [Sisimai::Data] argvs   Parsed email object
+        # @param    [SisimaiLegacy::Data] argvs   Parsed email object
         # @return   [String]                The bounce reason for Google Apps
         # @see      https://support.google.com/a/answer/3726730?hl=en
         def get(argvs)

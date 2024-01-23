@@ -1,7 +1,7 @@
 module SisimaiLegacy::Bite::JSON
-  # Sisimai::Bite::JSON::AmazonSES parses a bounce object(JSON) which created
+  # SisimaiLegacy::Bite::JSON::AmazonSES parses a bounce object(JSON) which created
   # by Amazon Simple Email Service.
-  # Methods in the module are called from only Sisimai::Message.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module AmazonSES
     # Imported from p5-Sisimail/lib/Sisimai/Bite/JSON/AmazonSES.pm
     class << self
@@ -23,7 +23,7 @@ module SisimaiLegacy::Bite::JSON
         },
       }.freeze
 
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def description; return 'Amazon SES(JSON): http://aws.amazon.com/ses/'; end
 
       # Parse bounce messages from Amazon SES(JSON)
@@ -92,7 +92,7 @@ module SisimaiLegacy::Bite::JSON
         return adapt(jsonthings)
       end
 
-      # @abstract Adapt Amazon SES bounce object for Sisimai::Message format
+      # @abstract Adapt Amazon SES bounce object for SisimaiLegacy::Message format
       # @param        [Hash] argvs  bounce object(JSON) retrieved from Amazon SNS
       # @return       [Hash, Nil]   Bounce data list and message/rfc822 part or
       #                             nil if it failed to parse or the
@@ -103,7 +103,7 @@ module SisimaiLegacy::Bite::JSON
         return nil if argvs.empty?
         return nil unless argvs.key?('notificationType')
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         rfc822head = {}   # (Hash) Check flags for headers in RFC822 part
         recipients = 0    # (Integer) The number of 'Final-Recipient' header
         labeltable = {
@@ -120,12 +120,12 @@ module SisimaiLegacy::Bite::JSON
           while e = r.shift do
             # 'bouncedRecipients' => [ { 'emailAddress' => 'bounce@si...' }, ... ]
             # 'complainedRecipients' => [ { 'emailAddress' => 'complaint@si...' }, ... ]
-            next unless Sisimai::RFC5322.is_emailaddress(e['emailAddress'])
+            next unless SisimaiLegacy::RFC5322.is_emailaddress(e['emailAddress'])
 
             v = dscontents[-1]
             if v['recipient']
               # There are multiple recipient addresses in the message body.
-              dscontents << Sisimai::Bite.DELIVERYSTATUS
+              dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
               v = dscontents[-1]
             end
             recipients += 1
@@ -185,20 +185,20 @@ module SisimaiLegacy::Bite::JSON
             #       ],
             #       'smtpResponse' => '250 2.6.0 Message received'
             #   },
-            next unless Sisimai::RFC5322.is_emailaddress(e)
+            next unless SisimaiLegacy::RFC5322.is_emailaddress(e)
 
             v = dscontents[-1]
             if v['recipient']
               # There are multiple recipient addresses in the message body.
-              dscontents << Sisimai::Bite.DELIVERYSTATUS
+              dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
               v = dscontents[-1]
             end
             recipients += 1
             v['recipient'] = e
             v['lhost']     = o['reportingMTA'] || ''
             v['diagnosis'] = o['smtpResponse'] || ''
-            v['status']    = Sisimai::SMTP::Status.find(v['diagnosis'])
-            v['replycode'] = Sisimai::SMTP::Reply.find(v['diagnosis'])
+            v['status']    = SisimaiLegacy::SMTP::Status.find(v['diagnosis'])
+            v['replycode'] = SisimaiLegacy::SMTP::Reply.find(v['diagnosis'])
             v['reason']    = 'delivered'
             v['action']    = 'deliverable'
 

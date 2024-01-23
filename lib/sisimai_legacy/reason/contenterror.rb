@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::ContentError checks the bounce reason is "contenterror"
-    # or not This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::ContentError checks the bounce reason is "contenterror"
+    # or not This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that a destination mail server has rejected email due to
     # header format of the email like the following. Sisimai will set "contenterror"
@@ -33,7 +33,7 @@ module SisimaiLegacy
         end
 
         # Rejected email due to header format of the email
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: rejected due to content error
         #                                   false: is not content error
         # @see      http://www.ietf.org/rfc/rfc2822.txt

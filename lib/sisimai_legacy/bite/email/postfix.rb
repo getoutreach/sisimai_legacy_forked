@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Postfix parses a bounce email which created by
-  # Postfix. Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Postfix parses a bounce email which created by
+  # Postfix. Methods in the module are called from only SisimaiLegacy::Message.
   module Postfix
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Postfix.pm
       require 'sisimai/bite/email'
 
       # Postfix manual - bounce(5) - http://www.postfix.org/bounce.5.html
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { rfc822: ['Content-Type: message/rfc822', 'Content-Type: text/rfc822-headers'] }.freeze
       MarkingsOf = {
         message: %r{\A(?>
@@ -31,7 +31,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Postfix'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return []; end
 
       # Parse bounce messages from Postfix
@@ -49,7 +49,7 @@ module SisimaiLegacy::Bite::Email
         # :from => %r/ [(]Mail Delivery System[)]\z/,
         return nil unless mhead['subject'] == 'Undelivered Mail Returned to Sender'
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -112,7 +112,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: RFC822; userunknown@example.jp
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -257,7 +257,7 @@ module SisimaiLegacy::Bite::Email
 
               if e['status'] == '' || e['status'].start_with?('4.0.0', '5.0.0')
                 # Check the value of D.S.N. in anotherset
-                as = Sisimai::SMTP::Status.find(anotherset['diagnosis'])
+                as = SisimaiLegacy::SMTP::Status.find(anotherset['diagnosis'])
                 if !as.empty? && as[-3, 3] != '0.0'
                   # The D.S.N. is neither an empty nor *.0.0
                   e['status'] = as
@@ -266,7 +266,7 @@ module SisimaiLegacy::Bite::Email
 
               if e['replycode'] == '' || e['replycode'].start_with?('400', '500')
                 # Check the value of SMTP reply code in anotherset
-                ar = Sisimai::SMTP::Reply.find(anotherset['diagnosis'])
+                ar = SisimaiLegacy::SMTP::Reply.find(anotherset['diagnosis'])
                 if !ar.empty? && ar[-2, 2].to_i != 0
                   # The SMTP reply code is neither an empty nor *00
                   e['replycode'] = ar
@@ -280,12 +280,12 @@ module SisimaiLegacy::Bite::Email
             end
           end
 
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
           e['spec']    ||= 'SMTP' if e['diagnosis'] =~ /host .+ said:/
           e.each_key { |a| e[a] ||= '' }
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

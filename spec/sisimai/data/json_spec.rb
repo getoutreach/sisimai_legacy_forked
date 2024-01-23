@@ -5,9 +5,9 @@ require 'sisimai/data'
 require 'sisimai/data/json'
 require 'sisimai/message'
 
-describe Sisimai::Data::JSON do
+describe SisimaiLegacy::Data::JSON do
   file = './set-of-emails/maildir/bsd/email-sendmail-02.eml'
-  mail = Sisimai::Mail.new(file)
+  mail = SisimaiLegacy::Mail.new(file)
   list = %w[
     token lhost rhost alias listid reason subject replycode messageid smtpagent
     softbounce smtpcommand diagnosticcode diagnostictype deliverystatus action
@@ -15,8 +15,8 @@ describe Sisimai::Data::JSON do
   ]
 
   while r = mail.read do
-    mesg = Sisimai::Message.new(data: r)
-    data = Sisimai::Data.make(data: mesg)
+    mesg = SisimaiLegacy::Message.new(data: r)
+    data = SisimaiLegacy::Data.make(data: mesg)
     it('returns Array') { expect(data).to be_a Array }
 
     describe '#dump' do

@@ -160,7 +160,7 @@ module SisimaiLegacy
       # These reasons are not included in the results of SisimaiLegacy::Reason.index
       names += %w[Delivered Feedback Undefined Vacation]
       while e = names.shift do
-        # Call .description() method of Sisimai::Reason::*
+        # Call .description() method of SisimaiLegacy::Reason::*
         r = 'SisimaiLegacy::Reason::' << e
         require r.gsub('::', '/').downcase
         table[e.to_sym] = Module.const_get(r).send(:description)

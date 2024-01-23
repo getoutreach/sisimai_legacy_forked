@@ -266,5 +266,5 @@ isexpected = [
   { 'n' => '01279', 'r' => /networkerror/ },
   { 'n' => '01280', 'r' => /networkerror/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

@@ -1,13 +1,13 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::MessageLabs parses a bounce email which created by
+  # SisimaiLegacy::Bite::Email::MessageLabs parses a bounce email which created by
   # Symantec.cloud: formerly MessageLabs. Methods in the module are called
-  # from only Sisimai::Message.
+  # from only SisimaiLegacy::Message.
   module MessageLabs
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/MessageLabs.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Content-Type: message/delivery-status'],
         rfc822:  ['Content-Type: text/rfc822-headers'],
@@ -18,7 +18,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Symantec.cloud http://www.messagelabs.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
 
       # X-Msg-Ref: server-11.tower-143.messagelabs.com!1419367175!36473369!1
       # X-Originating-IP: [10.245.230.38]
@@ -43,7 +43,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['from'].include?('MAILER-DAEMON@messagelabs.com')
         return nil unless mhead['subject'].start_with?('Mail Delivery Failure')
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         havepassed = ['']
         rfc822list = []     # (Array) Each line in message/rfc822 part string
@@ -130,7 +130,7 @@ module SisimaiLegacy::Bite::Email
                 # Final-Recipient: rfc822; maria@dest.example.net
                 if v['recipient']
                   # There are multiple recipient addresses in the message body.
-                  dscontents << Sisimai::Bite.DELIVERYSTATUS
+                  dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                   v = dscontents[-1]
                 end
                 v['recipient'] = cv[1]
@@ -180,7 +180,7 @@ module SisimaiLegacy::Bite::Email
           connheader.each_key { |a| e[a] ||= connheader[a] || '' }
           e['command']   = commandset.shift || ''
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           ReFailures.each_key do |r|
             # Verify each regular expression of session errors
@@ -190,7 +190,7 @@ module SisimaiLegacy::Bite::Email
           end
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

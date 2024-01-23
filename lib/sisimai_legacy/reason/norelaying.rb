@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::NoRelaying checks the bounce reason is "norelaying" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::NoRelaying checks the bounce reason is "norelaying" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that SMTP connection rejected with error message "Relaying
     # Denied". This reason does not exist in any version of bounceHammer.
@@ -42,7 +42,7 @@ module SisimaiLegacy
         end
 
         # Whether the message is rejected by 'Relaying denied'
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: Rejected for "relaying denied"
         #                                   false: is not
         # @see http://www.ietf.org/rfc/rfc2822.txt

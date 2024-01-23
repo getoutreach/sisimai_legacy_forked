@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::TooManyConn checks the bounce reason is "toomanyconn" or
-    # not. This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::TooManyConn checks the bounce reason is "toomanyconn" or
+    # not. This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that SMTP connection was rejected temporarily due to too
     # many concurrency connections to the remote server. This reason has added
@@ -42,13 +42,13 @@ module SisimaiLegacy
         end
 
         # Rejected by domain or address filter ?
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is filtered
         #                                   false: is not filtered
         # @see http://www.ietf.org/rfc/rfc2822.txt
         def true(argvs)
           return true if argvs.reason == 'toomanyconn'
-          return true if Sisimai::SMTP::Status.name(argvs.deliverystatus) == 'toomanyconn'
+          return true if SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus) == 'toomanyconn'
           return true if match(argvs.diagnosticcode.downcase)
           return false
         end

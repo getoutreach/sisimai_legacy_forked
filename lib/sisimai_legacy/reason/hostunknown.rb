@@ -40,7 +40,7 @@ module SisimaiLegacy
         end
 
         # Whether the host is unknown or not
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is unknown host
         #                                   false: is not unknown host.
         # @see http://www.ietf.org/rfc/rfc2822.txt
@@ -50,11 +50,11 @@ module SisimaiLegacy
           diagnostic = argvs.diagnosticcode.downcase || ''
           statuscode = argvs.deliverystatus || ''
 
-          if Sisimai::SMTP::Status.name(statuscode) == 'hostunknown'
+          if SisimaiLegacy::SMTP::Status.name(statuscode) == 'hostunknown'
             # Status: 5.1.2
             # Diagnostic-Code: SMTP; 550 Host unknown
             require 'sisimai/reason/networkerror'
-            return true unless Sisimai::Reason::NetworkError.match(diagnostic)
+            return true unless SisimaiLegacy::Reason::NetworkError.match(diagnostic)
           else
             # Check the value of Diagnosic-Code: header with patterns
             return true if match(diagnostic)

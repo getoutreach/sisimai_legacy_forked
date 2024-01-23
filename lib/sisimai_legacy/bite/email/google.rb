@@ -1,12 +1,12 @@
 module SisimaiLegacy::Bite::Email
-  # Sisimai::Bite::Email::Google parses a bounce email which created by Gmail.
-  # Methods in the module are called from only Sisimai::Message.
+  # SisimaiLegacy::Bite::Email::Google parses a bounce email which created by Gmail.
+  # Methods in the module are called from only SisimaiLegacy::Message.
   module Google
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Google.pm
       require 'sisimai/bite/email'
 
-      Indicators = Sisimai::Bite::Email.INDICATORS
+      Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {
         message: ['Delivery to the following recipient'],
         error:   ['The error that the other server returned was:'],
@@ -106,7 +106,7 @@ module SisimaiLegacy::Bite::Email
       }.freeze
 
       def description; return 'Google Gmail: https://mail.google.com'; end
-      def smtpagent;   return Sisimai::Bite.smtpagent(self); end
+      def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def headerlist;  return ['X-Failed-Recipients']; end
 
       # Parse bounce messages from Google Gmail
@@ -171,7 +171,7 @@ module SisimaiLegacy::Bite::Email
         return nil unless mhead['from'].end_with?('<mailer-daemon@googlemail.com>')
         return nil unless mhead['subject'].start_with?('Delivery Status Notification')
 
-        dscontents = [Sisimai::Bite.DELIVERYSTATUS]
+        dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.split("\n")
         rfc822list = []     # (Array) Each line in message/rfc822 part string
         blanklines = 0      # (Integer) The number of blank lines
@@ -228,12 +228,12 @@ module SisimaiLegacy::Bite::Email
               # kijitora@example.jp: 550 5.2.2 <kijitora@example>... Mailbox Full
               if v['recipient']
                 # There are multiple recipient addresses in the message body.
-                dscontents << Sisimai::Bite.DELIVERYSTATUS
+                dscontents << SisimaiLegacy::Bite.DELIVERYSTATUS
                 v = dscontents[-1]
               end
 
-              addr0 = Sisimai::Address.s3s4(cv[1])
-              if Sisimai::RFC5322.is_emailaddress(addr0)
+              addr0 = SisimaiLegacy::Address.s3s4(cv[1])
+              if SisimaiLegacy::RFC5322.is_emailaddress(addr0)
                 v['recipient'] = addr0
                 recipients += 1
               end
@@ -247,7 +247,7 @@ module SisimaiLegacy::Bite::Email
 
         dscontents.each do |e|
           e['agent']     = self.smtpagent
-          e['diagnosis'] = Sisimai::String.sweep(e['diagnosis'])
+          e['diagnosis'] = SisimaiLegacy::String.sweep(e['diagnosis'])
 
           unless e['rhost']
             # Get the value of remote host
@@ -283,11 +283,11 @@ module SisimaiLegacy::Bite::Email
           next unless e['reason']
 
           # Set pseudo status code
-          e['status'] = Sisimai::SMTP::Status.find(e['diagnosis'])
-          e['reason'] = Sisimai::SMTP::Status.name(e['status']) if e['status'] =~ /\A[45][.][1-7][.][1-9]\z/
+          e['status'] = SisimaiLegacy::SMTP::Status.find(e['diagnosis'])
+          e['reason'] = SisimaiLegacy::SMTP::Status.name(e['status']) if e['status'] =~ /\A[45][.][1-7][.][1-9]\z/
         end
 
-        rfc822part = Sisimai::RFC5322.weedout(rfc822list)
+        rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822list)
         return { 'ds' => dscontents, 'rfc822' => rfc822part }
       end
 

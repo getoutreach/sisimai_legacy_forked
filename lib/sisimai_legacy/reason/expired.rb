@@ -1,7 +1,7 @@
 module SisimaiLegacy
   module Reason
-    # Sisimai::Reason::Expired checks the bounce reason is "expired" or not.
-    # This class is called only Sisimai::Reason class.
+    # SisimaiLegacy::Reason::Expired checks the bounce reason is "expired" or not.
+    # This class is called only SisimaiLegacy::Reason class.
     #
     # This is the error that delivery time has expired due to connection failure
     # or network error and the message you sent has been in the queue for long
@@ -42,7 +42,7 @@ module SisimaiLegacy
         end
 
         # Delivery expired due to connection failure or network error
-        # @param    [Sisimai::Data] argvs   Object to be detected the reason
+        # @param    [SisimaiLegacy::Data] argvs   Object to be detected the reason
         # @return   [True,False]            true: is expired
         #                                   false: is not expired
         # @see      http://www.ietf.org/rfc/rfc2822.txt
