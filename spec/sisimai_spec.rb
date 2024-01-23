@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'sisimai_legacy'
 require 'json'
 
-describe Sisimai do
+describe SisimaiLegacy do
   sampleemail = {
     :mailbox => './set-of-emails/mailbox/mbox-0',
     :maildir => './set-of-emails/maildir/bsd',

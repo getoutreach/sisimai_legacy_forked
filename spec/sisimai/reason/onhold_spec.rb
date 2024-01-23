@@ -5,7 +5,7 @@ require 'sisimai_legacy/reason/onhold'
 
 thatsonhold = './set-of-emails/to-be-debugged-because/reason-is-onhold'
 if File.exist?(thatsonhold)
-  describe Sisimai do
+  describe SisimaiLegacy do
     describe '.make' do
       mail = SisimaiLegacy.make(thatsonhold)
       subject { mail }

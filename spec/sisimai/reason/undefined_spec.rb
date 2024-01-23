@@ -4,7 +4,7 @@ require 'json'
 
 undefinedes = './set-of-emails/to-be-debugged-because/reason-is-undefined'
 if File.exist?(undefinedes)
-  describe Sisimai do
+  describe SisimaiLegacy do
     describe '.make' do
       mail = SisimaiLegacy.make(undefinedes)
       subject { mail }

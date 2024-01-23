@@ -6,7 +6,7 @@ require 'json'
 
 cannotparse = './set-of-emails/to-be-debugged-because/sisimai-cannot-parse-yet'
 if File.exist?(cannotparse)
-  describe Sisimai do
+  describe SisimaiLegacy do
     it 'returns nil' do
       expect(SisimaiLegacy.make(cannotparse)).to be nil
     end

@@ -56,7 +56,7 @@ module SisimaiLegacy
       end
       return nil unless classname
 
-      classpath = classname.gsub('::', '/').downcase
+      classpath = classname.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
       require classpath
       parameter['mail'] = Module.const_get(classname).new(argv1)
 
