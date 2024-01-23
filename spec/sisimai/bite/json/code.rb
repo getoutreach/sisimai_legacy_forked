@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Sisimai
+module SisimaiLegacy
   module Bite
     module JSON
       module Code
@@ -283,7 +283,7 @@ module Sisimai
                           expect(pr.reason).to match e['r']
                         end
                         it sprintf("%s #token matches with the valid format", lb) do
-                          expect(pr.token).to match /\A([0-9a-f]{40})\z/ 
+                          expect(pr.token).to match /\A([0-9a-f]{40})\z/
                         end
                         it sprintf("%s #alias does not include [ ]", lb) do
                           expect(pr.alias).not_to match /[ ]/

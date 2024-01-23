@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sisimai/version'
+require 'sisimai_legacy/version'
 
 Gem::Specification.new do |spec|
-  spec.name    = 'sisimai'
+  spec.name    = 'sisimai_legacy'
   spec.version = Sisimai::VERSION
   spec.authors = ['azumakuniyuki']
   spec.email   = ['azumakuniyuki+rubygems.org@gmail.com']

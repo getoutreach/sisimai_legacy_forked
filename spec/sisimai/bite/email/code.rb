@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Sisimai
+module SisimaiLegacy
   module Bite
     module Email
       module Code
@@ -87,7 +87,7 @@ module Sisimai
                 it('could be generated Sisimai::Mail object') { expect(mailobject).to be_a Sisimai::Mail }
 
                 while r = mailobject.read do
-                  
+
                   describe Sisimai::Mail do
                     mesgsource = r.to_s
                     mesgobject = nil
@@ -287,7 +287,7 @@ module Sisimai
                           expect(pr.reason).to match e['r']
                         end
                         it sprintf("%s #token matches with the valid format", lb) do
-                          expect(pr.token).to match /\A([0-9a-f]{40})\z/ 
+                          expect(pr.token).to match /\A([0-9a-f]{40})\z/
                         end
                         it sprintf("%s #alias does not include [ ]", lb) do
                           expect(pr.alias).not_to match /[ ]/
