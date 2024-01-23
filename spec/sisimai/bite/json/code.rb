@@ -27,12 +27,12 @@ module SisimaiLegacy
 
             if outofemail.include? enginename
               # ARF, RFC3464, RFC3834
-              require sprintf("sisimai/%s", enginename.downcase)
+              require sprintf("sisimai_legacy/%s", enginename.downcase)
               modulename = Module.const_get(sprintf("SisimaiLegacy::%s", enginename))
               samplepath = sprintf("set-of-emails/private/%s", enginename.downcase) if privateset
             else
               # Other MTA modules
-              require sprintf("sisimai/bite/json/%s", enginename.downcase)
+              require sprintf("sisimai_legacy/bite/json/%s", enginename.downcase)
               modulename = Module.const_get(sprintf("SisimaiLegacy::Bite::JSON::%s", enginename))
               samplepath = sprintf("set-of-emails/private/json-%s", enginename.downcase) if privateset
             end
