@@ -13,7 +13,7 @@ describe Sisimai do
       [:dos, :mac].each do |e|
         next if e == :mac
 
-        mail = Sisimai.make(sampleemail[e])
+        mail = SisimaiLegacy.make(sampleemail[e])
         it('is Array') { expect(mail).to be_a Array }
         it('have data') { expect(mail.size).to be > 0 }
 
@@ -104,7 +104,7 @@ describe Sisimai do
     context 'valid email file' do
       [:dos, :mac].each do |e|
         next if e == :mac
-        jsonstring = Sisimai.dump(sampleemail[e])
+        jsonstring = SisimaiLegacy.dump(sampleemail[e])
         it('returns String') { expect(jsonstring).to be_a String }
         it('is not empty') { expect(jsonstring.size).to be > 0 }
 

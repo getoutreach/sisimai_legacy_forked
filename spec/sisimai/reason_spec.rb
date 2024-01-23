@@ -125,7 +125,7 @@ describe SisimaiLegacy::Reason do
   describe '.match' do
     smtperrors.each do |e|
       v = cn.match(e.downcase)
-      reasonlist = Sisimai.reason.keys.map { |e| e.to_s.downcase }
+      reasonlist = SisimaiLegacy.reason.keys.map { |e| e.to_s.downcase }
 
       subject { v }
       it('returns String') { is_expected.to be_a String }
@@ -133,8 +133,8 @@ describe SisimaiLegacy::Reason do
       it 'is included in the valid reason list' do
         expect(reasonlist.include?(v)).to be true
       end
-      it 'is the same value with the value of Sisimai.match(e)' do
-        expect(v).to be == Sisimai.match(e.downcase)
+      it 'is the same value with the value of SisimaiLegacy.match(e)' do
+        expect(v).to be == SisimaiLegacy.match(e.downcase)
       end
     end
   end

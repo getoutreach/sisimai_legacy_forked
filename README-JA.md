@@ -114,16 +114,16 @@ Basic usage
 ```ruby
 #! /usr/bin/env ruby
 require 'sisimai'
-v = Sisimai.make('/path/to/mbox')       # or path to Maildir/
+v = SisimaiLegacy.make('/path/to/mbox')       # or path to Maildir/
 
 # Beginning with v4.23.0, both make() and dump() method of Sisimai class can
 # read bounce messages from variable instead of a path to mailbox
 f = File.open('/path/to/mbox', 'r');    # or path to Maildir/
-v = Sisimai.make(f.read)
+v = SisimaiLegacy.make(f.read)
 
 # If you want to get bounce records which reason is "delivered", set "delivered"
 # option to make() method like the following:
-v = Sisimai.make('/path/to/mbox', delivered: true)
+v = SisimaiLegacy.make('/path/to/mbox', delivered: true)
 
 if v.is_a? Array
   v.each do |e|
@@ -152,10 +152,10 @@ Convert to JSON
 
 ```ruby
 # Get JSON string from parsed mailbox or Maildir/
-puts Sisimai.dump('/path/to/mbox')  # or path to Maildir/
+puts SisimaiLegacy.dump('/path/to/mbox')  # or path to Maildir/
 
 # dump() method also accepts "delivered" option like the following code:
-puts Sisimai.dump('/path/to/mbox', delivered: true)
+puts SisimaiLegacy.dump('/path/to/mbox', delivered: true)
 ```
 
 Read bounce object
@@ -170,7 +170,7 @@ require 'json'
 require 'sisimai'
 
 j = JSON.load('{"notificationType"=>"Bounce", "bounce"=>{"...') # JSON String
-v = Sisimai.make(j, input: 'json')
+v = SisimaiLegacy.make(j, input: 'json')
 
 if v.is_a? Array
   v.each do |e|
@@ -182,7 +182,7 @@ end
 
 Callback feature
 -------------------------------------------------------------------------------
-Sisimai 4.19.0から`Sisimai.make()`と`Sisimai.dump()`にLamda(Procオブジェクト)
+Sisimai 4.19.0から`SisimaiLegacy.make()`と`SisimaiLegacy.dump()`にLamda(Procオブジェクト)
 を引数`hook`に指定できるコールバック機能が実装されました。
 `hook`に指定したコードによって処理された結果は`SisimaiLegacy::Data.catch`
 メソッドで得ることができます。
@@ -201,8 +201,8 @@ callbackto = lambda do |v|
 end
 
 list = ['X-Mailer']
-data = Sisimai.make('/path/to/mbox', hook: callbackto, field: list)
-json = Sisimai.dump('/path/to/mbox', hook: callbackto, field: list)
+data = SisimaiLegacy.make('/path/to/mbox', hook: callbackto, field: list)
+json = SisimaiLegacy.dump('/path/to/mbox', hook: callbackto, field: list)
 
 puts data[0].catch['x-mailer']      # Apple Mail (2.1283)
 ```
@@ -216,7 +216,7 @@ One-Liner
 -------------------------------------------------------------------------------
 
 ```shell
-$ ruby -rsisimai -e 'puts Sisimai.dump($*.shift)' /path/to/mbox
+$ ruby -rsisimai -e 'puts SisimaiLegacy.dump($*.shift)' /path/to/mbox
 ```
 
 Output example

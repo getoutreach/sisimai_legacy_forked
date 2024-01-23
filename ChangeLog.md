@@ -129,7 +129,7 @@ v4.22.3
     of SFR and Free.fr.
   - Import Pull-Request sisimai/p5-Sisimai#246, large scale updates for Exim
     and error message patterns.
-  - Merge Pull-Request #93 from @subuta to fix issue #92. Sisimai.make() method
+  - Merge Pull-Request #93 from @subuta to fix issue #92. SisimaiLegacy.make() method
     passes ActiveSupport::HashWithIndifferentAccess object with `input: "json"`
     parameter. Thanks to @subuta.
   - Import Pull-Request sisimai/p5-Sisimai#247, Add 100+ error message patterns
@@ -234,7 +234,7 @@ v4.21.0 - Support G Suite
 - changes:
   - Experimental implementation: new MTA module SisimaiLegacy::MSP::US::GSuite for
     parsing a bounce mail returned from G Suite.
-  - `Sisimai.make()` and `SisimaiLegacy::Message.new()` methods check the value of a
+  - `SisimaiLegacy.make()` and `SisimaiLegacy::Message.new()` methods check the value of a
     `field` argument more strictly.
   - Improved `SisimaiLegacy::SMTP::Status.find()`. The method checks whether a found
     value as D.S.N. is IPv4 address or not.
@@ -254,7 +254,7 @@ v4.20.2
     Amazon SES SMTP endpoint.
   - Fix regular expression in `SisimaiLegacy::Message::Email.headers()` method for
     resolving issue #65 reported from @rdeavila.
-  - Issue #67, Fix code in `Sisimai.make()` method for reading bounce email data
+  - Issue #67, Fix code in `SisimaiLegacy.make()` method for reading bounce email data
     from STDIN. Thanks to @marine_dayo.
   - Callback feature improvement: import pull-request from sisimai/p5-Sisimai
     https://github.com/sisimai/p5-Sisimai/pull/210.
@@ -291,11 +291,11 @@ v4.19.0 - Callback Feature
 - release: "Tue, 18 Oct 2016 14:19:10 +0900 (JST)"
 - version: "4.19.0"
 - changes:
-  - Implement a callback feature at `Sisimai.make()` and `Sisimai.dump()` methods.
+  - Implement a callback feature at `SisimaiLegacy.make()` and `SisimaiLegacy.dump()` methods.
     More imformation about the feature are available at the following pages:
     - https://libsisimai.org/en/usage#callback
     - https://libsisimai.org/ja/usage#callback
-  - Implement `Sisimai.match()` method: issue #52.
+  - Implement `SisimaiLegacy.match()` method: issue #52.
   - Minor bug fix in `SisimaiLegacy::MSP::US::AmazonSES.scan()` method.
 
 v4.18.1
@@ -351,7 +351,7 @@ v4.17.0 - New Error Reason "syntaxerror"
     raeson when the value of `replycode` begins with `50` such as 502, 503,
     or 504. Imported from https://github.com/sisimai/p5-Sisimai/pull/170.
   - Implement `description()` method at each class in `sisimai/reason/*.rb` and
-    `Sisimai.reason()` method for getting the list of reasons Sisimai can detect
+    `SisimaiLegacy.reason()` method for getting the list of reasons Sisimai can detect
     and its description: issue #48.
   - Remove unused method `SisimaiLegacy::Reason.match()`, issue #49.
   - Some methods of SisimaiLegacy::Address class allow `postmaster`, `mailer-daemon`
@@ -370,7 +370,7 @@ v4.16.0 - New Error Reason "delivered"
   - Implement new reason **delivered**. Sisimai set `delivered` to the reason
     when the value of `Status:` field in a bounce message begins with `21. This
     feature is optional and is not enabled by default.
-  - Implement new method `Sisimai.engine()`. The method returns the list of MTA
+  - Implement new method `SisimaiLegacy.engine()`. The method returns the list of MTA
     and MSP module list implemented in Sisimai.
   - Fix serious bug (`gem install` fails on JRuby environment) in Gemfile and
     sisimai.gemspec. This bug is reported at issue #46 and pull-request #47.

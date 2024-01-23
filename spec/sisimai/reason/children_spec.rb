@@ -28,7 +28,7 @@ reasonchildren = {
   'VirusDetected'   => ['550 5.7.9 The message was rejected because it contains prohibited virus or spam content'],
 }
 
-ss = Sisimai.make('./set-of-emails/maildir/bsd/email-sendmail-01.eml', input: 'email').shift
+ss = SisimaiLegacy.make('./set-of-emails/maildir/bsd/email-sendmail-01.eml', input: 'email').shift
 describe 'SisimaiLegacy::Data object' do
   it('returns SisimaiLegacy::Data') { expect(ss).to be_a SisimaiLegacy::Data }
 end

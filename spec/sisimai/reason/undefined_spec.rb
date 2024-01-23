@@ -6,7 +6,7 @@ undefinedes = './set-of-emails/to-be-debugged-because/reason-is-undefined'
 if File.exist?(undefinedes)
   describe Sisimai do
     describe '.make' do
-      mail = Sisimai.make(undefinedes)
+      mail = SisimaiLegacy.make(undefinedes)
       subject { mail }
       it('is Array') { is_expected.to be_a Array }
       it('have data') { expect(mail.size).to be > 0 }
@@ -89,7 +89,7 @@ if File.exist?(undefinedes)
     end
 
     describe '.dump' do
-      jsonstring = Sisimai.dump(undefinedes)
+      jsonstring = SisimaiLegacy.dump(undefinedes)
       it('returns String') { expect(jsonstring).to be_a String }
       it('is not empty') { expect(jsonstring.size).to be > 0 }
     end

@@ -7,7 +7,7 @@ thatsonhold = './set-of-emails/to-be-debugged-because/reason-is-onhold'
 if File.exist?(thatsonhold)
   describe Sisimai do
     describe '.make' do
-      mail = Sisimai.make(thatsonhold)
+      mail = SisimaiLegacy.make(thatsonhold)
       subject { mail }
       it('is Array') { is_expected.to be_a Array }
       it('have data') { expect(mail.size).to be > 0 }
@@ -94,7 +94,7 @@ if File.exist?(thatsonhold)
     end
 
     describe '.dump' do
-      jsonstring = Sisimai.dump(thatsonhold)
+      jsonstring = SisimaiLegacy.dump(thatsonhold)
       it('returns String') { expect(jsonstring).to be_a String }
       it('is not empty') { expect(jsonstring.size).to be > 0 }
     end

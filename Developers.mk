@@ -1,10 +1,10 @@
 # p5-Sisimai/Developers.mk
-#  ____                 _                                       _    
+#  ____                 _                                       _
 # |  _ \  _____   _____| | ___  _ __   ___ _ __ ___   _ __ ___ | | __
 # | | | |/ _ \ \ / / _ \ |/ _ \| '_ \ / _ \ '__/ __| | '_ ` _ \| |/ /
-# | |_| |  __/\ V /  __/ | (_) | |_) |  __/ |  \__ \_| | | | | |   < 
+# | |_| |  __/\ V /  __/ | (_) | |_) |  __/ |  \__ \_| | | | | |   <
 # |____/ \___| \_/ \___|_|\___/| .__/ \___|_|  |___(_)_| |_| |_|_|\_\
-#                              |_|                                   
+#                              |_|
 # -----------------------------------------------------------------------------
 SHELL := /bin/sh
 HERE  := $(shell pwd)
@@ -32,7 +32,7 @@ COMPARINGDIR := tmp/emails-for-comparing
 PARSERSCRIPT := $(RUBY) sbin/emparser --delivered
 RELEASEVERMP := $(RUBY) -rsisimai
 DEVELOPVERMP := $(RUBY) -I./lib -rsisimai
-HOWMANYMAILS := $(DEVELOPVERMP) -e 'print Sisimai.make($$*.shift, delivered: true).size' $(COMPARINGDIR)
+HOWMANYMAILS := $(DEVELOPVERMP) -e 'print SisimaiLegacy.make($$*.shift, delivered: true).size' $(COMPARINGDIR)
 
 BENCHMARKEMP := sbin/mp
 
@@ -105,16 +105,16 @@ comparison: emails-for-comparing
 		done; \
 		echo -------------------------------------------------------------------; \
 	fi
-	@ echo 'Sisimai' `$(RELEASEVERMP) -e 'puts Sisimai.version'` $(RELEASEVERMP)
+	@ echo 'Sisimai' `$(RELEASEVERMP) -e 'puts SisimaiLegacy.version'` $(RELEASEVERMP)
 	@ n=1; while [ $$n -le 5 ]; do \
-		/usr/bin/time $(RELEASEVERMP) -e 'Sisimai.make($$*.shift, deliverd: true)' $(COMPARINGDIR) > /dev/null ;\
+		/usr/bin/time $(RELEASEVERMP) -e 'SisimaiLegacy.make($$*.shift, deliverd: true)' $(COMPARINGDIR) > /dev/null ;\
 		sleep 1; \
 		n=`expr $$n + 1`; \
 	done
 	@ echo -------------------------------------------------------------------
-	@ echo 'Sisimai' `$(DEVELOPVERMP) -e 'puts Sisimai.version'` $(DEVELOPVERMP)
+	@ echo 'Sisimai' `$(DEVELOPVERMP) -e 'puts SisimaiLegacy.version'` $(DEVELOPVERMP)
 	@ n=1; while [ $$n -le 5 ]; do \
-		/usr/bin/time $(DEVELOPVERMP) -e 'Sisimai.make($$*.shift, deliverd: true)' $(COMPARINGDIR) > /dev/null ;\
+		/usr/bin/time $(DEVELOPVERMP) -e 'SisimaiLegacy.make($$*.shift, deliverd: true)' $(COMPARINGDIR) > /dev/null ;\
 		sleep 1; \
 		n=`expr $$n + 1`; \
 	done

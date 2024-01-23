@@ -8,7 +8,7 @@ cannotparse = './set-of-emails/to-be-debugged-because/sisimai-cannot-parse-yet'
 if File.exist?(cannotparse)
   describe Sisimai do
     it 'returns nil' do
-      expect(Sisimai.make(cannotparse)).to be nil
+      expect(SisimaiLegacy.make(cannotparse)).to be nil
     end
   end
 

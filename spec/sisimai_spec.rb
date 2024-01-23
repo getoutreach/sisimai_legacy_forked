@@ -21,21 +21,21 @@ describe Sisimai do
   end
 
   describe '.version' do
-    subject { Sisimai.version }
+    subject { SisimaiLegacy.version }
     it('is String') { is_expected.to be_a(String) }
     it('is ' + SisimaiLegacy::VERSION) { is_expected.to eq SisimaiLegacy::VERSION }
   end
 
   describe '.sysname' do
-    subject { Sisimai.sysname }
+    subject { SisimaiLegacy.sysname }
     it('is String')     { is_expected.to be_a(String) }
     it('returns bounceHammer') { is_expected.to match(/bounceHammer/i) }
   end
 
   describe '.libname' do
-    subject { Sisimai.libname }
+    subject { SisimaiLegacy.libname }
     it('is String')       { is_expected.to be_a(String) }
-    it('returns Sisimai') { expect(Sisimai.libname).to eq 'Sisimai' }
+    it('returns Sisimai') { expect(SisimaiLegacy.libname).to eq 'Sisimai' }
   end
 
   describe '.make' do
@@ -55,16 +55,16 @@ describe Sisimai do
             require 'oj'
             jsonobject = Oj.load(js)
           end
-          mail = Sisimai.make(jsonobject, input: 'json')
+          mail = SisimaiLegacy.make(jsonobject, input: 'json')
 
         elsif e.to_s == 'memory'
           mf = File.open(sampleemail[e], 'r')
           ms = mf.read
           mf.close
 
-          mail = Sisimai.make(ms)
+          mail = SisimaiLegacy.make(ms)
         else
-          mail = Sisimai.make(sampleemail[e], input: 'email')
+          mail = SisimaiLegacy.make(sampleemail[e], input: 'email')
         end
         subject { mail }
         it('is Array') { is_expected.to be_a Array }
@@ -168,7 +168,7 @@ describe Sisimai do
             require 'oj'
             jsonobject = Oj.load(js)
           end
-          havecaught = Sisimai.make(jsonobject, hook: callbackto, input: 'json')
+          havecaught = SisimaiLegacy.make(jsonobject, hook: callbackto, input: 'json')
 
         else
           callbackto = lambda do |argv|
@@ -189,7 +189,7 @@ describe Sisimai do
             data['x-virus-scanned'] = argv['headers']['x-virus-scanned'] || ''
             return data
           end
-          havecaught = Sisimai.make(sampleemail[e],
+          havecaught = SisimaiLegacy.make(sampleemail[e],
                                     hook: callbackto,
                                     input: 'email',
                                     field: ['X-Virus-Scanned'])
@@ -238,7 +238,7 @@ describe Sisimai do
           end
         end
 
-        isntmethod = Sisimai.make(sampleemail[e], hook: {})
+        isntmethod = SisimaiLegacy.make(sampleemail[e], hook: {})
         if isntmethod.is_a? Array
           isntmethod.each do |ee|
             it('is SisimaiLegacy::Data') { expect(ee).to be_a SisimaiLegacy::Data }
@@ -252,22 +252,22 @@ describe Sisimai do
 
     context 'non-bounce email' do
       example 'returns nil' do
-        expect(Sisimai.make(isnotbounce[:maildir])).to be nil
-        expect(Sisimai.make(nil)).to be nil
+        expect(SisimaiLegacy.make(isnotbounce[:maildir])).to be nil
+        expect(SisimaiLegacy.make(nil)).to be nil
       end
     end
 
     context 'wrong number of arguments' do
       it 'raises ArgumentError' do
-        expect { Sisimai.make }.to raise_error(ArgumentError)
-        expect { Sisimai.make(nil, nil) }.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.make }.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.make(nil, nil) }.to raise_error(ArgumentError)
       end
     end
 
     context 'Invalid value in arguments' do
       it 'raises RuntimeError' do
-        expect { Sisimai.make('/dev/null', field: 'neko') }.to raise_error(RuntimeError)
-        expect { Sisimai.make('/dev/null', input: 'neko') }.to raise_error(RuntimeError)
+        expect { SisimaiLegacy.make('/dev/null', field: 'neko') }.to raise_error(RuntimeError)
+        expect { SisimaiLegacy.make('/dev/null', input: 'neko') }.to raise_error(RuntimeError)
       end
     end
   end
@@ -281,7 +281,7 @@ describe Sisimai do
     context 'valid email file' do
       [:mailbox, :maildir].each do |e|
 
-        jsonstring = Sisimai.dump(sampleemail[e])
+        jsonstring = SisimaiLegacy.dump(sampleemail[e])
         it('returns String') { expect(jsonstring).to be_a String }
         it('is not empty') { expect(jsonstring.size).to be > 0 }
 
@@ -313,28 +313,28 @@ describe Sisimai do
 
     context 'non-bounce email' do
       it 'returns "[]"' do
-        expect(Sisimai.dump(isnotbounce[:maildir])).to be == '[]'
+        expect(SisimaiLegacy.dump(isnotbounce[:maildir])).to be == '[]'
       end
       it 'returns nil' do
-        expect(Sisimai.dump(nil)).to be_nil
+        expect(SisimaiLegacy.dump(nil)).to be_nil
       end
     end
 
     context 'wrong number of arguments' do
       it 'raises ArgumentError' do
-        expect { Sisimai.dump}.to raise_error(ArgumentError)
-        expect { Sisimai.dump(nil, nil) }.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.dump}.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.dump(nil, nil) }.to raise_error(ArgumentError)
       end
     end
   end
 
   describe '.engine' do
     it 'returns Hash' do
-      expect(Sisimai.engine).to be_a Hash
-      expect(Sisimai.engine.keys.size).to be > 0
+      expect(SisimaiLegacy.engine).to be_a Hash
+      expect(SisimaiLegacy.engine.keys.size).to be > 0
     end
     it 'including a module information' do
-      Sisimai.engine.each do |e, f|
+      SisimaiLegacy.engine.each do |e, f|
         expect(e).to match(/\ASisimaiLegacy::/)
         expect(f).to be_a String
         expect(f.size).to be > 0
@@ -343,19 +343,19 @@ describe Sisimai do
 
     context 'wrong number of arguments' do
       it 'raises ArgumentError' do
-        expect { Sisimai.engine(nil)}.to raise_error(ArgumentError)
-        expect { Sisimai.engine(nil, nil) }.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.engine(nil)}.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.engine(nil, nil) }.to raise_error(ArgumentError)
       end
     end
   end
 
   describe '.reason' do
     it 'returns Hash' do
-      expect(Sisimai.reason).to be_a Hash
-      expect(Sisimai.reason.keys.size).to be > 0
+      expect(SisimaiLegacy.reason).to be_a Hash
+      expect(SisimaiLegacy.reason.keys.size).to be > 0
     end
     it 'including a reason description' do
-      Sisimai.reason.each do |e, f|
+      SisimaiLegacy.reason.each do |e, f|
         expect(e).to match(/\A[A-Z]/)
         expect(f).to be_a String
         expect(f.size).to be > 0
@@ -364,8 +364,8 @@ describe Sisimai do
 
     context 'wrong number of arguments' do
       it 'raises ArgumentError' do
-        expect { Sisimai.reason(nil)}.to raise_error(ArgumentError)
-        expect { Sisimai.reason(nil, nil) }.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.reason(nil)}.to raise_error(ArgumentError)
+        expect { SisimaiLegacy.reason(nil, nil) }.to raise_error(ArgumentError)
       end
     end
   end

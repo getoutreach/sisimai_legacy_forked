@@ -1,8 +1,8 @@
 # rb-Sisimai/Benchmarks.mk
-#  ____                  _                          _                    _    
+#  ____                  _                          _                    _
 # | __ )  ___ _ __   ___| |__  _ __ ___   __ _ _ __| | _____   _ __ ___ | | __
 # |  _ \ / _ \ '_ \ / __| '_ \| '_ ` _ \ / _` | '__| |/ / __| | '_ ` _ \| |/ /
-# | |_) |  __/ | | | (__| | | | | | | | | (_| | |  |   <\__ \_| | | | | |   < 
+# | |_) |  __/ | | | (__| | | | | | | | | (_| | |  |   <\__ \_| | | | | |   <
 # |____/ \___|_| |_|\___|_| |_|_| |_| |_|\__,_|_|  |_|\_\___(_)_| |_| |_|_|\_\
 # -----------------------------------------------------------------------------
 SHELL := /bin/sh
@@ -21,8 +21,8 @@ PRIVATEMAILS := $(EMAILROOTDIR)/private
 SPEEDTESTDIR := tmp/emails-for-speed-test
 
 COMMANDARGVS := -I./lib -rsisimai
-TOBEEXECUTED := 'Sisimai.make($$*.shift, delivered: true)' $(PUBLICMAILS)
-HOWMANYMAILS := $(RUBY) $(COMMANDARGVS) -le 'puts Sisimai.make($$*.shift, delivered: true).size' 
+TOBEEXECUTED := 'SisimaiLegacy.make($$*.shift, delivered: true)' $(PUBLICMAILS)
+HOWMANYMAILS := $(RUBY) $(COMMANDARGVS) -le 'puts SisimaiLegacy.make($$*.shift, delivered: true).size'
 
 # -----------------------------------------------------------------------------
 .PHONY: clean
