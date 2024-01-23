@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/smtp/reply'
+require 'sisimai_legacy/smtp/reply'
 
 describe SisimaiLegacy::SMTP::Reply do
   cn = SisimaiLegacy::SMTP::Reply

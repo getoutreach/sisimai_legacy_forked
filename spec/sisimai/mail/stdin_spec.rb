@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/mail/stdin'
+require 'sisimai_legacy/mail/stdin'
 
 describe SisimaiLegacy::Mail::STDIN do
   let(:mailobj) { SisimaiLegacy::Mail::STDIN.new(samples) }

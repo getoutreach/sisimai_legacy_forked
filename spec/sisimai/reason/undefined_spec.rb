@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai'
+require 'sisimai_legacy'
 require 'json'
 
 undefinedes = './set-of-emails/to-be-debugged-because/reason-is-undefined'

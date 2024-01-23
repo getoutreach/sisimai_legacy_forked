@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/mail/memory'
+require 'sisimai_legacy/mail/memory'
 
 describe SisimaiLegacy::Mail::Memory do
   samplemailbox = [

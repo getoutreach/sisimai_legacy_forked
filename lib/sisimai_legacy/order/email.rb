@@ -7,7 +7,7 @@ module SisimaiLegacy
     module Email
       # Imported from p5-Sisimail/lib/Sisimai/Order/Email.pm
       class << self
-        require 'sisimai/bite/email'
+        require 'sisimai_legacy/bite/email'
 
         EngineOrder1 = [
           # These modules have many subject patterns or have MIME encoded subjects

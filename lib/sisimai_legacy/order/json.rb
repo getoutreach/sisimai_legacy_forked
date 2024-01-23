@@ -5,7 +5,7 @@ module SisimaiLegacy
     module JSON
       # Imported from p5-Sisimail/lib/Sisimai/Order/JSON.pm
       class << self
-        require 'sisimai/bite/json'
+        require 'sisimai_legacy/bite/json'
 
         PatternTable = {
           'keyname' => { 'notificationType' => ['SisimaiLegacy::Bite::JSON::AmazonSES'] },

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/string'
+require 'sisimai_legacy/string'
 
 describe SisimaiLegacy::String do
   describe '.EOM' do

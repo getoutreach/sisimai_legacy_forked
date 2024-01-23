@@ -89,7 +89,7 @@ module SisimaiLegacy
             reasontext ||= 'expired' if argvs.action == 'delayed'
             unless reasontext
               # Try to match with message patterns in SisimaiLegacy::Reason::Vacation
-              require 'sisimai/reason/vacation'
+              require 'sisimai_legacy/reason/vacation'
               reasontext = 'vacation' if SisimaiLegacy::Reason::Vacation.match(argvs.diagnosticcode.downcase)
             end
             reasontext ||= 'onhold' unless argvs.diagnosticcode.empty?
@@ -155,7 +155,7 @@ module SisimaiLegacy
                 reasontext = 'mailererror'
               else
                 # 50X Syntax Error?
-                require 'sisimai/reason/syntaxerror'
+                require 'sisimai_legacy/reason/syntaxerror'
                 reasontext = 'syntaxerror' if SisimaiLegacy::Reason::SyntaxError.true(argvs)
               end
             end
@@ -182,7 +182,7 @@ module SisimaiLegacy
       # @return   [String]        Bounce reason
       def match(argv1)
         return nil unless argv1
-        require 'sisimai/smtp/status'
+        require 'sisimai_legacy/smtp/status'
 
         reasontext = ''
         typestring = ''

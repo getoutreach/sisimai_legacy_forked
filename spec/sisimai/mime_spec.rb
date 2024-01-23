@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'spec_helper'
-require 'sisimai/mime'
+require 'sisimai_legacy/mime'
 
 describe SisimaiLegacy::MIME do
   cn = SisimaiLegacy::MIME

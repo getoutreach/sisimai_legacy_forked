@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::JSON
   module SendGrid
     # Imported from p5-Sisimail/lib/Sisimai/Bite/JSON/SendGrid.pm
     class << self
-      require 'sisimai/bite/json'
+      require 'sisimai_legacy/bite/json'
 
       def smtpagent;   return SisimaiLegacy::Bite.smtpagent(self); end
       def description; return 'SendGrid(JSON): http://sendgrid.com/'; end

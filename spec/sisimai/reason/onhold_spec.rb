@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'sisimai'
+require 'sisimai_legacy'
 require 'json'
-require 'sisimai/reason/onhold'
+require 'sisimai_legacy/reason/onhold'
 
 thatsonhold = './set-of-emails/to-be-debugged-because/reason-is-onhold'
 if File.exist?(thatsonhold)

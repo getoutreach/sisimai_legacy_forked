@@ -10,9 +10,9 @@ module SisimaiLegacy
             return nil unless enginename
             return nil unless isexpected
 
-            require 'sisimai/mail'
-            require 'sisimai/message'
-            require 'sisimai/data'
+            require 'sisimai_legacy/mail'
+            require 'sisimai_legacy/message'
+            require 'sisimai_legacy/data'
 
             modulename = nil
             outofemail = %w|ARF RFC3464 RFC3834|

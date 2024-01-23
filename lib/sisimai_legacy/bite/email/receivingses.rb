@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module ReceivingSES
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/ReceivingSES.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       # http://aws.amazon.com/ses/
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS

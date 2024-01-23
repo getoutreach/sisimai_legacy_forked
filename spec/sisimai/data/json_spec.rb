@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'json'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai/data/json'
-require 'sisimai/message'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/data/json'
+require 'sisimai_legacy/message'
 
 describe SisimaiLegacy::Data::JSON do
   file = './set-of-emails/maildir/bsd/email-sendmail-02.eml'

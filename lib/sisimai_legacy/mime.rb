@@ -4,7 +4,7 @@ module SisimaiLegacy
     # Imported from p5-Sisimail/lib/Sisimai/MIME.pm
     class << self
       require 'base64'
-      require 'sisimai/string'
+      require 'sisimai_legacy/string'
 
       ReE = {
         :'7bit-encoded' => %r/^content-transfer-encoding:[ ]*7bit/m,

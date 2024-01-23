@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module MessagingServer
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/MessagingServer.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { message: ['This report relates to a message you sent with the following header fields:'] }.freeze

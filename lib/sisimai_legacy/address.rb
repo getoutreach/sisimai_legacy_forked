@@ -2,7 +2,7 @@ module SisimaiLegacy
   # SisimaiLegacy::Address provide methods for dealing email address.
   class Address
     # Imported from p5-Sisimail/lib/Sisimai/Address.pm
-    require 'sisimai/rfc5322'
+    require 'sisimai_legacy/rfc5322'
     Indicators = {
       :'email-address' => (1 << 0),    # <neko@example.org>
       :'quoted-string' => (1 << 1),    # "Neko, Nyaan"

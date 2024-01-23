@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/mail/maildir'
+require 'sisimai_legacy/mail/maildir'
 
 describe SisimaiLegacy::Mail::Maildir do
   samplemaildir = './set-of-emails/maildir/bsd'

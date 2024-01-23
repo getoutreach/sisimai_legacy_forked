@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module InterScanMSS
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/InterScanMSS.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {

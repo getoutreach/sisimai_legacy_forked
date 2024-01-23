@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::Email
   module X3
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/X3.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {

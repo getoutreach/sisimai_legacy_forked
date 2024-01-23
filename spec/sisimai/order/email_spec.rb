@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/order/email'
+require 'sisimai_legacy/order/email'
 
 describe SisimaiLegacy::Order::Email do
   cn = SisimaiLegacy::Order::Email

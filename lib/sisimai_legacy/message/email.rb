@@ -6,10 +6,10 @@ module SisimaiLegacy
     # of "new" method is not a bounce email, the method returns nil.
     class Email
       # Imported from p5-Sisimail/lib/Sisimai/Message/Email.pm
-      require 'sisimai/arf'
-      require 'sisimai/mime'
-      require 'sisimai/rfc3834'
-      require 'sisimai/order/email'
+      require 'sisimai_legacy/arf'
+      require 'sisimai_legacy/mime'
+      require 'sisimai_legacy/rfc3834'
+      require 'sisimai_legacy/order/email'
 
       @@ToBeLoaded = []
       @@TryOnFirst = []
@@ -491,12 +491,12 @@ module SisimaiLegacy
 
             # When the all of SisimaiLegacy::Bite::Email::* modules did not return
             # bounce data, call SisimaiLegacy::RFC3464;
-            require 'sisimai/rfc3464'
+            require 'sisimai_legacy/rfc3464'
             scannedset = SisimaiLegacy::RFC3464.scan(mailheader, bodystring)
             break if scannedset
 
             # Try to parse the message as auto reply message defined in RFC3834
-            require 'sisimai/rfc3834'
+            require 'sisimai_legacy/rfc3834'
             scannedset = SisimaiLegacy::RFC3834.scan(mailheader, bodystring)
             break if scannedset
 

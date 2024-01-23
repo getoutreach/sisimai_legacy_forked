@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/bite/json'
+require 'sisimai_legacy/bite/json'
 
 describe SisimaiLegacy::Bite::JSON do
   describe '.headerlist' do

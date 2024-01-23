@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::Email
   module Postfix
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Postfix.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       # Postfix manual - bounce(5) - http://www.postfix.org/bounce.5.html
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS

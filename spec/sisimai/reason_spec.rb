@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'sisimai/reason'
-require 'sisimai/message'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai'
+require 'sisimai_legacy/reason'
+require 'sisimai_legacy/message'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy'
 
 describe SisimaiLegacy::Reason do
   cn = SisimaiLegacy::Reason

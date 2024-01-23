@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module AmazonSES
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/AmazonSES.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       # http://aws.amazon.com/ses/
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
@@ -173,7 +173,7 @@ module SisimaiLegacy::Bite::Email
 
         if recipients == 0 && mbody =~ /notificationType/
           # Try to parse with SisimaiLegacy::Bite::JSON::AmazonSES module
-          require 'sisimai/bite/json/amazonses'
+          require 'sisimai_legacy/bite/json/amazonses'
           j = SisimaiLegacy::Bite::JSON::AmazonSES.scan(mhead, mbody)
 
           if j['ds'].is_a? Array

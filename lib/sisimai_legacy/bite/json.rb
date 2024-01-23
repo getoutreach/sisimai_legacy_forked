@@ -4,7 +4,7 @@ module SisimaiLegacy
     module JSON
       class << self
         # Imported from p5-Sisimail/lib/Sisimai/Bite/JSON.pm
-        require 'sisimai/bite'
+        require 'sisimai_legacy/bite'
 
         def headerlist; return []; end
 

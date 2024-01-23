@@ -78,7 +78,7 @@ module SisimaiLegacy
         end
         return nil if match < 1
 
-        require 'sisimai/bite/email'
+        require 'sisimai_legacy/bite/email'
         dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.scrub('?').split("\n")
         rfc822part = '' # (String) message/rfc822-headers part

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'sisimai/data'
-require 'sisimai/mail'
-require 'sisimai/message'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/message'
 
 describe SisimaiLegacy::Data do
   context 'without orders of email address headers' do

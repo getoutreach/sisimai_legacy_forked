@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/smtp'
+require 'sisimai_legacy/smtp'
 
 describe SisimaiLegacy::SMTP do
   cn = SisimaiLegacy::SMTP

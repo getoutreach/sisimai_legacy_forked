@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/smtp/status'
+require 'sisimai_legacy/smtp/status'
 
 describe SisimaiLegacy::SMTP::Status do
   cn = SisimaiLegacy::SMTP::Status

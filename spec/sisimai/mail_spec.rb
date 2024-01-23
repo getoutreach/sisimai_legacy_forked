@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/mail'
+require 'sisimai_legacy/mail'
 
 describe SisimaiLegacy::Mail do
   samplemailbox = './set-of-emails/mailbox/mbox-0'

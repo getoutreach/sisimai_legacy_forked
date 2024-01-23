@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::Email
   module KDDI
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/KDDI.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { rfc822: ['Content-Type: message/rfc822'] }.freeze

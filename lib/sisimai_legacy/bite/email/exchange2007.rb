@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module Exchange2007
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Exchange2007.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { rfc822: ['Original message headers:'] }.freeze

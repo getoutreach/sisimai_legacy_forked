@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/rhost'
+require 'sisimai_legacy/rhost'
 
 describe SisimaiLegacy::Rhost do
   cn = SisimaiLegacy::Rhost
@@ -54,8 +54,8 @@ describe SisimaiLegacy::Rhost do
   end
 
   describe 'get' do
-    require 'sisimai'
-    require 'sisimai/reason'
+    require 'sisimai_legacy'
+    require 'sisimai_legacy/reason'
     r = SisimaiLegacy::Reason.index.each { |p| p.downcase! }
     Dir.glob('./set-of-emails/maildir/bsd/rhost-*.eml').each do |e|
       v = SisimaiLegacy.make(e)

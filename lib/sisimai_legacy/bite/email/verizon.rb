@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module Verizon
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Verizon.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
 
       def description; return 'Verizon Wireless: http://www.verizonwireless.com'; end

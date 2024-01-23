@@ -53,7 +53,7 @@ module SisimaiLegacy
           if SisimaiLegacy::SMTP::Status.name(statuscode) == 'hostunknown'
             # Status: 5.1.2
             # Diagnostic-Code: SMTP; 550 Host unknown
-            require 'sisimai/reason/networkerror'
+            require 'sisimai_legacy/reason/networkerror'
             return true unless SisimaiLegacy::Reason::NetworkError.match(diagnostic)
           else
             # Check the value of Diagnosic-Code: header with patterns

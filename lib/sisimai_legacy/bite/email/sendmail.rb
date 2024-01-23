@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::Email
   module Sendmail
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Sendmail.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {

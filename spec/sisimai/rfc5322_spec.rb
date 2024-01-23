@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/rfc5322'
+require 'sisimai_legacy/rfc5322'
 
 describe SisimaiLegacy::RFC5322 do
   cn = SisimaiLegacy::RFC5322

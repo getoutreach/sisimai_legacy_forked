@@ -1,4 +1,4 @@
-require 'sisimai/version'
+require 'sisimai_legacy/version'
 
 # Sisimai is the system formerly known as bounceHammer 4, is a Ruby module for
 # analyzing bounce mails and generate structured data in a JSON format (YAML is
@@ -46,11 +46,11 @@ module SisimaiLegacy
       hookmethod = argv1[:hook] || nil
       bouncedata = []
 
-      require 'sisimai/data'
-      require 'sisimai/message'
+      require 'sisimai_legacy/data'
+      require 'sisimai_legacy/message'
       if input == 'email'
         # Path to mailbox or Maildir/, or STDIN: 'input' => 'email'
-        require 'sisimai/mail'
+        require 'sisimai_legacy/mail'
         mail = SisimaiLegacy::Mail.new(argv0)
         return nil unless mail
 
@@ -153,7 +153,7 @@ module SisimaiLegacy
     # Reason list Sisimai can detect
     # @return   [Hash]     Reason list table
     def reason
-      require 'sisimai/reason'
+      require 'sisimai_legacy/reason'
       table = {}
       names = SisimaiLegacy::Reason.index
 
@@ -174,7 +174,7 @@ module SisimaiLegacy
     # @return   [String]    Reason text
     def match(argvs = '')
       return nil if argvs.empty?
-      require 'sisimai/reason'
+      require 'sisimai_legacy/reason'
       return SisimaiLegacy::Reason.match(argvs.downcase)
     end
   end

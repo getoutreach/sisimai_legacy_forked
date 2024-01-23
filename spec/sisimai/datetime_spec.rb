@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/datetime'
+require 'sisimai_legacy/datetime'
 require 'time'
 
 describe SisimaiLegacy::DateTime do

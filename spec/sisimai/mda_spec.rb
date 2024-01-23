@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'sisimai/mda'
-require 'sisimai/mail'
+require 'sisimai_legacy/mda'
+require 'sisimai_legacy/mail'
 
 describe SisimaiLegacy::MDA do
   cn = SisimaiLegacy::MDA

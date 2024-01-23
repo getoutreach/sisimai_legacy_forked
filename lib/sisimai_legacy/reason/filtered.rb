@@ -48,7 +48,7 @@ module SisimaiLegacy
         def true(argvs)
           return true if argvs.reason == 'filtered'
 
-          require 'sisimai/reason/userunknown'
+          require 'sisimai_legacy/reason/userunknown'
           commandtxt = argvs.smtpcommand || ''
           diagnostic = argvs.diagnosticcode.downcase || ''
           tempreason = SisimaiLegacy::SMTP::Status.name(argvs.deliverystatus)

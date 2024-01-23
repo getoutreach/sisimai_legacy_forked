@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai/message'
-require 'sisimai/rhost/exchangeonline'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/message'
+require 'sisimai_legacy/rhost/exchangeonline'
 
 describe SisimaiLegacy::Rhost::ExchangeOnline do
   rs = {

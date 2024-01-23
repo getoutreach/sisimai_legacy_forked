@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/MailRu.pm
       # Based on SisimaiLegacy::Bite::Email::Exim
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {

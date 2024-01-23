@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'sisimai/address'
-require 'sisimai/rfc5322'
+require 'sisimai_legacy/address'
+require 'sisimai_legacy/rfc5322'
 require 'json'
 
 describe SisimaiLegacy::Address do

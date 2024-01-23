@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/X4.pm
       # MTA module for qmail clones
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = {

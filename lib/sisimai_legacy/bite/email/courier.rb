@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::Email
   module Courier
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/Courier.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       # http://www.courier-mta.org/courierdsn.html
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS

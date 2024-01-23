@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/message'
+require 'sisimai_legacy/message'
 
 describe SisimaiLegacy::Message do
   cn = SisimaiLegacy::Message

@@ -3,7 +3,7 @@ module SisimaiLegacy
   module RFC3464
     # Imported from p5-Sisimail/lib/Sisimai/RFC3464.pm
     class << self
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       # http://tools.ietf.org/html/rfc3464
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
@@ -43,7 +43,7 @@ module SisimaiLegacy
       # @return        [Hash, Nil]        Bounce data list and message/rfc822 part
       #                                   or nil if it failed to parse or the
       def scan(mhead, mbody)
-        require 'sisimai/mda'
+        require 'sisimai_legacy/mda'
 
         dscontents = [SisimaiLegacy::Bite.DELIVERYSTATUS]
         hasdivided = mbody.scrub('?').split("\n")

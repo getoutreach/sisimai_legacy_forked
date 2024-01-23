@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/bite/email'
+require 'sisimai_legacy/bite/email'
 
 describe SisimaiLegacy::Bite::Email do
   describe '.INDICATORS' do

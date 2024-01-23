@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai/message'
-require 'sisimai/rhost/godaddy'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/message'
+require 'sisimai_legacy/rhost/godaddy'
 
 describe SisimaiLegacy::Rhost::GoDaddy do
   rs = {

@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'yaml'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai/data/yaml'
-require 'sisimai/message'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/data/yaml'
+require 'sisimai_legacy/message'
 
 describe SisimaiLegacy::Data::YAML do
   file = './set-of-emails/maildir/bsd/email-sendmail-02.eml'

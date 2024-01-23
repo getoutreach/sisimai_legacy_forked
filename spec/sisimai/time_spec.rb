@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/time'
+require 'sisimai_legacy/time'
 
 describe SisimaiLegacy::Time do
   cn = SisimaiLegacy::Time

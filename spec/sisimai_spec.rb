@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai'
+require 'sisimai_legacy'
 require 'json'
 
 describe Sisimai do

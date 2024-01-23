@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/bite'
+require 'sisimai_legacy/bite'
 
 describe SisimaiLegacy::Bite do
   describe '.DELIVERYSTATUS' do

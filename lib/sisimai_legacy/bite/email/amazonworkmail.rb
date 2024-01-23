@@ -4,7 +4,7 @@ module SisimaiLegacy::Bite::Email
   module AmazonWorkMail
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/AmazonWorkMail.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       # https://aws.amazon.com/workmail/
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'sisimai'
-require 'sisimai/mail/maildir'
-require 'sisimai/message'
+require 'sisimai_legacy'
+require 'sisimai_legacy/mail/maildir'
+require 'sisimai_legacy/message'
 require 'json'
 
 cannotparse = './set-of-emails/to-be-debugged-because/sisimai-cannot-parse-yet'

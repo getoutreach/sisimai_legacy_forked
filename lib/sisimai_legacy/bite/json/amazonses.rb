@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::JSON
   module AmazonSES
     # Imported from p5-Sisimail/lib/Sisimai/Bite/JSON/AmazonSES.pm
     class << self
-      require 'sisimai/bite/json'
+      require 'sisimai_legacy/bite/json'
 
       # https://docs.aws.amazon.com/en_us/ses/latest/DeveloperGuide/notification-contents.html
       BounceType = {

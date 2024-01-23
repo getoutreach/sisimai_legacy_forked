@@ -5,7 +5,7 @@ module SisimaiLegacy::Bite::Email
   module V5sendmail
     class << self
       # Imported from p5-Sisimail/lib/Sisimai/Bite/Email/V5sendmail.pm
-      require 'sisimai/bite/email'
+      require 'sisimai_legacy/bite/email'
 
       Indicators = SisimaiLegacy::Bite::Email.INDICATORS
       StartingOf = { message: ['----- Transcript of session follows -----'] };

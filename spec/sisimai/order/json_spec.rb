@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai/order/json'
+require 'sisimai_legacy/order/json'
 
 describe SisimaiLegacy::Order::JSON do
   cn = SisimaiLegacy::Order::JSON

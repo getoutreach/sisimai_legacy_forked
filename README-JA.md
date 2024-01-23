@@ -113,7 +113,7 @@ Basic usage
 
 ```ruby
 #! /usr/bin/env ruby
-require 'sisimai'
+require 'sisimai_legacy'
 v = SisimaiLegacy.make('/path/to/mbox')       # or path to Maildir/
 
 # Beginning with v4.23.0, both make() and dump() method of Sisimai class can
@@ -167,7 +167,7 @@ Read bounce object
 ```ruby
 #! /usr/bin/env ruby
 require 'json'
-require 'sisimai'
+require 'sisimai_legacy'
 
 j = JSON.load('{"notificationType"=>"Bounce", "bounce"=>{"...') # JSON String
 v = SisimaiLegacy.make(j, input: 'json')
@@ -189,7 +189,7 @@ Sisimai 4.19.0から`SisimaiLegacy.make()`と`SisimaiLegacy.dump()`にLamda(Proc
 
 ```ruby
 #! /usr/bin/env ruby
-require 'sisimai'
+require 'sisimai_legacy'
 callbackto = lambda do |v|
   r = { 'x-mailer' => '', 'queue-id' => '' }
 

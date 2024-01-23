@@ -5,8 +5,8 @@ module SisimaiLegacy
     module Error
       # Imported from p5-Sisimail/lib/Sisimai/SMTP/Error.pm
       class << self
-        require 'sisimai/smtp/reply'
-        require 'sisimai/smtp/status'
+        require 'sisimai_legacy/smtp/reply'
+        require 'sisimai_legacy/smtp/status'
 
         SoftOrHard = {
           :soft => %w[

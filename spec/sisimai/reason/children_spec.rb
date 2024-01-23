@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai'
+require 'sisimai_legacy'
 
 reasonchildren = {
   'Blocked'         => ['550 Access from ip address 192.0.2.1 blocked.'],

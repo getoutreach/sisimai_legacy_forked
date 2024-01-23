@@ -4,7 +4,7 @@ module SisimaiLegacy
     # retrieved from some Cloud Email Deliveries API to data structure.
     class JSON
       # Imported from p5-Sisimail/lib/Sisimai/Message/JSON.pm
-      require 'sisimai/order/json'
+      require 'sisimai_legacy/order/json'
 
       @@ToBeLoaded = []
       @@TryOnFirst = []
