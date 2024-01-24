@@ -82,11 +82,13 @@ module SisimaiLegacy
 
         while e = list.shift do
           methodargv = { data: e, hook: hookmethod, input: 'json' }
-          mesg = SisimaiLegacy::Message.new(methodargv)
+          # monkey patching kwargs to support Ruby 3
+          mesg = SisimaiLegacy::Message.new(**methodargv)
           next if mesg.void
 
           methodargv = { data: mesg, hook: hookmethod, input: 'json', delivered: delivered1 }
-          data = SisimaiLegacy::Data.make(methodargv)
+          # monkey patching kwargs to support Ruby 3
+          data = SisimaiLegacy::Data.make(**methodargv)
 
           next unless data
           bouncedata += data unless data.empty?
