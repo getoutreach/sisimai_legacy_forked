@@ -131,14 +131,14 @@ module SisimaiLegacy
 
       %w[Bite::Email Bite::JSON ARF RFC3464 RFC3834].each do |e|
         r = 'SisimaiLegacy::' << e
-        require r.gsub('::', '/').downcase
+        require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
 
         if e.start_with?('Bite::Email', 'Bite::JSON')
           # SisimaiLegacy::Bite::Email or SisimaiLegacy::Bite::JSON
           Module.const_get(r).send(:index).each do |ee|
             # Load and get the value of "description" from each module
             rr = 'SisimaiLegacy::' << e + '::' << ee
-            require rr.gsub('::', '/').downcase
+            require rr.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
             table[rr.to_sym] = Module.const_get(rr).send(:description)
           end
         else
@@ -162,7 +162,7 @@ module SisimaiLegacy
       while e = names.shift do
         # Call .description() method of SisimaiLegacy::Reason::*
         r = 'SisimaiLegacy::Reason::' << e
-        require r.gsub('::', '/').downcase
+        require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
         table[e.to_sym] = Module.const_get(r).send(:description)
       end
 

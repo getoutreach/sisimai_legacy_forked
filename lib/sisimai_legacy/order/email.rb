@@ -184,7 +184,7 @@ module SisimaiLegacy
 
           while e = order.shift do
             # Load email headers from each MTA module
-            require e.gsub('::', '/').downcase
+            require e.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
 
             Module.const_get(e).headerlist.each do |v|
               # Get header name which required each MTA module

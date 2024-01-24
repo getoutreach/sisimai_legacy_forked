@@ -125,7 +125,7 @@ module SisimaiLegacy
           argvs['load'].each do |v|
             # Load user defined MTA module
             begin
-              require v.to_s.gsub('::', '/').downcase
+              require v.to_s.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
             rescue LoadError
               warn ' ***warning: Failed to load ' << v
               next
@@ -473,7 +473,7 @@ module SisimaiLegacy
               # Try MTA module candidates which are detected from MTA specific
               # mail headers on first
               next if haveloaded.key?(r)
-              require r.gsub('::', '/').downcase
+              require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
               scannedset = Module.const_get(r).scan(mailheader, bodystring)
               haveloaded[r] = true
               throw :SCANNER if scannedset
@@ -483,7 +483,7 @@ module SisimaiLegacy
               # MTA modules which does not have MTA specific header and did
               # not match with any regular expressions of Subject header.
               next if haveloaded.key?(r)
-              require r.gsub('::', '/').downcase
+              require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
               scannedset = Module.const_get(r).scan(mailheader, bodystring)
               haveloaded[r] = true
               throw :SCANNER if scannedset

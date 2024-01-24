@@ -35,7 +35,7 @@ end
 
 reasonchildren.each_key do |e|
   rn = 'SisimaiLegacy::Reason::' + e
-  require rn.downcase.gsub('::', '/')
+  require rn.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
   cn = Module.const_get(rn)
 
   describe cn do
@@ -65,7 +65,7 @@ end
 
 %w|Delivered Feedback Undefined Vacation|.each do |e|
   rn = 'SisimaiLegacy::Reason::' + e
-  require rn.downcase.gsub('::', '/')
+  require rn.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
   cn = Module.const_get(rn)
 
   describe cn do

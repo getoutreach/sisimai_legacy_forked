@@ -71,7 +71,7 @@ module SisimaiLegacy
           argvs['load'].each do |v|
             # Load user defined MTA(JSON) module
             begin
-              require v.to_s.gsub('::', '/').downcase
+              require v.to_s.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
             rescue LoadError
               warn ' ***warning: Failed to load ' << v
               next
@@ -146,7 +146,7 @@ module SisimaiLegacy
               # Call user defined MTA(JSON) modules
               next if haveloaded[r]
               begin
-                require r.gsub('::', '/').downcase
+                require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
               rescue LoadError => ce
                 warn ' ***warning: Failed to load ' << ce.to_s
                 next
@@ -161,7 +161,7 @@ module SisimaiLegacy
               # key names
               next if haveloaded.key?(r)
               begin
-                require r.gsub('::', '/').downcase
+                require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
               rescue LoadError => ce
                 warn ' ***warning: ' << ce.to_s
                 next
@@ -175,7 +175,7 @@ module SisimaiLegacy
               # Default order of MTA(JSON) modules
               next if haveloaded.key?(r)
               begin
-                require r.gsub('::', '/').downcase
+                require r.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
               rescue => ce
                 warn ' ***warning: ' << ce.to_s
                 next

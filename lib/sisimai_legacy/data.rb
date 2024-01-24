@@ -418,7 +418,7 @@ module SisimaiLegacy
       referclass = 'SisimaiLegacy::Data::' << type.upcase
 
       begin
-        require referclass.downcase.gsub('::', '/')
+        require referclass.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
       rescue
         warn '***warning: Failed to load' << referclass
       end

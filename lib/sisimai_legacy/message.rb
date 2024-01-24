@@ -61,7 +61,7 @@ module SisimaiLegacy
       end
 
       begin
-        require child.gsub('::', '/').downcase
+        require child.gsub('::', '/').downcase.gsub('sisimailegacy', 'sisimai_legacy')
       rescue LoadError => ce
         warn ' ***warning: Failed to load module: ' << ce.to_s
         return nil

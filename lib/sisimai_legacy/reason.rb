@@ -67,7 +67,7 @@ module SisimaiLegacy
             p = 'SisimaiLegacy::Reason::' << e
             r = nil
             begin
-              require p.downcase.gsub('::', '/')
+              require p.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
               r = Module.const_get(p)
             rescue
               warn ' ***warning: Failed to load ' << p
@@ -127,7 +127,7 @@ module SisimaiLegacy
               p = 'SisimaiLegacy::Reason::' << e
               r = nil
               begin
-                require p.downcase.gsub('::', '/')
+                require p.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
                 r = Module.const_get(p)
               rescue
                 warn ' ***warning: Failed to load ' << p
@@ -198,7 +198,7 @@ module SisimaiLegacy
           p = 'SisimaiLegacy::Reason::' << e
           r = nil
           begin
-            require p.downcase.gsub('::', '/')
+            require p.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
             r = Module.const_get(p)
           rescue
             warn ' ***warning: Failed to load ' << p
