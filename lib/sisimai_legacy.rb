@@ -57,11 +57,11 @@ module SisimaiLegacy
         while r = mail.read do
           # Read and parse each mail file
           methodargv = { data: r, hook: hookmethod, input: 'email', field: field }
-          mesg = SisimaiLegacy::Message.new(methodargv)
+          mesg = SisimaiLegacy::Message.new(**methodargv)
           next if mesg.void
 
           methodargv = { data: mesg, hook: hookmethod, input: 'email', delivered: delivered1 }
-          data = SisimaiLegacy::Data.make(methodargv)
+          data = SisimaiLegacy::Data.make(**methodargv)
           next unless data
           bouncedata += data unless data.empty?
         end
@@ -114,7 +114,7 @@ module SisimaiLegacy
     def dump(argv0, **argv1)
       return nil unless argv0
 
-      nyaan = SisimaiLegacy.make(argv0, argv1) || []
+      nyaan = SisimaiLegacy.make(argv0, **argv1) || []
       if RUBY_PLATFORM.start_with?('java')
         # java-based ruby environment like JRuby.
         require 'jrjackson'
