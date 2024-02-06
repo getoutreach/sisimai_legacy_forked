@@ -6,5 +6,5 @@ isexpected = [
   { 'n' => '01002', 'r' => /mailboxfull/ },
   { 'n' => '01003', 'r' => /mailboxfull/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

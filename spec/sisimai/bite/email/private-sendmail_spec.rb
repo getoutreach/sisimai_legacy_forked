@@ -219,5 +219,5 @@ isexpected = [
   { 'n' => '01217', 'r' => /blocked/ },
   { 'n' => '01218', 'r' => /blocked/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

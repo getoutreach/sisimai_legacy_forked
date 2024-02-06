@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/smtp/error'
+require 'sisimai_legacy/smtp/error'
 
-describe Sisimai::SMTP::Error do
-  cn = Sisimai::SMTP::Error
+describe SisimaiLegacy::SMTP::Error do
+  cn = SisimaiLegacy::SMTP::Error
   softbounces = [
     'blocked', 'contenterror', 'exceedlimit', 'expired', 'filtered',
     'mailboxfull', 'mailererror', 'mesgtoobig', 'networkerror',

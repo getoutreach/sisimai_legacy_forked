@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'sisimai/reason'
-require 'sisimai/message'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai'
+require 'sisimai_legacy/reason'
+require 'sisimai_legacy/message'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy'
 
-describe Sisimai::Reason do
-  cn = Sisimai::Reason
+describe SisimaiLegacy::Reason do
+  cn = SisimaiLegacy::Reason
 
   smtperrors = [
     %q|smtp; 550 5.1.1 <kijitora@example.co.jp>... User Unknown|,
@@ -111,7 +111,7 @@ describe Sisimai::Reason do
   describe '.anotherone' do
     it('returns nil') { expect(cn.anotherone(nil)).to be nil }
   end
-  
+
   describe '.index' do
     it('returns Array') { expect(cn.index).to be_a Array }
     it('include reasons') { expect(cn.index.size).to be > 0 }
@@ -125,7 +125,7 @@ describe Sisimai::Reason do
   describe '.match' do
     smtperrors.each do |e|
       v = cn.match(e.downcase)
-      reasonlist = Sisimai.reason.keys.map { |e| e.to_s.downcase }
+      reasonlist = SisimaiLegacy.reason.keys.map { |e| e.to_s.downcase }
 
       subject { v }
       it('returns String') { is_expected.to be_a String }
@@ -133,21 +133,21 @@ describe Sisimai::Reason do
       it 'is included in the valid reason list' do
         expect(reasonlist.include?(v)).to be true
       end
-      it 'is the same value with the value of Sisimai.match(e)' do
-        expect(v).to be == Sisimai.match(e.downcase)
+      it 'is the same value with the value of SisimaiLegacy.match(e)' do
+        expect(v).to be == SisimaiLegacy.match(e.downcase)
       end
     end
   end
 
   describe '.true' do
-    mailboxobj = Sisimai::Mail.new('./set-of-emails/maildir/bsd/email-sendmail-01.eml')
+    mailboxobj = SisimaiLegacy::Mail.new('./set-of-emails/maildir/bsd/email-sendmail-01.eml')
     while r = mailboxobj.read do
-      o = Sisimai::Message.new( data: r )
-      v = Sisimai::Data.make( data: o )
+      o = SisimaiLegacy::Message.new( data: r )
+      v = SisimaiLegacy::Data.make( data: o )
       it('returns Array') { expect(v).to be_a Array }
 
       v.each do |e|
-        it('is Sisimai::Data object') { expect(e).to be_a Sisimai::Data }
+        it('is SisimaiLegacy::Data object') { expect(e).to be_a SisimaiLegacy::Data }
         it 'is bounced due to "userunkonwn"' do
           expect(e.reason).to be == 'userunknown'
         end

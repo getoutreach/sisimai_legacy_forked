@@ -6,5 +6,5 @@ isexpected = [
   { 'n' => '01002', 'r' => /undefined/ },
   { 'n' => '01003', 'r' => /mesgtoobig/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

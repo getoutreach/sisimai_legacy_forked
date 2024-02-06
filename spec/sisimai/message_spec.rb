@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/message'
+require 'sisimai_legacy/message'
 
-describe Sisimai::Message do
-  cn = Sisimai::Message
+describe SisimaiLegacy::Message do
+  cn = SisimaiLegacy::Message
   sf = {
     'mail' => './set-of-emails/mailbox/mbox-0',
     'json' => './set-of-emails/jsonobj/json-amazonses-01.json',
@@ -56,7 +56,7 @@ describe Sisimai::Message do
 
     describe 'class method' do
       describe '.new' do
-        it('returns Sisimai::Message object') { expect(messageobj).to be_a cn }
+        it('returns SisimaiLegacy::Message object') { expect(messageobj).to be_a cn }
         example('#header returns Hash') { expect(messageobj.header).to be_a Hash }
         example('#ds returns Array') { expect(messageobj.ds).to be_a Array }
         example('#rfc822 returns Hash') { expect(messageobj.rfc822).to be_a Hash }
@@ -64,7 +64,7 @@ describe Sisimai::Message do
         example('#catch returns Hash')  { expect(messageobj.catch).to be_a Hash }
 
         if q == 'email'
-          it('returns Sisimai::Message object') { expect(nullobject).to be_a cn }
+          it('returns SisimaiLegacy::Message object') { expect(nullobject).to be_a cn }
         end
       end
     end

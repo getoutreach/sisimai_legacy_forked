@@ -1,23 +1,23 @@
 require 'spec_helper'
-require 'sisimai'
-require 'sisimai/mail/maildir'
-require 'sisimai/message'
+require 'sisimai_legacy'
+require 'sisimai_legacy/mail/maildir'
+require 'sisimai_legacy/message'
 require 'json'
 
 cannotparse = './set-of-emails/to-be-debugged-because/sisimai-cannot-parse-yet'
 if File.exist?(cannotparse)
-  describe Sisimai do
+  describe SisimaiLegacy do
     it 'returns nil' do
-      expect(Sisimai.make(cannotparse)).to be nil
+      expect(SisimaiLegacy.make(cannotparse)).to be nil
     end
   end
 
-  describe Sisimai::Mail::Maildir do
-    maildir = Sisimai::Mail::Maildir.new(cannotparse)
+  describe SisimaiLegacy::Mail::Maildir do
+    maildir = SisimaiLegacy::Mail::Maildir.new(cannotparse)
 
-    describe 'Sisimai::Mail::Maildir' do
-      it 'is Sisimai::Mail::Maildir' do
-        expect(maildir).to be_a Sisimai::Mail::Maildir
+    describe 'SisimaiLegacy::Mail::Maildir' do
+      it 'is SisimaiLegacy::Mail::Maildir' do
+        expect(maildir).to be_a SisimaiLegacy::Mail::Maildir
       end
 
       describe 'each method' do
@@ -35,7 +35,7 @@ if File.exist?(cannotparse)
         end
 
         describe '#read' do
-          mailobj = Sisimai::Mail::Maildir.new(cannotparse)
+          mailobj = SisimaiLegacy::Mail::Maildir.new(cannotparse)
           mailtxt = mailobj.read
 
           it 'returns message string' do
@@ -47,7 +47,7 @@ if File.exist?(cannotparse)
     end
   end
 
-  describe Sisimai::Message do
+  describe SisimaiLegacy::Message do
     seekhandle = Dir.open(cannotparse)
     mailastext = ''
 
@@ -69,9 +69,9 @@ if File.exist?(cannotparse)
         expect(mailastext.size).to be > 0
       end
 
-      p = Sisimai::Message.new(data: mailastext)
-      it 'returns Sisimai::Message' do
-        expect(p).to be_a Sisimai::Message
+      p = SisimaiLegacy::Message.new(data: mailastext)
+      it 'returns SisimaiLegacy::Message' do
+        expect(p).to be_a SisimaiLegacy::Message
         expect(p.ds).to be nil
         expect(p.from).to be nil
         expect(p.rfc822).to be nil

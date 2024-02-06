@@ -1,15 +1,15 @@
 require 'spec_helper'
-require 'sisimai/bite'
+require 'sisimai_legacy/bite'
 
-describe Sisimai::Bite do
+describe SisimaiLegacy::Bite do
   describe '.DELIVERYSTATUS' do
-    it('returns Hash') { expect(Sisimai::Bite.DELIVERYSTATUS).to be_a Hash }
+    it('returns Hash') { expect(SisimaiLegacy::Bite.DELIVERYSTATUS).to be_a Hash }
   end
   describe '.smtpagent' do
-    it('returns String') { expect(Sisimai::Bite.smtpagent).to be_a Object::String }
+    it('returns String') { expect(SisimaiLegacy::Bite.smtpagent).to be_a Object::String }
   end
   describe '.description' do
-    it('returns String') { expect(Sisimai::Bite.description).to be_a Object::String }
+    it('returns String') { expect(SisimaiLegacy::Bite.description).to be_a Object::String }
   end
 end
 

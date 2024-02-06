@@ -1,19 +1,19 @@
 require 'spec_helper'
-require 'sisimai/mail/maildir'
+require 'sisimai_legacy/mail/maildir'
 
-describe Sisimai::Mail::Maildir do
+describe SisimaiLegacy::Mail::Maildir do
   samplemaildir = './set-of-emails/maildir/bsd'
   allofthefiles = 410
-  let(:mailobj) { Sisimai::Mail::Maildir.new(samples) }
-  let(:mockobj) { Sisimai::Mail::Maildir.new(invalid) }
+  let(:mailobj) { SisimaiLegacy::Mail::Maildir.new(samples) }
+  let(:mockobj) { SisimaiLegacy::Mail::Maildir.new(invalid) }
 
   describe 'class method' do
     describe '.new' do
       context 'Maildir/ exists' do
         let(:samples) { samplemaildir }
         subject { mailobj }
-        it 'returns Sisimai::Mail::Maildir object' do
-          is_expected.to be_a Sisimai::Mail::Maildir
+        it 'returns SisimaiLegacy::Mail::Maildir object' do
+          is_expected.to be_a SisimaiLegacy::Mail::Maildir
           expect(mailobj.read).to be_a String
         end
       end
@@ -34,8 +34,8 @@ describe Sisimai::Mail::Maildir do
 
       context 'wrong number of arguments' do
         it 'raises ArgumentError' do
-          expect { Sisimai::Mail::Maildir.new }.to raise_error(ArgumentError)
-          expect { Sisimai::Mail::Maildir.new(nil, nil) }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::Maildir.new }.to raise_error(ArgumentError)
+          expect { SisimaiLegacy::Mail::Maildir.new(nil, nil) }.to raise_error(ArgumentError)
         end
       end
     end
@@ -99,7 +99,7 @@ describe Sisimai::Mail::Maildir do
     end
 
     describe '#read' do
-      maildir = Sisimai::Mail::Maildir.new(samplemaildir)
+      maildir = SisimaiLegacy::Mail::Maildir.new(samplemaildir)
       emindex = 0
 
       while r = maildir.read do

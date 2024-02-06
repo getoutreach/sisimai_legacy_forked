@@ -8,5 +8,5 @@ isexpected = [
   { 'n' => '05', 's' => /\A2[.]6[.]0\z/, 'r' => /delivered/,   'b' => /\A-1\z/ },
   { 'n' => '06', 's' => /\A5[.]1[.]1\z/, 'r' => /userunknown/, 'b' => /\A0\z/ },
 ]
-Sisimai::Bite::JSON::Code.maketest(enginename, isexpected)
+SisimaiLegacy::Bite::JSON::Code.maketest(enginename, isexpected)
 

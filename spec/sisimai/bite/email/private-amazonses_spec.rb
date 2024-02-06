@@ -32,5 +32,5 @@ isexpected = [
   { 'n' => '01028', 'r' => /expired/ },
   { 'n' => '01029', 'r' => /filtered/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

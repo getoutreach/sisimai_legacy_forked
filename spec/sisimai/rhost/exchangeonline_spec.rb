@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai/message'
-require 'sisimai/rhost/exchangeonline'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/message'
+require 'sisimai_legacy/rhost/exchangeonline'
 
-describe Sisimai::Rhost::ExchangeOnline do
+describe SisimaiLegacy::Rhost::ExchangeOnline do
   rs = {
     '01' => { 'status' => %r/\A5[.]7[.]606\z/, 'reason' => %r/blocked/ },
     '02' => { 'status' => %r/\A5[.]4[.]1\z/,   'reason' => %r/userunknown/ },
@@ -15,13 +15,13 @@ describe Sisimai::Rhost::ExchangeOnline do
       emailfn = sprintf('./set-of-emails/maildir/bsd/rhost-exchange-online-%02d.eml', n)
       next unless File.exist?(emailfn)
 
-      mailbox = Sisimai::Mail.new(emailfn)
+      mailbox = SisimaiLegacy::Mail.new(emailfn)
       mtahost = %r/.+[.](?:prod|protection)[.]outlook[.]com/
       next unless mailbox
 
       while r = mailbox.read do
-        mesg = Sisimai::Message.new(data: r)
-        it('is Sisimai::Message object') { expect(mesg).to be_a Sisimai::Message }
+        mesg = SisimaiLegacy::Message.new(data: r)
+        it('is SisimaiLegacy::Message object') { expect(mesg).to be_a SisimaiLegacy::Message }
         it('has array in "ds" accessor' ) { expect(mesg.ds).to be_a Array }
         it('has hash in "header" accessor' ) { expect(mesg.header).to be_a Hash }
         it('has hash in "rfc822" accessor' ) { expect(mesg.rfc822).to be_a Hash }
@@ -42,7 +42,7 @@ describe Sisimai::Rhost::ExchangeOnline do
           example('agent is ' + e['agent']) { expect(e['agent']).to match(/(?:Email::.+|RFC3464)/) }
         end
 
-        data = Sisimai::Data.make(data: mesg)
+        data = SisimaiLegacy::Data.make(data: mesg)
         data.each do |e|
           example('reason is String') { expect(e.reason.size).to be > 0 }
           example('reason matches') { expect(e.reason).to match(rs[n]['reason']) }

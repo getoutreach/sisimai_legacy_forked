@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/message'
+require 'sisimai_legacy/message'
 
-describe Sisimai::Message do
-  cn = Sisimai::Message
+describe SisimaiLegacy::Message do
+  cn = SisimaiLegacy::Message
   sf = './set-of-emails/jsonobj/json-sendgrid-03.json'
 
   jsonstring = File.open(sf).read
@@ -26,7 +26,7 @@ describe Sisimai::Message do
 
   describe 'class method' do
     describe '.new' do
-      it('returns Sisimai::Message object') { expect(messageobj).to be_a cn }
+      it('returns SisimaiLegacy::Message object') { expect(messageobj).to be_a cn }
       example('#header returns Hash') { expect(messageobj.header).to be_a Hash }
       example('#ds returns Array') { expect(messageobj.ds).to be_a Array }
       example('#rfc822 returns Hash') { expect(messageobj.rfc822).to be_a Hash }
@@ -36,11 +36,11 @@ describe Sisimai::Message do
   end
 
   messageobj = cn.new(
-    data: jsonobject[0], 
-    hook: callbackto, 
+    data: jsonobject[0],
+    hook: callbackto,
     input: 'json',
-    load: ['Sisimai::Neko::Nyaan'],
-    order: ['Sisimai::Bite::JSON::AmazonSES', 'Sisimai::Bite::JSON::SendGrid']
+    load: ['SisimaiLegacy::Neko::Nyaan'],
+    order: ['SisimaiLegacy::Bite::JSON::AmazonSES', 'SisimaiLegacy::Bite::JSON::SendGrid']
   )
 
   describe '#ds' do

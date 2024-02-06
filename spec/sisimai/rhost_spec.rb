@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/rhost'
+require 'sisimai_legacy/rhost'
 
-describe Sisimai::Rhost do
-  cn = Sisimai::Rhost
+describe SisimaiLegacy::Rhost do
+  cn = SisimaiLegacy::Rhost
   describe '.list' do
     context '()' do
       v = cn.list
@@ -54,12 +54,12 @@ describe Sisimai::Rhost do
   end
 
   describe 'get' do
-    require 'sisimai'
-    require 'sisimai/reason'
-    r = Sisimai::Reason.index.each { |p| p.downcase! }
+    require 'sisimai_legacy'
+    require 'sisimai_legacy/reason'
+    r = SisimaiLegacy::Reason.index.each { |p| p.downcase! }
     Dir.glob('./set-of-emails/maildir/bsd/rhost-*.eml').each do |e|
-      v = Sisimai.make(e)
-      context 'Sisimai::Data' do
+      v = SisimaiLegacy.make(e)
+      context 'SisimaiLegacy::Data' do
         it 'returns userunknown' do
           expect(cn.get(v[0])).to be_a ::String
           expect(r.include?(cn.get(v[0]))).to be true

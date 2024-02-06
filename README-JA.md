@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-BSD%202--Clause-orange.svg)](https://github.com/sisimai/rb-Sisimai/blob/master/LICENSE)
 [![Coverage Status](https://img.shields.io/coveralls/sisimai/rb-Sisimai.svg)](https://coveralls.io/r/sisimai/rb-Sisimai)
-[![Build Status](https://travis-ci.org/sisimai/rb-Sisimai.svg?branch=master)](https://travis-ci.org/sisimai/rb-Sisimai) 
+[![Build Status](https://travis-ci.org/sisimai/rb-Sisimai.svg?branch=master)](https://travis-ci.org/sisimai/rb-Sisimai)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/38340177e6284a65be69c0c7c3dc2b58)](https://www.codacy.com/app/azumakuniyuki/rb-Sisimai)
 [![Ruby](https://img.shields.io/badge/ruby-v2.1.0--v2.4.0-red.svg)](https://www.ruby-lang.org/)
 [![Gem Version](https://badge.fury.io/rb/sisimai.svg)](https://badge.fury.io/rb/sisimai)
@@ -113,23 +113,23 @@ Basic usage
 
 ```ruby
 #! /usr/bin/env ruby
-require 'sisimai'
-v = Sisimai.make('/path/to/mbox')       # or path to Maildir/
+require 'sisimai_legacy'
+v = SisimaiLegacy.make('/path/to/mbox')       # or path to Maildir/
 
 # Beginning with v4.23.0, both make() and dump() method of Sisimai class can
 # read bounce messages from variable instead of a path to mailbox
 f = File.open('/path/to/mbox', 'r');    # or path to Maildir/
-v = Sisimai.make(f.read)
+v = SisimaiLegacy.make(f.read)
 
 # If you want to get bounce records which reason is "delivered", set "delivered"
 # option to make() method like the following:
-v = Sisimai.make('/path/to/mbox', delivered: true)
+v = SisimaiLegacy.make('/path/to/mbox', delivered: true)
 
 if v.is_a? Array
   v.each do |e|
-    puts e.class                # Sisimai::Data
-    puts e.recipient.class      # Sisimai::Address
-    puts e.timestamp.class      # Sisimai::Time
+    puts e.class                # SisimaiLegacy::Data
+    puts e.recipient.class      # SisimaiLegacy::Address
+    puts e.timestamp.class      # SisimaiLegacy::Time
 
     puts e.addresser.address    # shironeko@example.org # From
     puts e.recipient.address    # kijitora@example.jp   # To
@@ -152,10 +152,10 @@ Convert to JSON
 
 ```ruby
 # Get JSON string from parsed mailbox or Maildir/
-puts Sisimai.dump('/path/to/mbox')  # or path to Maildir/
+puts SisimaiLegacy.dump('/path/to/mbox')  # or path to Maildir/
 
 # dump() method also accepts "delivered" option like the following code:
-puts Sisimai.dump('/path/to/mbox', delivered: true)
+puts SisimaiLegacy.dump('/path/to/mbox', delivered: true)
 ```
 
 Read bounce object
@@ -167,10 +167,10 @@ Read bounce object
 ```ruby
 #! /usr/bin/env ruby
 require 'json'
-require 'sisimai'
+require 'sisimai_legacy'
 
 j = JSON.load('{"notificationType"=>"Bounce", "bounce"=>{"...') # JSON String
-v = Sisimai.make(j, input: 'json')
+v = SisimaiLegacy.make(j, input: 'json')
 
 if v.is_a? Array
   v.each do |e|
@@ -182,14 +182,14 @@ end
 
 Callback feature
 -------------------------------------------------------------------------------
-Sisimai 4.19.0から`Sisimai.make()`と`Sisimai.dump()`にLamda(Procオブジェクト)
+Sisimai 4.19.0から`SisimaiLegacy.make()`と`SisimaiLegacy.dump()`にLamda(Procオブジェクト)
 を引数`hook`に指定できるコールバック機能が実装されました。
-`hook`に指定したコードによって処理された結果は`Sisimai::Data.catch`
+`hook`に指定したコードによって処理された結果は`SisimaiLegacy::Data.catch`
 メソッドで得ることができます。
 
 ```ruby
 #! /usr/bin/env ruby
-require 'sisimai'
+require 'sisimai_legacy'
 callbackto = lambda do |v|
   r = { 'x-mailer' => '', 'queue-id' => '' }
 
@@ -201,8 +201,8 @@ callbackto = lambda do |v|
 end
 
 list = ['X-Mailer']
-data = Sisimai.make('/path/to/mbox', hook: callbackto, field: list)
-json = Sisimai.dump('/path/to/mbox', hook: callbackto, field: list)
+data = SisimaiLegacy.make('/path/to/mbox', hook: callbackto, field: list)
+json = SisimaiLegacy.dump('/path/to/mbox', hook: callbackto, field: list)
 
 puts data[0].catch['x-mailer']      # Apple Mail (2.1283)
 ```
@@ -216,7 +216,7 @@ One-Liner
 -------------------------------------------------------------------------------
 
 ```shell
-$ ruby -rsisimai -e 'puts Sisimai.dump($*.shift)' /path/to/mbox
+$ ruby -rsisimai -e 'puts SisimaiLegacy.dump($*.shift)' /path/to/mbox
 ```
 
 Output example
@@ -256,7 +256,7 @@ Other spec of Sisimai
 -------------------------------------------------------------------------------
 - [**解析モジュールの一覧**](https://libsisimai.org/ja/engine/)
 - [**バウンス理由の一覧**](https://libsisimai.org/ja/reason/)
-- [**Sisimai::Dataのデータ構造**](https://libsisimai.org/ja/data/)
+- [**SisimaiLegacy::Dataのデータ構造**](https://libsisimai.org/ja/data/)
 
 Contributing
 ===============================================================================

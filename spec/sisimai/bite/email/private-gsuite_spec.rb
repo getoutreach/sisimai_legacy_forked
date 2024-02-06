@@ -10,5 +10,5 @@ isexpected = [
   { 'n' => '01006', 'r' => /notaccept/ },
   { 'n' => '01007', 'r' => /rejected/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

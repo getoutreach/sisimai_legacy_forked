@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sisimai'
+require 'sisimai_legacy'
 
 reasonchildren = {
   'Blocked'         => ['550 Access from ip address 192.0.2.1 blocked.'],
@@ -28,14 +28,14 @@ reasonchildren = {
   'VirusDetected'   => ['550 5.7.9 The message was rejected because it contains prohibited virus or spam content'],
 }
 
-ss = Sisimai.make('./set-of-emails/maildir/bsd/email-sendmail-01.eml', input: 'email').shift
-describe 'Sisimai::Data object' do
-  it('returns Sisimai::Data') { expect(ss).to be_a Sisimai::Data }
+ss = SisimaiLegacy.make('./set-of-emails/maildir/bsd/email-sendmail-01.eml', input: 'email').shift
+describe 'SisimaiLegacy::Data object' do
+  it('returns SisimaiLegacy::Data') { expect(ss).to be_a SisimaiLegacy::Data }
 end
 
 reasonchildren.each_key do |e|
-  rn = 'Sisimai::Reason::' + e
-  require rn.downcase.gsub('::', '/')
+  rn = 'SisimaiLegacy::Reason::' + e
+  require rn.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
   cn = Module.const_get(rn)
 
   describe cn do
@@ -64,8 +64,8 @@ reasonchildren.each_key do |e|
 end
 
 %w|Delivered Feedback Undefined Vacation|.each do |e|
-  rn = 'Sisimai::Reason::' + e
-  require rn.downcase.gsub('::', '/')
+  rn = 'SisimaiLegacy::Reason::' + e
+  require rn.downcase.gsub('::', '/').gsub('sisimailegacy', 'sisimai_legacy')
   cn = Module.const_get(rn)
 
   describe cn do

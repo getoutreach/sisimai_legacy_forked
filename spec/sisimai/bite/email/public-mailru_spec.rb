@@ -13,5 +13,5 @@ isexpected = [
   { 'n' => '09', 's' => /\A5[.]1[.]8\z/,  'r' => /rejected/,   'b' => /\A1\z/ },
   { 'n' => '10', 's' => /\A5[.]0[.]\d+\z/,'r' => /expired/,    'b' => /\A1\z/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected)
 

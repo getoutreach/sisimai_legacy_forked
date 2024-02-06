@@ -75,5 +75,5 @@ isexpected = [
   { 'n' => '01071', 'r' => /norelaying/ },
   { 'n' => '01072', 'r' => /hostunknown/ },
 ]
-Sisimai::Bite::Email::Code.maketest(enginename, isexpected, true)
+SisimaiLegacy::Bite::Email::Code.maketest(enginename, isexpected, true)
 

@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'sisimai/mda'
-require 'sisimai/mail'
+require 'sisimai_legacy/mda'
+require 'sisimai_legacy/mail'
 
-describe Sisimai::MDA do
-  cn = Sisimai::MDA
+describe SisimaiLegacy::MDA do
+  cn = SisimaiLegacy::MDA
 
   smtperrors = [
     'Your message to neko was automatically rejected:'+"\n"+'Not enough disk space',
@@ -14,7 +14,7 @@ describe Sisimai::MDA do
     'vdeliver: Delivery failed due to system quota violation',
   ]
   emailfn = './set-of-emails/maildir/bsd/rfc3464-01.eml'
-  mailbox = Sisimai::Mail.new(emailfn)
+  mailbox = SisimaiLegacy::Mail.new(emailfn)
   message = nil
   headers = { 'from' => 'Mail Delivery Subsystem' }
 

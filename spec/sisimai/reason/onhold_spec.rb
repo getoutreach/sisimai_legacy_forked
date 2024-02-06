@@ -1,31 +1,31 @@
 require 'spec_helper'
-require 'sisimai'
+require 'sisimai_legacy'
 require 'json'
-require 'sisimai/reason/onhold'
+require 'sisimai_legacy/reason/onhold'
 
 thatsonhold = './set-of-emails/to-be-debugged-because/reason-is-onhold'
 if File.exist?(thatsonhold)
-  describe Sisimai do
+  describe SisimaiLegacy do
     describe '.make' do
-      mail = Sisimai.make(thatsonhold)
+      mail = SisimaiLegacy.make(thatsonhold)
       subject { mail }
       it('is Array') { is_expected.to be_a Array }
       it('have data') { expect(mail.size).to be > 0 }
 
       mail.each do |ee|
-        it 'contains Sisimai::Data' do
-          expect(ee).to be_a Sisimai::Data
+        it 'contains SisimaiLegacy::Data' do
+          expect(ee).to be_a SisimaiLegacy::Data
         end
 
-        describe 'each accessor of Sisimai::Data' do
-          example '#timestamp is Sisimai::Time' do
-            expect(ee.timestamp).to be_a Sisimai::Time
+        describe 'each accessor of SisimaiLegacy::Data' do
+          example '#timestamp is SisimaiLegacy::Time' do
+            expect(ee.timestamp).to be_a SisimaiLegacy::Time
           end
-          example '#addresser is Sisimai::Address' do
-            expect(ee.addresser).to be_a Sisimai::Address
+          example '#addresser is SisimaiLegacy::Address' do
+            expect(ee.addresser).to be_a SisimaiLegacy::Address
           end
-          example '#recipient is Sisimai::Address' do
-            expect(ee.recipient).to be_a Sisimai::Address
+          example '#recipient is SisimaiLegacy::Address' do
+            expect(ee.recipient).to be_a SisimaiLegacy::Address
           end
 
           example '#addresser#address returns String' do
@@ -45,12 +45,12 @@ if File.exist?(thatsonhold)
             expect(ee.replycode).to be_a String
           end
 
-          example 'Sisimai::Reason::OnHold.true returns true' do
-            expect(Sisimai::Reason::OnHold.true(ee)).to be true
+          example 'SisimaiLegacy::Reason::OnHold.true returns true' do
+            expect(SisimaiLegacy::Reason::OnHold.true(ee)).to be true
           end
         end
 
-        describe 'each instance method of Sisimai::Data' do
+        describe 'each instance method of SisimaiLegacy::Data' do
           describe '#damn' do
             damn = ee.damn
             example '#damn returns Hash' do
@@ -67,7 +67,7 @@ if File.exist?(thatsonhold)
               end
 
               damn.each_key do |eee|
-                next if ee.send(eee).class.to_s =~ /\ASisimai::/
+                next if ee.send(eee).class.to_s =~ /\ASisimaiLegacy::/
                 next if eee == 'subject'
                 if eee == 'catch'
                   example "['#{eee}'] is ''" do
@@ -94,7 +94,7 @@ if File.exist?(thatsonhold)
     end
 
     describe '.dump' do
-      jsonstring = Sisimai.dump(thatsonhold)
+      jsonstring = SisimaiLegacy.dump(thatsonhold)
       it('returns String') { expect(jsonstring).to be_a String }
       it('is not empty') { expect(jsonstring.size).to be > 0 }
     end

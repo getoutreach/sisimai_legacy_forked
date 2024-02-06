@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/order/email'
+require 'sisimai_legacy/order/email'
 
-describe Sisimai::Order::Email do
-  cn = Sisimai::Order::Email
+describe SisimaiLegacy::Order::Email do
+  cn = SisimaiLegacy::Order::Email
   describe '.another' do
     another = cn.another
     subject { another }
@@ -10,7 +10,7 @@ describe Sisimai::Order::Email do
     it('have values')   { expect(another.size).to be > 0 }
     another.each do |e|
       it('is a module') { expect(e.class).to be_a Class }
-      it('has a module name') { expect(e.to_s).to match(/\ASisimai::Bite::(?:Email|JSON)::/) }
+      it('has a module name') { expect(e.to_s).to match(/\ASisimaiLegacy::Bite::(?:Email|JSON)::/) }
     end
   end
   describe '.headers' do
@@ -37,7 +37,7 @@ describe Sisimai::Order::Email do
       it('is an Array') { expect(orderby[e]).to be_a Array }
       orderby[e].each do |f|
         it('is String') { expect(f).to be_a String }
-        it('is a module name') { expect(f).to match(/\ASisimai::Bite::(?:Email|JSON)::/) }
+        it('is a module name') { expect(f).to match(/\ASisimaiLegacy::Bite::(?:Email|JSON)::/) }
       end
     end
   end

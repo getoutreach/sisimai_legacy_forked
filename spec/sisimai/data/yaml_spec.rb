@@ -1,13 +1,13 @@
 require 'spec_helper'
 require 'yaml'
-require 'sisimai/mail'
-require 'sisimai/data'
-require 'sisimai/data/yaml'
-require 'sisimai/message'
+require 'sisimai_legacy/mail'
+require 'sisimai_legacy/data'
+require 'sisimai_legacy/data/yaml'
+require 'sisimai_legacy/message'
 
-describe Sisimai::Data::YAML do
+describe SisimaiLegacy::Data::YAML do
   file = './set-of-emails/maildir/bsd/email-sendmail-02.eml'
-  mail = Sisimai::Mail.new(file)
+  mail = SisimaiLegacy::Mail.new(file)
   list = %w[
     token lhost rhost alias listid reason subject replycode messageid smtpagent
     softbounce smtpcommand diagnosticcode diagnostictype deliverystatus action
@@ -15,8 +15,8 @@ describe Sisimai::Data::YAML do
   ]
 
   while r = mail.read do
-    mesg = Sisimai::Message.new(data: r)
-    data = Sisimai::Data.make(data: mesg)
+    mesg = SisimaiLegacy::Message.new(data: r)
+    data = SisimaiLegacy::Data.make(data: mesg)
     it('returns Array') { expect(data).to be_a Array }
 
     describe '#dump' do

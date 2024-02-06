@@ -1,9 +1,9 @@
 # coding: utf-8
 require 'spec_helper'
-require 'sisimai/mime'
+require 'sisimai_legacy/mime'
 
-describe Sisimai::MIME do
-  cn = Sisimai::MIME
+describe SisimaiLegacy::MIME do
+  cn = SisimaiLegacy::MIME
   p1 = 'ASCII TEXT'
   p2 = '白猫にゃんこ'
   p3 = 'ニュースレター'

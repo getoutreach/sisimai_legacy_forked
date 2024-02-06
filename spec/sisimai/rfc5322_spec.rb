@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'sisimai/rfc5322'
+require 'sisimai_legacy/rfc5322'
 
-describe Sisimai::RFC5322 do
-  cn = Sisimai::RFC5322
+describe SisimaiLegacy::RFC5322 do
+  cn = SisimaiLegacy::RFC5322
   describe '.HEADERFIELDS' do
     context '()' do
       v = cn.HEADERFIELDS()
@@ -201,7 +201,7 @@ Subject: Nyaaaan
 Nyaaan
 EOR
     context 'Valid strings as array' do
-      rfc822part = Sisimai::RFC5322.weedout(rfc822text.split("\n"))
+      rfc822part = SisimaiLegacy::RFC5322.weedout(rfc822text.split("\n"))
       subject { rfc822part }
       it('returns String') { is_expected.to be_a String }
       it('weedout string') { expect(rfc822part.size).to be > 0 }
