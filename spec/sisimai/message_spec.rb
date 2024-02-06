@@ -66,6 +66,14 @@ describe SisimaiLegacy::Message do
         if q == 'email'
           it('returns SisimaiLegacy::Message object') { expect(nullobject).to be_a cn }
         end
+
+        context "contains invalid CRLF using \r instead of \r\n" do
+          let(:mime) { mime = File.read('./set-of-emails/invalid_bounce.txt') }
+          it "should still return a valid message" do
+            msg = cn.new(data: mime, field: [], hook: nil)
+            expect(msg.void).to_not be true
+          end
+        end
       end
     end
 

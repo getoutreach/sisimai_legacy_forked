@@ -41,7 +41,7 @@ module SisimaiLegacy
       if input == 'email'
         # SisimaiLegacy::Message::Email
         return nil if email.empty?
-        email = email.scrub('?').gsub("\r\n", "\n")
+        email = email.scrub('?').gsub("\r\n", "\n").gsub("\r", "\n")
         child = 'SisimaiLegacy::Message::Email'
 
       elsif input == 'json'
